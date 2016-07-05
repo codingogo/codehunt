@@ -41113,14 +41113,15 @@ var ProductItem = function (_React$Component) {
         'section',
         { className: 'product-item-info' },
         _react2.default.createElement(
-          'h2',
+          'h5',
           { onClick: this.showProductPopup, className: 'clickable' },
-          this.props.name
+          this.props.name.substring(0, 25)
         ),
         _react2.default.createElement(
           'p',
           null,
-          this.props.description
+          this.props.description.substring(0, 30),
+          '...'
         ),
         _react2.default.createElement(
           'a',

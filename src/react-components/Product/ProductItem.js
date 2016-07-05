@@ -28,8 +28,8 @@ class ProductItem extends React.Component {
   renderInfoSession(){
     return (
       <section className="product-item-info">
-        <h2 onClick={this.showProductPopup} className="clickable">{this.props.name}</h2>
-        <p>{this.props.description}</p>
+        <h5 onClick={this.showProductPopup} className="clickable">{this.props.name.substring(0,25)}</h5>
+        <p>{this.props.description.substring(0,30)}...</p>
         <a href="#"><img className="small-avatar" src={this.props.maker.avatar}/></a>
       </section>      
     )
