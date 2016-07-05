@@ -41119,8 +41119,8 @@ var ProductItem = function (_React$Component) {
         ),
         _react2.default.createElement(
           'p',
-          null,
-          this.props.description.substring(0, 30),
+          { className: 'product-item-description' },
+          this.props.description.substring(0, 50),
           '...'
         ),
         _react2.default.createElement(

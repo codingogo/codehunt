@@ -29,7 +29,7 @@ class ProductItem extends React.Component {
     return (
       <section className="product-item-info">
         <h5 onClick={this.showProductPopup} className="clickable">{this.props.name.substring(0,25)}</h5>
-        <p>{this.props.description.substring(0,30)}...</p>
+        <p className="product-item-description">{this.props.description.substring(0,50)}...</p>
         <a href="#"><img className="small-avatar" src={this.props.maker.avatar}/></a>
       </section>      
     )

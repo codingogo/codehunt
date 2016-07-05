@@ -201,6 +201,8 @@ a:hover {
 .product-item {
   padding: 15px;
   border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .product-item:hover{
   background-color: #f2f2f2;
@@ -216,6 +218,7 @@ a:hover {
 .product-item-info {
   padding: 0 20px;
   height: 90px;
+  white-space: nowrap;
 }
 .product-item-info p {
   line-height: 20px;
@@ -235,8 +238,8 @@ a:hover {
   text-align: center;
 }
 .small-avatar {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
 }
 
