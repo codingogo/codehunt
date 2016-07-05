@@ -236,6 +236,8 @@ a:hover {
   float: right;
   background-color: #fff;
   text-align: center;
+  margin-left: 250px;
+  margin-top: -34px;
 }
 .small-avatar {
   width: 24px;
