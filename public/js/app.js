@@ -41131,8 +41131,8 @@ var ProductItem = function (_React$Component) {
       );
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'renderProductImg',
+    value: function renderProductImg() {
       var imgClass = "product-item-media clickable";
       var imgUrl = this.props.media;
       var imgStyle = {
@@ -41140,11 +41140,17 @@ var ProductItem = function (_React$Component) {
         backgroundSize: 'cover'
       };
 
+      return _react2.default.createElement('div', { className: imgClass, style: imgStyle, onClick: this.showProductPopup });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+
       return _react2.default.createElement(
         'li',
         { className: 'product-item' },
         _react2.default.createElement(_Upvote2.default, this.props),
-        _react2.default.createElement('div', { className: imgClass, style: imgStyle, onClick: this.showProductPopup }),
+        this.renderProductImg(),
         this.renderInfoSession(),
         this.renderNewWindowIcon(),
         _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
