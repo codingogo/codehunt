@@ -17,8 +17,6 @@ class LoginPopup extends React.Component {
         <p><strong>delb</strong> is a community to share the latest happiness.</p>
         <button className="facebook-btn" onClick={this.handleLogin}>Login with Facebook</button>
         <p>We will never post to Facebook without your permission.</p>
-     
-
       </Popup>
     );
   }

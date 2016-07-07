@@ -62,11 +62,9 @@ class HomePage extends React.Component {
         <section className="row">
          
             {this.renderLandingBanner() }
-        
-          
+             
             {this.renderSideNav()}
-     
-          
+               
             {this.renderProductList()}
           
             {this.renderRightNav()}

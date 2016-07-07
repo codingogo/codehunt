@@ -9,7 +9,6 @@ import Actions from '../../actions';
 class ProductPopup extends React.Component{
 	constructor(){
 		super();
-
 	}
 
   static getStores() {

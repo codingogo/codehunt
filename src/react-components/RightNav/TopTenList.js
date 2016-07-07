@@ -1,19 +1,17 @@
 import React from 'react';
+import ToptenItem from './ToptenItem';
 
 class TopTenList extends React.Component {
-	render(){
-		return(
+	render() {
+		return (
 			<section>
-				<a>
-					<li className="topten">
-					<img src={this.props.img} alt="" className="topten-img"/>
-					<span className="topten-name">{this.props.name}</span>
-					<div className="topten-description">{this.props.description}</div>
-					<div className="topten-category">{this.props.category}</div>
-					</li>
-				</a>
-			</section>
-		);
+				{
+					this.props.productList.map(function(item,idx){
+						return <ToptenItem key={idx} pid={item.key} {...item} />
+					})
+				}
+			</section>	
+		)
 	}
 }
 
