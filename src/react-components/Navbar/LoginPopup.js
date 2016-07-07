@@ -11,7 +11,7 @@ class LoginPopup extends React.Component {
   render(){
     return(
       <Popup {...this.props} style="login-popup">
-        <img src="/img/dummy.png"/>
+        <img src="/img/delb.png"/>
         <h1 className="absolute">(hide)</h1>
         <h2>Login to Join The Community</h2>
         <p><strong>delb</strong> is a community to share the latest happiness.</p>

@@ -40448,7 +40448,7 @@ var LoginPopup = function (_React$Component) {
       return _react2.default.createElement(
         _Popup2.default,
         _extends({}, this.props, { style: 'login-popup' }),
-        _react2.default.createElement('img', { src: '/img/dummy.png' }),
+        _react2.default.createElement('img', { src: '/img/delb.png' }),
         _react2.default.createElement(
           'h1',
           { className: 'absolute' },
@@ -41133,11 +41133,18 @@ var ProductItem = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var imgClass = "product-item-media clickable";
+      var imgUrl = this.props.media;
+      var imgStyle = {
+        backgroundImage: 'url(' + imgUrl + ')',
+        backgroundSize: 'cover'
+      };
+
       return _react2.default.createElement(
         'li',
         { className: 'product-item' },
         _react2.default.createElement(_Upvote2.default, this.props),
-        _react2.default.createElement('img', { className: 'product-item-media clickable', src: this.props.media, onClick: this.showProductPopup }),
+        _react2.default.createElement('div', { className: imgClass, style: imgStyle, onClick: this.showProductPopup }),
         this.renderInfoSession(),
         this.renderNewWindowIcon(),
         _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))

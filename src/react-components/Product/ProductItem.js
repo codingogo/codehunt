@@ -36,10 +36,18 @@ class ProductItem extends React.Component {
   }
 
   render() {
+    var imgClass = "product-item-media clickable";
+    var imgUrl = this.props.media;
+    var imgStyle = {
+      backgroundImage: 'url(' + imgUrl + ')',
+      backgroundSize: 'cover'
+    }
+
     return (
       <li className="product-item">
-        <Upvote {...this.props} />        
-        <img className="product-item-media clickable" src={this.props.media} onClick={this.showProductPopup} />         
+        <Upvote {...this.props} /> 
+        <div className={imgClass} style={imgStyle} onClick={this.showProductPopup}></div>
+                
         {this.renderInfoSession()}
         {this.renderNewWindowIcon()}  
         <ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
