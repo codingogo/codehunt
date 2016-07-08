@@ -33,7 +33,7 @@ class ToptenItem extends React.Component {
   renderToptenInfo() {
   	return (
   		<section onClick={this.showProductPopup}>
-  			<span className="topten-rank">{this.props.rank}</span>
+  			<div className="topten-rank">{this.props.rank}</div>
 	  		{this.renderProductImg()}
 	  		<div className="topten-name">{this.props.name}</div>
 	  		<div className="topten-description">{this.props.description.substring(0,30)}...</div>

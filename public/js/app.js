@@ -41603,7 +41603,7 @@ var ToptenItem = function (_React$Component) {
         'section',
         { onClick: this.showProductPopup },
         _react2.default.createElement(
-          'span',
+          'div',
           { className: 'topten-rank' },
           this.props.rank
         ),
