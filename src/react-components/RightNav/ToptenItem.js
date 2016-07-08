@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductPopup from '../Product/ProductPopup';
 
 class ToptenItem extends React.Component {
   constructor(){
@@ -45,6 +46,7 @@ class ToptenItem extends React.Component {
 					<li className="topten">
 						{this.renderProductImg()}
 						{this.renderToptenDetail()}
+						<ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
 					</li>
 				</a>
 			</section>

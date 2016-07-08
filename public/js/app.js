@@ -41523,7 +41523,7 @@ var TopTenList = function (_React$Component) {
 			return _react2.default.createElement(
 				'section',
 				null,
-				this.props.productList.map(function (item, idx) {
+				this.props.toptenList.map(function (item, idx) {
 					return _react2.default.createElement(_ToptenItem2.default, _extends({ key: idx, pid: item.key }, item));
 				})
 			);
@@ -41542,11 +41542,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _ProductPopup = require('../Product/ProductPopup');
+
+var _ProductPopup2 = _interopRequireDefault(_ProductPopup);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41622,7 +41628,8 @@ var ToptenItem = function (_React$Component) {
             'li',
             { className: 'topten' },
             this.renderProductImg(),
-            this.renderToptenDetail()
+            this.renderToptenDetail(),
+            _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
           )
         )
       );
@@ -41634,7 +41641,7 @@ var ToptenItem = function (_React$Component) {
 
 exports.default = ToptenItem;
 
-},{"react":202}],219:[function(require,module,exports){
+},{"../Product/ProductPopup":215,"react":202}],219:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41686,8 +41693,8 @@ var RightNav = (0, _connectToStores2.default)(_class = function (_React$Componen
   }
 
   _createClass(RightNav, [{
-    key: 'renderProductList',
-    value: function renderProductList() {
+    key: 'renderToptenList',
+    value: function renderToptenList() {
       var productArray = this.props.products;
       var toptenArray = productArray.filter(function (obj) {
         return obj.topten == true;
@@ -41699,7 +41706,7 @@ var RightNav = (0, _connectToStores2.default)(_class = function (_React$Componen
       return _react2.default.createElement(
         'section',
         { className: 'topten-item' },
-        productArray ? _react2.default.createElement(_TopTenList2.default, { productList: newArray }) : null
+        productArray ? _react2.default.createElement(_TopTenList2.default, { toptenList: newArray }) : null
       );
     }
   }, {
@@ -41713,7 +41720,7 @@ var RightNav = (0, _connectToStores2.default)(_class = function (_React$Componen
           { className: 'category-title' },
           'TOP 10'
         ),
-        this.renderProductList()
+        this.renderToptenList()
       );
     }
   }], [{

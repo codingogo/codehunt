@@ -6,7 +6,7 @@ class TopTenList extends React.Component {
 		return (
 			<section>
 				{
-					this.props.productList.map(function(item,idx){
+					this.props.toptenList.map(function(item,idx){
 						return <ToptenItem key={idx} pid={item.key} {...item} />
 					})
 				}

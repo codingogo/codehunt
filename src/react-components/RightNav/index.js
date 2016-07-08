@@ -20,11 +20,11 @@ class RightNav extends React.Component {
     return ProductStore.getState();
   }
 
-  renderProductList() {
+  renderToptenList() {
   	var productArray = this.props.products;
   	var toptenArray = productArray.filter(function(obj){
   		return obj.topten == true;
-  	})
+  	});
   	var newArray = _.sortBy(toptenArray, 'rank', function(n){
   		return Math.sin(n);
   	});
@@ -34,7 +34,7 @@ class RightNav extends React.Component {
         {
           productArray
           ?
-          <TopTenList productList={newArray}/>
+          <TopTenList toptenList={newArray}/>
           :
           null 
         }
@@ -46,7 +46,7 @@ class RightNav extends React.Component {
     return (
       <section className="hidden-xs hidden-sm col-md-3 col-lg-3 right-nav">
       	<h5 className="category-title">TOP 10</h5>
-      	{this.renderProductList()}
+      	{this.renderToptenList()}
       </section>
     );
   }
