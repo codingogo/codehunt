@@ -41594,14 +41594,20 @@ var ToptenItem = function (_React$Component) {
         backgroundSize: 'cover'
       };
 
-      return _react2.default.createElement('div', { className: imgClass, style: imgStyle, onClick: this.showProductPopup });
+      return _react2.default.createElement('div', { className: imgClass, style: imgStyle });
     }
   }, {
-    key: 'renderToptenDetail',
-    value: function renderToptenDetail() {
+    key: 'renderToptenInfo',
+    value: function renderToptenInfo() {
       return _react2.default.createElement(
         'section',
-        null,
+        { onClick: this.showProductPopup },
+        _react2.default.createElement(
+          'span',
+          { className: 'topten-rank' },
+          this.props.rank
+        ),
+        this.renderProductImg(),
         _react2.default.createElement(
           'div',
           { className: 'topten-name' },
@@ -41622,15 +41628,10 @@ var ToptenItem = function (_React$Component) {
         'section',
         null,
         _react2.default.createElement(
-          'a',
-          null,
-          _react2.default.createElement(
-            'li',
-            { className: 'topten' },
-            this.renderProductImg(),
-            this.renderToptenDetail(),
-            _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
-          )
+          'li',
+          { className: 'topten' },
+          this.renderToptenInfo(),
+          _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
         )
       );
     }

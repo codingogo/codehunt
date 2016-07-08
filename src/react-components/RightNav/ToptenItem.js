@@ -26,13 +26,15 @@ class ToptenItem extends React.Component {
     }
 
     return (
-      <div className={imgClass} style={imgStyle} onClick={this.showProductPopup}></div> 
+      <div className={imgClass} style={imgStyle}></div> 
     )  	
   }
 
-  renderToptenDetail () {
+  renderToptenInfo() {
   	return (
-  		<section>
+  		<section onClick={this.showProductPopup}>
+  			<span className="topten-rank">{this.props.rank}</span>
+	  		{this.renderProductImg()}
 	  		<div className="topten-name">{this.props.name}</div>
 	  		<div className="topten-description">{this.props.description.substring(0,30)}...</div>
   		</section>
@@ -42,13 +44,10 @@ class ToptenItem extends React.Component {
 	render(){
 		return(
 			<section>
-				<a>
-					<li className="topten">
-						{this.renderProductImg()}
-						{this.renderToptenDetail()}
-						<ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
-					</li>
-				</a>
+				<li className="topten">						
+					{this.renderToptenInfo()}
+					<ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
+				</li>
 			</section>
 		);
 	}

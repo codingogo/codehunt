@@ -462,10 +462,14 @@ select.select-category {
   list-style: none;
   cursor: pointer;
   margin-bottom: 5px;
-  padding: 5px 5px 20px 1px;
+  padding: 5px 5px 22px 1px;
 }
 .topten:hover {
   background: #f2f2f2;
+  color: #ff6633;
+}
+.topten:hover .topten-name { 
+  color: #ff6633;
 }
 .topten-img{
   float: left;
@@ -473,6 +477,7 @@ select.select-category {
   width: 46px;
   height: 46px;
   margin-right: 10px;
+  margin-left: 18px;
 }
 .topten-description {
   margin-left: 46px;
@@ -481,9 +486,21 @@ select.select-category {
   font-size: 11px;
 }
 .topten-name {
-  font-size: 13px;
+  font-size: 12px;
   vertical-align: super;
   color: #777;
+}
+.topten-rank {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  font-size: 11px;
+  text-align: center;
+  margin-left: -8px;
+  margin-top: 18px;
+ /* box-shadow: 1px 1px 1px #ccc;*/
 }
 .topten-ul {
   padding:0;
