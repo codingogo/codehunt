@@ -266,6 +266,11 @@ a:hover {
   padding: 3px;
 }
 
+/* Category*/
+.category-select {
+  padding: 10px 5px;
+  cursor: pointer;
+}
 /************* POPUP **************/
 .popup .popup-wrap {
   position: fixed;

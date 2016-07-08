@@ -59,14 +59,10 @@ class HomePage extends React.Component {
   render() {
     return (
       <section className="container">
-        <section className="row">
-         
+        <section className="row">       
             {this.renderLandingBanner() }
-             
             {this.renderSideNav()}
-               
-            {this.renderProductList()}
-          
+            {this.renderProductList()}          
             {this.renderRightNav()}
         </section> 
       </section>   

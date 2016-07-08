@@ -9,50 +9,34 @@ class SideNav extends React.Component {
       categoryList: [
         {
           id: 1,
-          capital: 'D',
-          name: 'esign',
+          name: 'Design',
           url: '',
           showWhichCategory: {
-            showDesign: true,
-            showEntertainment: false,
-            showLifestyle: false,
-            showBeauty: false
+            productCategory: 'design'
           }
         },
         {
           id: 2,
-          capital: 'E',
-          name: 'ntertainment',
+          name: 'Entertainment',
           url: '',
           showWhichCategory: {
-            showDesign: false,
-            showEntertainment: true,
-            showLifestyle: false,
-            showBeauty: false
+            productCategory: 'entertainment'
           }
         },
         {
           id: 3,
-          capital: 'L',
-          name: 'ifestyle',
+          name: 'Lifestyle',
           url: '',
           showWhichCategory: {
-            showDesign: false,
-            showEntertainment: false,
-            showLifestyle: true,
-            showBeauty: false
+            productCategory: 'lifestyle'
           }
         },
         {
           id: 4,
-          capital: 'B',
-          name: 'eauty',
+          name: 'Beauty',
           url: '',
           showWhichCategory: {
-            showDesign: false,
-            showEntertainment: false,
-            showLifestyle: false,
-            showBeauty: true
+            productCategory: 'beauty'
           }
         }
       ]
