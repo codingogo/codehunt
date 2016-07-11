@@ -1,7 +1,7 @@
 import React from 'react';
 import ToptenItem from './ToptenItem';
 
-class TopTenList extends React.Component {
+class ToptenList extends React.Component {
 	render() {
 		return (
 			<section>
@@ -15,4 +15,4 @@ class TopTenList extends React.Component {
 	}
 }
 
-export default TopTenList;
+export default ToptenList;

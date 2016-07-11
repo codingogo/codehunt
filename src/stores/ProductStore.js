@@ -26,6 +26,7 @@ class ProductStore {
 	getComments(comments) {
 		this.setState({comments: comments});
 	}
+
 }
 
 export default alt.createStore(ProductStore);

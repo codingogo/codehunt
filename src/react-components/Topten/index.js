@@ -1,12 +1,12 @@
 import React from 'react';
-import TopTenList from './TopTenList';
+import ToptenList from './ToptenList';
 
 import Actions from '../../actions';
 import ProductStore from '../../stores/ProductStore';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 @connectToStores
-class RightNav extends React.Component {
+class Topten extends React.Component {
   constructor() {
     super();
     Actions.getProducts();
@@ -34,7 +34,7 @@ class RightNav extends React.Component {
         {
           productArray
           ?
-          <TopTenList toptenList={newArray}/>
+          <ToptenList toptenList={newArray}/>
           :
           null 
         }
@@ -52,4 +52,4 @@ class RightNav extends React.Component {
   }
 }
 
-export default RightNav;
+export default Topten;

@@ -123,7 +123,7 @@ a:hover {
 .category {
   list-style: none;
   padding: 1px 0;
-  cursor: crosshair;
+  cursor: pointer;
 }
 .category-canvas {
   padding-left: 0;
@@ -133,10 +133,6 @@ a:hover {
   width: 90px;
   padding-bottom: 5px;
   color: #bbb;
-}
-.capital {
-/*  color: #777;
-  font-weight: 500;*/
 }
 .menu {
   z-index: 999;

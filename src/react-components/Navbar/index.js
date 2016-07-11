@@ -2,8 +2,6 @@ import React from 'react';
 import LoginPopup from './LoginPopup';
 import PostPopup from './PostPopup';
 
-
-import SideNav from '../LeftNav';
 import Menu from 'react-motion-menu';
 import Actions from '../../actions';
 

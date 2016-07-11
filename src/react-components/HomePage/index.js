@@ -5,13 +5,16 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../stores/ProductStore';
 import Actions from '../../actions';
 
-import SideNav from '../LeftNav';
-import RightNav from '../RightNav';
+import Topten from '../Topten';
 
 @connectToStores
 class HomePage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      productCategory: ''
+    }
+    this.changeCategory = this.changeCategory.bind(this);
     Actions.getProducts();
   }
 
@@ -36,7 +39,9 @@ class HomePage extends React.Component {
         {
           this.props.products
           ?
-          <ProductList productList={this.props.products}/>
+          <ProductList 
+            productCategory={this.state.productCategory} 
+            productList={this.props.products}/>
           :
           null 
         }
@@ -44,27 +49,53 @@ class HomePage extends React.Component {
     );
   }
 
-  renderSideNav() {
+  changeCategory(ev){
+    this.setState({productCategory: ev.target.value});
+  }
+
+  renderCategory() {
     return (
-      <SideNav/>
+      <section className="hidden-xs col-sm-2 col-md-2 col-lg-2 left-navbar" productCategory={this.state.productCategory}
+          onCategoryClick={this.changeCategory}>
+          <h5 className="category-title">CATEGORIES</h5>
+          <div className="category-canvas">
+            <a value={"design"} onClick={this.changeCategory} className="category-select">Design </a>
+            <a value={"entertainment"} onClick={this.changeCategory} className="category-select">Entertainment </a>
+            <a value={"lifestyle"} onClick={this.changeCategory} className="category-select">Lifestyle </a>
+            <a value={"beauty"} onClick={this.changeCategory} className="category-select">Beauty</a>           
+          </div> 
+      </section>
     );
   }
 
-  renderRightNav() {
+  renderProductCategory() {
     return (
-      <RightNav/>
+      <section>
+        {this.renderCategory()}
+        <article className="col-xs-12 col-sm-10 col-md-7 col-lg-7 product-list-canvas">
+          {
+            this.props.products
+            ?
+            <ProductList 
+              productCategory={this.state.productCategory} 
+              productList={this.props.products}/>
+            :
+            null 
+          }
+        </article>  
+      </section>
+
     );
   }
 
   render() {
     return (
       <section className="container">
-        <section className="row">       
-            {this.renderLandingBanner() }
-            {this.renderSideNav()}
-            {this.renderProductList()}          
-            {this.renderRightNav()}
-        </section> 
+        <div className="row">       
+            {this.renderLandingBanner()}
+            {this.renderProductCategory()}         
+            <Topten/>
+        </div> 
       </section>   
     );
   }
