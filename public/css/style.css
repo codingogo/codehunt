@@ -47,10 +47,11 @@ table {
 }
 .active {
   border-bottom: 3px solid #ff6633;
-  color: #ff6633;
+  padding-bottom: 5px;
+  /*color: #ff6633;*/
 }
 .active > a {
-  color: #ff6633;
+  /*color: #ff6633;*/
 }
 .medium-avatar {
   width: 50px;
@@ -602,7 +603,7 @@ select.select-category {
   padding-left: 20px;
   font-size: 22px;
   color: #fff;
-  text-shadow: 1px 1px 1px #555;
+  text-shadow: 1px 1px 6px #555;
 }
 .profile-pg-description {
   padding: 25px 100px 45px 100px;
@@ -614,9 +615,9 @@ select.select-category {
   margin-left: 10px;
   color: #888;
 }
-/*.profile-stat > a {
-  color: #999;
-}*/
+.profile-stat > a {
+  font-size: 14px;
+}
 .profile-stat > a:hover {
   color: #ff6633;
 }

@@ -46722,6 +46722,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _class;
@@ -46742,9 +46744,9 @@ var _actions = require('../../actions');
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _ProfileProduct = require('./ProfileProduct');
+var _ProfileCard = require('./ProfileCard');
 
-var _ProfileProduct2 = _interopRequireDefault(_ProfileProduct);
+var _ProfileCard2 = _interopRequireDefault(_ProfileCard);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46782,11 +46784,20 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 			_this.state.showFollowers === false ? [_this.setState({ showPosts: false }), _this.setState({ showLikes: false }), _this.setState({ showFollowers: true })] : null;
 		};
 
+		_this.isActive = function (value) {
+			return 'profile-stat ' + (value === _this.state.selected ? 'active' : null);
+		};
+
 		_this.state = {
 			showProfileDescription: false,
 			showPosts: true,
 			showLikes: false,
-			showFollowers: false
+			showFollowers: false,
+			title: 'ajksf jaksdlf asjd asf',
+			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
+			likes: 1231,
+			upvotes: 234234,
+			userDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
 		};
 		return _this;
 	}
@@ -46828,7 +46839,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 				_react2.default.createElement(
 					'p',
 					null,
-					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, illo, necessitatibus? Aliquid earum, molestias quas repellat numquam quam iste fugit, quidem incidunt voluptatem at modi iure ullam! Corporis, deleniti, nobis.'
+					this.state.userDescription
 				)
 			);
 		}
@@ -46836,6 +46847,18 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 		key: 'renderStatistics',
 		value: function renderStatistics() {
 			var inputClass = 'profile-stat';
+			var activePost = '';
+			var activeLike = '';
+			var activeFollow = '';
+
+			if (this.state.showPosts) {
+				activePost = 'active';
+			} else if (this.state.showLikes) {
+				activeLike = 'active';
+			} else {
+				activeFollow = 'active';
+			}
+
 			return _react2.default.createElement(
 				'section',
 				{ className: 'main-btn-container' },
@@ -46852,7 +46875,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 						),
 						_react2.default.createElement(
 							'a',
-							{ onClick: this.showPosts },
+							{ onClick: this.showPosts, className: activePost },
 							'Posts'
 						)
 					),
@@ -46866,7 +46889,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 						),
 						_react2.default.createElement(
 							'a',
-							{ onClick: this.showLikes },
+							{ onClick: this.showLikes, className: activeLike },
 							'Likes'
 						)
 					),
@@ -46880,7 +46903,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 						),
 						_react2.default.createElement(
 							'a',
-							{ onClick: this.showFollows },
+							{ onClick: this.showFollows, className: activeFollow },
 							'Followers'
 						)
 					)
@@ -46890,11 +46913,16 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 	}, {
 		key: 'renderProduct',
 		value: function renderProduct() {
-			return _react2.default.createElement(_ProfileProduct2.default, this.props);
+			return _react2.default.createElement(_ProfileCard2.default, _extends({
+				title: this.state.title,
+				description: this.state.description,
+				likes: this.state.likes,
+				upvotes: this.state.upvotes
+			}, this.props));
 		}
 	}, {
-		key: 'renderContents',
-		value: function renderContents() {
+		key: 'renderPosts',
+		value: function renderPosts() {
 			return _react2.default.createElement(
 				'section',
 				{ className: 'profile-content-area' },
@@ -46947,7 +46975,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 				this.renderUser(),
 				this.renderStatistics(),
 				this.state.showProfileDescription ? this.renderUserDescription() : null,
-				this.state.showPosts ? this.renderContents() : null,
+				this.state.showPosts ? this.renderPosts() : null,
 				this.state.showLikes ? this.renderLikes() : null,
 				this.state.showFollowers ? this.renderFollowers() : null
 			);
@@ -46969,7 +46997,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 
 exports.default = Profile;
 
-},{"../../actions":266,"../../stores/ProductStore":283,"./ProfileProduct":278,"alt-utils/lib/connectToStores":1,"react":262}],278:[function(require,module,exports){
+},{"../../actions":266,"../../stores/ProductStore":283,"./ProfileCard":278,"alt-utils/lib/connectToStores":1,"react":262}],278:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46990,16 +47018,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ProfileProduct = function (_React$Component) {
-	_inherits(ProfileProduct, _React$Component);
+var ProfileCard = function (_React$Component) {
+	_inherits(ProfileCard, _React$Component);
 
-	function ProfileProduct() {
-		_classCallCheck(this, ProfileProduct);
+	function ProfileCard() {
+		_classCallCheck(this, ProfileCard);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(ProfileProduct).apply(this, arguments));
+		return _possibleConstructorReturn(this, Object.getPrototypeOf(ProfileCard).apply(this, arguments));
 	}
 
-	_createClass(ProfileProduct, [{
+	_createClass(ProfileCard, [{
 		key: "render",
 		value: function render() {
 			return _react2.default.createElement(
@@ -47022,7 +47050,7 @@ var ProfileProduct = function (_React$Component) {
 							_react2.default.createElement(
 								"td",
 								{ className: "profile-product-title", colSpan: "2" },
-								"Ti ajsdkfj ajsdfka tlej asjdkfal sfjkla sd"
+								this.props.title
 							)
 						),
 						_react2.default.createElement(
@@ -47038,7 +47066,8 @@ var ProfileProduct = function (_React$Component) {
 									_react2.default.createElement(
 										"span",
 										null,
-										" 432442"
+										" ",
+										this.props.likes
 									)
 								)
 							),
@@ -47052,7 +47081,8 @@ var ProfileProduct = function (_React$Component) {
 									_react2.default.createElement(
 										"span",
 										null,
-										" 43242"
+										" ",
+										this.props.upvotes
 									)
 								)
 							)
@@ -47063,24 +47093,19 @@ var ProfileProduct = function (_React$Component) {
 							_react2.default.createElement(
 								"td",
 								{ className: "profile-product-description", colSpan: "3" },
-								"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit ut, voluptates hic est. Et amet voluptates iure adipisci magni eum temporibus quidem consequuntur, odit aspernatur dolorem officiis at, delectus debitis!"
+								this.props.description
 							)
 						)
 					)
-				),
-				_react2.default.createElement(
-					"h1",
-					null,
-					this.props.params.repoName
 				)
 			);
 		}
 	}]);
 
-	return ProfileProduct;
+	return ProfileCard;
 }(_react2.default.Component);
 
-exports.default = ProfileProduct;
+exports.default = ProfileCard;
 
 },{"react":262}],279:[function(require,module,exports){
 'use strict';
