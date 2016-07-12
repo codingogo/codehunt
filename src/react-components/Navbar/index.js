@@ -4,6 +4,7 @@ import PostPopup from './PostPopup';
 
 import Menu from 'react-motion-menu';
 import Actions from '../../actions';
+import {Link} from 'react-router';
 
 
 class Navbar extends React.Component {
@@ -84,13 +85,13 @@ class Navbar extends React.Component {
             {
               this.state.menu1.isOpen 
               ?
-              <a href="#"><i className="fa fa-times fa-lg"></i></a> 
+              <a><i className="fa fa-times fa-lg"></i></a> 
               :
               <img src={this.props.user.avatar} className="profile-img"/>
             }  
           </span>
           
-          <a href="#"><i className="fa fa-user fa-lg"></i></a> 
+          <Link to="/profile"><i className="fa fa-user fa-lg"></i></Link>
           <a href="#"><i className="fa fa-heart fa-lg"></i></a> 
           <a href="#"><i className="fa fa-cog fa-lg"></i></a> 
           <a href="#" onClick={this.handleLogout}><i className="fa fa-sign-out fa-lg"></i></a> 
@@ -135,8 +136,8 @@ class Navbar extends React.Component {
     return (    
       <section className="navbar">
           <div className="navbar-header row"> 
-            <a className="navbar-brand" href="/">{this.renderLogo()}</a>
-            <span className="nav-list-search">{this.renderProductSearch()}</span>       
+            <Link to="/" className="navbar-brand">{this.renderLogo()}</Link>
+            <span className="nav-list-search">{this.renderProductSearch()}</span>    
             <span className="right-align">{this.renderUser()}</span>
         </div>           
       </section>

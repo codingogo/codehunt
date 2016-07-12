@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, hashHistory, IndexRoute } from 'react-router';
+import Actions from '../actions';
+import connectToStores from 'alt-utils/lib/connectToStores';
 import HomePage from './HomePage';
 import Navbar from './Navbar';
-import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../stores/ProductStore';
-import Actions from '../actions';
+import Profile from './Profile/Profile';
 
 @connectToStores
 class App extends React.Component {
@@ -25,9 +27,18 @@ class App extends React.Component {
     return (
       <section>
         <Navbar user={this.props.user}/>
-        <HomePage/> 
+        {this.props.children}
       </section>
     );
   }
 }
-ReactDOM.render(<App/>, document.getElementById('root'));
+
+
+ReactDOM.render((
+  <Router history={hashHistory}>
+    <Route path="/" component={App}>
+      <IndexRoute component={HomePage}/>
+      <Route path="profile" component={Profile}/>
+    </Route>
+  </Router>
+  ), document.getElementById('root'));

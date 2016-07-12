@@ -1,16 +1,15 @@
-import React from 'react';
-import ProductList from '../Product/ProductList';
-import Firebase from 'firebase';
-import connectToStores from 'alt-utils/lib/connectToStores';
-import ProductStore from '../../stores/ProductStore';
 import Actions from '../../actions';
-
+import connectToStores from 'alt-utils/lib/connectToStores';
+import Firebase from 'firebase';
+import ProductList from '../Product/ProductList';
+import ProductStore from '../../stores/ProductStore';
+import React from 'react';
 import Topten from '../Topten';
 
 @connectToStores
 class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       productCategory: ''
     }
@@ -48,6 +47,7 @@ class HomePage extends React.Component {
       </section>      
     );
   }
+
 
   changeCategory(ev){
     this.setState({productCategory: ev.target.value});
@@ -95,6 +95,7 @@ class HomePage extends React.Component {
             {this.renderLandingBanner()}
             {this.renderProductCategory()}         
             <Topten/>
+            {this.props.children}
         </div> 
       </section>   
     );
