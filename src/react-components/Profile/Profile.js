@@ -3,8 +3,8 @@ import Actions from '../../actions';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../stores/ProductStore';
 
+import FollowerCard from './FollowerCard';
 import PostCard from './PostCard';
-import ProfileCard from './ProfileCard';
 
 @connectToStores
 class Profile extends React.Component{
@@ -18,6 +18,8 @@ class Profile extends React.Component{
 			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
 			likes: 1231,
+			followers: 2324,
+			commentNums: 57,
 			upvotes: 234234,
 			userDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
 		};
@@ -108,7 +110,7 @@ class Profile extends React.Component{
 
   	return (
 	  	<section className="main-btn-container">
-		  	<ul className="col-xs-12 col-sm-8">
+		  	<ul className="stat-area col-xs-12 col-sm-8">
 		  		<li className={inputClass}>		  	
 		  			<div>12</div>
 		  			<a onClick={this.showPosts} className={activePost} >Posts</a>
@@ -126,9 +128,9 @@ class Profile extends React.Component{
   	)
   }
 
-  renderProfileCard() {
+  renderFollowerCard() {
   	return(
-  		<ProfileCard 
+  		<FollowerCard 
   		  title={this.state.title}
   		  description={this.state.description}
   			likes={this.state.likes}
@@ -142,7 +144,7 @@ class Profile extends React.Component{
   		<PostCard
   			title={this.state.title}
   		  description={this.state.description}
-  			likes={this.state.likes}
+  			commentNums={this.state.commentNums}
   			upvotes={this.state.upvotes}
   		{...this.props}/>
   	)
@@ -166,10 +168,10 @@ class Profile extends React.Component{
   	return (
   		<section className="profile-content-area">
 	  		<div className="row profile-content-items">
-		  		<ProfileCard 
+		  		<FollowerCard 
 		  		  title={this.state.title}
 		  		  description={this.state.description}
-		  			likes={this.state.likes}
+		  			commentNumbs={this.state.commentNumbs}
 		  			upvotes={this.state.upvotes}
 		  			{...this.props}/>
 		  	</div>	
@@ -181,16 +183,13 @@ class Profile extends React.Component{
   	return (
   		<section className="profile-content-area">
 	  		<div className="row profile-content-items">
-		  		{this.renderProfileCard()}
-		  		{this.renderProfileCard()}
-		  		{this.renderProfileCard()}
-	  			{this.renderProfileCard()}
-	  			{this.renderProfileCard()}
-	  			{this.renderProfileCard()}
-	  			{this.renderProfileCard()}
-	  			{this.renderProfileCard()}
-	  			{this.renderProfileCard()}
-	  			{this.renderProfileCard()}
+		  		{this.renderFollowerCard()}
+		 			{this.renderFollowerCard()}
+		 			{this.renderFollowerCard()}
+		 			{this.renderFollowerCard()}
+		 			{this.renderFollowerCard()}
+		 			{this.renderFollowerCard()}
+		 			{this.renderFollowerCard()}
 		  	</div>	
   		</section>	
   	)

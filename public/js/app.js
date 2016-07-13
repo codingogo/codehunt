@@ -45576,7 +45576,7 @@ var HomePage = (0, _connectToStores2.default)(_class = function (_React$Componen
         null,
         this.renderCategory(),
         _react2.default.createElement(
-          'article',
+          'div',
           { className: 'col-xs-12 col-sm-10 col-md-7 col-lg-7 product-list-canvas' },
           this.props.products ? _react2.default.createElement(_ProductList2.default, {
             productCategory: this.state.productCategory,
@@ -46149,22 +46149,22 @@ var Navbar = function (_React$Component) {
           _react2.default.createElement(
             _reactRouter.Link,
             { to: '/profile' },
-            _react2.default.createElement('i', { className: 'fa fa-user fa-lg' })
+            _react2.default.createElement('i', { className: 'fa fa-user fa-lg menu' })
           ),
           _react2.default.createElement(
             'a',
             { href: '#' },
-            _react2.default.createElement('i', { className: 'fa fa-heart fa-lg' })
+            _react2.default.createElement('i', { className: 'fa fa-heart fa-lg menu' })
           ),
           _react2.default.createElement(
             'a',
             { href: '#' },
-            _react2.default.createElement('i', { className: 'fa fa-cog fa-lg' })
+            _react2.default.createElement('i', { className: 'fa fa-cog fa-lg menu' })
           ),
           _react2.default.createElement(
             'a',
             { href: '#', onClick: this.handleLogout },
-            _react2.default.createElement('i', { className: 'fa fa-sign-out fa-lg' })
+            _react2.default.createElement('i', { className: 'fa fa-sign-out fa-lg menu' })
           )
         )
       );
@@ -46226,7 +46226,7 @@ var Navbar = function (_React$Component) {
         { className: 'navbar' },
         _react2.default.createElement(
           'div',
-          { className: 'navbar-header row' },
+          { className: 'navbar-header' },
           _react2.default.createElement(
             _reactRouter.Link,
             { to: '/', className: 'navbar-brand' },
@@ -46777,6 +46777,122 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var FollowerCard = function (_React$Component) {
+	_inherits(FollowerCard, _React$Component);
+
+	function FollowerCard() {
+		_classCallCheck(this, FollowerCard);
+
+		return _possibleConstructorReturn(this, Object.getPrototypeOf(FollowerCard).apply(this, arguments));
+	}
+
+	_createClass(FollowerCard, [{
+		key: "render",
+		value: function render() {
+			var productClass = "col-xs-12 col-sm-4 col-md-3 profile-product";
+			var imgClass = "profile-product-img";
+			var btnClass = "btn-xs btn btn-default profile-product-btn";
+			var titleClass = "profile-product-title";
+			var descriptionClass = "profile-product-description";
+
+			return _react2.default.createElement(
+				"section",
+				{ className: productClass },
+				_react2.default.createElement(
+					"table",
+					{ className: "thumbnail" },
+					_react2.default.createElement(
+						"tbody",
+						null,
+						_react2.default.createElement(
+							"tr",
+							null,
+							_react2.default.createElement(
+								"td",
+								{ className: imgClass },
+								_react2.default.createElement("img", { src: this.props.user ? this.props.user.avatar : null, alt: "" })
+							),
+							_react2.default.createElement(
+								"td",
+								{ className: titleClass, colSpan: "2" },
+								this.props.title
+							)
+						),
+						_react2.default.createElement(
+							"tr",
+							null,
+							_react2.default.createElement(
+								"td",
+								null,
+								_react2.default.createElement(
+									"span",
+									{ className: btnClass },
+									_react2.default.createElement("i", { className: "fa fa-heart", ariaHidden: "true" }),
+									_react2.default.createElement(
+										"span",
+										null,
+										" ",
+										this.props.likes
+									)
+								)
+							),
+							_react2.default.createElement(
+								"td",
+								null,
+								_react2.default.createElement(
+									"span",
+									{ className: btnClass },
+									_react2.default.createElement("i", { className: "fa fa-lg fa-caret-up", ariaHidden: "true" }),
+									_react2.default.createElement(
+										"span",
+										null,
+										" ",
+										this.props.upvotes
+									)
+								)
+							)
+						),
+						_react2.default.createElement(
+							"tr",
+							null,
+							_react2.default.createElement(
+								"td",
+								{ className: descriptionClass, colSpan: "3" },
+								this.props.description
+							)
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return FollowerCard;
+}(_react2.default.Component);
+
+exports.default = FollowerCard;
+
+},{"react":262}],278:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var PostCard = function (_React$Component) {
 	_inherits(PostCard, _React$Component);
 
@@ -46789,13 +46905,23 @@ var PostCard = function (_React$Component) {
 	_createClass(PostCard, [{
 		key: "render",
 		value: function render() {
+			var imgClass = "postcard-img width-full";
+			var imgUrl = this.props.user ? this.props.user.avatar : "./img/delb.png";
+			var imgStyle = {
+				backgroundImage: 'url(' + imgUrl + ')',
+				backgroundSize: 'cover'
+			};
+			var postcardClass = "col-xs-6 col-sm-4 col-md-3 postcard";
+			var btnClass = "btn-sm btn btn-default width-half postcard-btn";
+			var postcardTitleClass = "width-full postcard-title";
+
 			return _react2.default.createElement(
 				"section",
-				{ className: "col-xs-6 col-sm-4 col-md-3 postcard" },
-				_react2.default.createElement("img", { className: "postcard-img width-full", src: this.props.user ? this.props.user.avatar : null, alt: "" }),
+				{ className: postcardClass },
+				_react2.default.createElement("div", { className: imgClass, style: imgStyle }),
 				_react2.default.createElement(
 					"div",
-					{ className: "width-full postcard-title" },
+					{ className: postcardTitleClass },
 					this.props.title.length > 27 ? this.props.title.substring(0, 27) + '..' : this.props.title
 				),
 				_react2.default.createElement(
@@ -46803,24 +46929,24 @@ var PostCard = function (_React$Component) {
 					{ className: "width-full" },
 					_react2.default.createElement(
 						"span",
-						{ className: "btn-xs btn btn-default width-half" },
-						_react2.default.createElement("i", { className: "fa fa-heart", ariaHidden: "true" }),
-						_react2.default.createElement(
-							"span",
-							null,
-							" ",
-							this.props.likes
-						)
-					),
-					_react2.default.createElement(
-						"span",
-						{ className: "btn-xs btn btn-default width-half" },
+						{ className: btnClass },
 						_react2.default.createElement("i", { className: "fa fa-lg fa-caret-up", ariaHidden: "true" }),
 						_react2.default.createElement(
 							"span",
 							null,
 							" ",
 							this.props.upvotes
+						)
+					),
+					_react2.default.createElement(
+						"span",
+						{ className: btnClass },
+						_react2.default.createElement("i", { className: "fa fa-comment", ariaHidden: "true" }),
+						_react2.default.createElement(
+							"span",
+							null,
+							" ",
+							this.props.commentNums
 						)
 					)
 				)
@@ -46833,7 +46959,7 @@ var PostCard = function (_React$Component) {
 
 exports.default = PostCard;
 
-},{"react":262}],278:[function(require,module,exports){
+},{"react":262}],279:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46862,13 +46988,13 @@ var _ProductStore = require('../../stores/ProductStore');
 
 var _ProductStore2 = _interopRequireDefault(_ProductStore);
 
+var _FollowerCard = require('./FollowerCard');
+
+var _FollowerCard2 = _interopRequireDefault(_FollowerCard);
+
 var _PostCard = require('./PostCard');
 
 var _PostCard2 = _interopRequireDefault(_PostCard);
-
-var _ProfileCard = require('./ProfileCard');
-
-var _ProfileCard2 = _interopRequireDefault(_ProfileCard);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46914,6 +47040,8 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
 			likes: 1231,
+			followers: 2324,
+			commentNums: 57,
 			upvotes: 234234,
 			userDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
 		};
@@ -46982,7 +47110,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 				{ className: 'main-btn-container' },
 				_react2.default.createElement(
 					'ul',
-					{ className: 'col-xs-12 col-sm-8' },
+					{ className: 'stat-area col-xs-12 col-sm-8' },
 					_react2.default.createElement(
 						'li',
 						{ className: inputClass },
@@ -47029,9 +47157,9 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 			);
 		}
 	}, {
-		key: 'renderProfileCard',
-		value: function renderProfileCard() {
-			return _react2.default.createElement(_ProfileCard2.default, _extends({
+		key: 'renderFollowerCard',
+		value: function renderFollowerCard() {
+			return _react2.default.createElement(_FollowerCard2.default, _extends({
 				title: this.state.title,
 				description: this.state.description,
 				likes: this.state.likes,
@@ -47044,7 +47172,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 			return _react2.default.createElement(_PostCard2.default, _extends({
 				title: this.state.title,
 				description: this.state.description,
-				likes: this.state.likes,
+				commentNums: this.state.commentNums,
 				upvotes: this.state.upvotes
 			}, this.props));
 		}
@@ -47074,10 +47202,10 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 				_react2.default.createElement(
 					'div',
 					{ className: 'row profile-content-items' },
-					_react2.default.createElement(_ProfileCard2.default, _extends({
+					_react2.default.createElement(_FollowerCard2.default, _extends({
 						title: this.state.title,
 						description: this.state.description,
-						likes: this.state.likes,
+						commentNumbs: this.state.commentNumbs,
 						upvotes: this.state.upvotes
 					}, this.props))
 				)
@@ -47092,16 +47220,13 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 				_react2.default.createElement(
 					'div',
 					{ className: 'row profile-content-items' },
-					this.renderProfileCard(),
-					this.renderProfileCard(),
-					this.renderProfileCard(),
-					this.renderProfileCard(),
-					this.renderProfileCard(),
-					this.renderProfileCard(),
-					this.renderProfileCard(),
-					this.renderProfileCard(),
-					this.renderProfileCard(),
-					this.renderProfileCard()
+					this.renderFollowerCard(),
+					this.renderFollowerCard(),
+					this.renderFollowerCard(),
+					this.renderFollowerCard(),
+					this.renderFollowerCard(),
+					this.renderFollowerCard(),
+					this.renderFollowerCard()
 				)
 			);
 		}
@@ -47136,117 +47261,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 
 exports.default = Profile;
 
-},{"../../actions":266,"../../stores/ProductStore":284,"./PostCard":277,"./ProfileCard":279,"alt-utils/lib/connectToStores":1,"react":262}],279:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ProfileCard = function (_React$Component) {
-	_inherits(ProfileCard, _React$Component);
-
-	function ProfileCard() {
-		_classCallCheck(this, ProfileCard);
-
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(ProfileCard).apply(this, arguments));
-	}
-
-	_createClass(ProfileCard, [{
-		key: "render",
-		value: function render() {
-			return _react2.default.createElement(
-				"section",
-				{ className: "col-xs-12 col-sm-4 col-md-3 profile-product" },
-				_react2.default.createElement(
-					"table",
-					{ className: "thumbnail" },
-					_react2.default.createElement(
-						"tbody",
-						null,
-						_react2.default.createElement(
-							"tr",
-							null,
-							_react2.default.createElement(
-								"td",
-								{ className: "profile-product-img" },
-								_react2.default.createElement("img", { src: this.props.user ? this.props.user.avatar : null, alt: "" })
-							),
-							_react2.default.createElement(
-								"td",
-								{ className: "profile-product-title", colSpan: "2" },
-								this.props.title
-							)
-						),
-						_react2.default.createElement(
-							"tr",
-							null,
-							_react2.default.createElement(
-								"td",
-								null,
-								_react2.default.createElement(
-									"span",
-									{ className: "btn-xs btn btn-default profile-product-btn" },
-									_react2.default.createElement("i", { className: "fa fa-heart", ariaHidden: "true" }),
-									_react2.default.createElement(
-										"span",
-										null,
-										" ",
-										this.props.likes
-									)
-								)
-							),
-							_react2.default.createElement(
-								"td",
-								null,
-								_react2.default.createElement(
-									"span",
-									{ className: "btn-xs btn btn-default profile-product-btn" },
-									_react2.default.createElement("i", { className: "fa fa-lg fa-caret-up", ariaHidden: "true" }),
-									_react2.default.createElement(
-										"span",
-										null,
-										" ",
-										this.props.upvotes
-									)
-								)
-							)
-						),
-						_react2.default.createElement(
-							"tr",
-							null,
-							_react2.default.createElement(
-								"td",
-								{ className: "profile-product-description", colSpan: "3" },
-								this.props.description
-							)
-						)
-					)
-				)
-			);
-		}
-	}]);
-
-	return ProfileCard;
-}(_react2.default.Component);
-
-exports.default = ProfileCard;
-
-},{"react":262}],280:[function(require,module,exports){
+},{"../../actions":266,"../../stores/ProductStore":284,"./FollowerCard":277,"./PostCard":278,"alt-utils/lib/connectToStores":1,"react":262}],280:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47603,7 +47618,7 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), document.getElementById('root'));
 
-},{"../actions":266,"../stores/ProductStore":284,"./HomePage":268,"./Navbar":272,"./Profile/Profile":278,"alt-utils/lib/connectToStores":1,"react":262,"react-dom":69,"react-router":116}],284:[function(require,module,exports){
+},{"../actions":266,"../stores/ProductStore":284,"./HomePage":268,"./Navbar":272,"./Profile/Profile":279,"alt-utils/lib/connectToStores":1,"react":262,"react-dom":69,"react-router":116}],284:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

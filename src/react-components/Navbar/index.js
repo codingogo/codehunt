@@ -91,10 +91,10 @@ class Navbar extends React.Component {
             }  
           </span>
           
-          <Link to="/profile"><i className="fa fa-user fa-lg"></i></Link>
-          <a href="#"><i className="fa fa-heart fa-lg"></i></a> 
-          <a href="#"><i className="fa fa-cog fa-lg"></i></a> 
-          <a href="#" onClick={this.handleLogout}><i className="fa fa-sign-out fa-lg"></i></a> 
+          <Link to="/profile"><i className="fa fa-user fa-lg menu"></i></Link>
+          <a href="#"><i className="fa fa-heart fa-lg menu"></i></a> 
+          <a href="#"><i className="fa fa-cog fa-lg menu"></i></a> 
+          <a href="#" onClick={this.handleLogout}><i className="fa fa-sign-out fa-lg menu"></i></a> 
         </Menu>
       </div>
     );
@@ -135,7 +135,7 @@ class Navbar extends React.Component {
   renderToggleNav() {
     return (    
       <section className="navbar">
-          <div className="navbar-header row"> 
+          <div className="navbar-header"> 
             <Link to="/" className="navbar-brand">{this.renderLogo()}</Link>
             <span className="nav-list-search">{this.renderProductSearch()}</span>    
             <span className="right-align">{this.renderUser()}</span>

@@ -72,7 +72,7 @@ class HomePage extends React.Component {
     return (
       <section>
         {this.renderCategory()}
-        <article className="col-xs-12 col-sm-10 col-md-7 col-lg-7 product-list-canvas">
+        <div className="col-xs-12 col-sm-10 col-md-7 col-lg-7 product-list-canvas">
           {
             this.props.products
             ?
@@ -82,7 +82,7 @@ class HomePage extends React.Component {
             :
             null 
           }
-        </article>  
+        </div>  
       </section>
 
     );
