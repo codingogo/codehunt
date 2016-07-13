@@ -27,6 +27,10 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
   text-shadow: none;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s;
+  -o-transition: all .3s;
+  transition: all .3s ease;
 }
 p {
   color: #888;
@@ -38,7 +42,12 @@ table {
 .right-align {
   float: right;
 }
-
+.width-full {
+  width: 100%;
+}
+.width-half {
+  width: 50%;
+}
 .fa-bars, .fa-cog, .fa-heart, .fa-user, .fa-sign-out {
   color: #ff6633;
 }
@@ -304,7 +313,7 @@ table {
   
 }
 .popup .popup-content.post-popup {
-  padding: 25px 25px 45px 0px;
+  padding: 25px 25px 45px 25px;
   border-radius: 5px;  
 }
 .popup .popup-content {
@@ -363,7 +372,7 @@ button:hover {
 }
 .post-popup {
   text-align: center;
-  width: 340px;
+  width: 450px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -663,6 +672,23 @@ select.select-category {
 .profile-product-btn .fa-heart {
   color: #888;
 }
+/********** POST CARD **************/
+.postcard {
+  margin-bottom: 30px;
+}
+.postcard-img {
+  height: 202px;
+}
+.postcard-title {
+    position: absolute;
+    bottom: 24px;
+    z-index: 99;
+    margin-left: 5px;
+    color: #fff;
+    text-shadow: 1px 1px 1px #777;
+}
+
+
 /************** MEDIA QUERY *************/
 /************** MEDIA QUERY *************/
 /************** MEDIA QUERY *************/
@@ -686,6 +712,7 @@ select.select-category {
   /************* POP UPS *************/
   .popup .popup-content.post-popup {
     padding: 5px 15px 25px 15px;
+    width: 340px;
   }
   .post-btn {
     width: 100%;
@@ -747,6 +774,13 @@ select.select-category {
   .profile-content-items {
     margin-top: 0px;
   }
+  /*** Post Card Mobile ***/
+  .postcard {
+    font-size: 12px;
+  }
+  .postcard-img {
+    height: 150px;
+  }
 
 @media(min-width: 768px) and (max-width: 991px){
   .product-list-canvas{
@@ -755,8 +789,8 @@ select.select-category {
 }
 
 @media(min-width: 768px){
-  .post-popup {
-    width: 600px;
+  .popup .popup-content.post-popup {
+    min-width: 80%;
   }
 }
 

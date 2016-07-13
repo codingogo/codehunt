@@ -8,7 +8,8 @@ class ProductStore {
 		this.state = {
 			user: null,
 			products: [],
-			comments: []
+			comments: [],
+			profiles: []
 		};
 	}
 
@@ -27,6 +28,10 @@ class ProductStore {
 		this.setState({comments: comments});
 	}
 
+	@bind(Actions.getProfiles)
+	getProfiles(profiles) {
+		this.setState({profiles: profiles});
+	}
 }
 
 export default alt.createStore(ProductStore);

@@ -14,7 +14,10 @@ class Actions {
 				user = {
 	      	id: authData.facebook.id,
 	      	name: authData.facebook.displayName,
-	      	avatar: authData.facebook.profileImageURL
+	      	avatar: authData.facebook.profileImageURL,
+	      	locale: authData.facebook.cachedUserProfile.locale,
+	      	link: authData.facebook.cachedUserProfile.link,
+	      	picture: authData.facebook.cachedUserProfile.picture
 	      }
 			} else {
 				user = null;
@@ -30,16 +33,35 @@ class Actions {
 	      if(error){
 	      	return;
 	      }
-
 	      var user = {
 	      	id: authData.facebook.id,
 	      	name: authData.facebook.displayName,
-	      	avatar: authData.facebook.profileImageURL
+	      	avatar: authData.facebook.profileImageURL,
+	      	locale: authData.facebook.cachedUserProfile.locale,
+	      	link: authData.facebook.cachedUserProfile.link,
+	      	picture: authData.facebook.cachedUserProfile.picture
 	      }
 	      firebaseRef.child("users").child(authData.facebook.id).set(user);
 	      dispatch(user); 
+
+	      var profile = {
+	      	id: authData.facebook.id,
+	      	name: authData.facebook.displayName,
+	      	avatar: authData.facebook.profileImageURL,
+	      	locale: authData.facebook.cachedUserProfile.locale,
+	      	link: authData.facebook.cachedUserProfile.link,
+	      	picture: authData.facebook.cachedUserProfile.picture
+	      }
+	      firebaseRef.child("profiles").child(authData.facebook.id).set(profile);
+	      dispatch(profile);
 	    });		
-			
+		}
+	}
+
+	addComment(productId, comment){
+		return (dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com/comments');
+			firebaseRef.child(productId).push(comment);
 		}
 	}
 
@@ -114,6 +136,22 @@ class Actions {
 				})
 				.value();
 				dispatch(comments);
+			});
+		}
+	}
+
+	getProfiles(userId) {
+		return (dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com/profiles');
+			firebaseRef.child(userId).on('value', (snapshot) => {
+				var profilesVal = snapshot.val();
+				var profiles = _(profilesVal).keys().map((profileKey) => {
+					var item =_.clone(profilesVal[profileKey]);
+					item.key = profileKey;
+					return item;
+				})
+				.value();
+				dispatch(profiles);
 			});
 		}
 	}

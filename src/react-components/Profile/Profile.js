@@ -1,7 +1,9 @@
 import React from 'react';
+import Actions from '../../actions';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../stores/ProductStore';
-import Actions from '../../actions';
+
+import PostCard from './PostCard';
 import ProfileCard from './ProfileCard';
 
 @connectToStores
@@ -13,7 +15,7 @@ class Profile extends React.Component{
 			showPosts: true,
 			showLikes: false,
 			showFollowers: false,
-			title: 'ajksf jaksdlf asjd asf',
+			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
 			likes: 1231,
 			upvotes: 234234,
@@ -30,11 +32,11 @@ class Profile extends React.Component{
   };
 
 	handleClick = () => {
-		if (this.state.showProfileDescription){
-			this.setState({showProfileDescription: false});
-		} else {
-			this.setState({showProfileDescription: true});
-		}
+		this.state.showProfileDescription
+		?
+		this.setState({showProfileDescription: false})
+		:
+		this.setState({showProfileDescription: true})
 	};
 
 	showPosts = () => {
@@ -90,7 +92,7 @@ class Profile extends React.Component{
   	return 'profile-stat ' + ((value===this.state.selected) ? 'active' : null);
   }
 
-  renderStatistics() {
+  renderStats() {
   	var inputClass = 'profile-stat';
     var activePost = '';
     var activeLike = '';
@@ -124,7 +126,7 @@ class Profile extends React.Component{
   	)
   }
 
-  renderProduct() {
+  renderProfileCard() {
   	return(
   		<ProfileCard 
   		  title={this.state.title}
@@ -135,26 +137,26 @@ class Profile extends React.Component{
   	);
   }
 
+  renderPostCard() {
+  	return(
+  		<PostCard
+  			title={this.state.title}
+  		  description={this.state.description}
+  			likes={this.state.likes}
+  			upvotes={this.state.upvotes}
+  		{...this.props}/>
+  	)
+  }
+
   renderPosts() {
   	return (
   		<section className="profile-content-area">
 	  		<div className="row profile-content-items">
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
-	  			{this.renderProduct()}
+	  			{this.renderPostCard()}
+	  			{this.renderPostCard()}
+	  			{this.renderPostCard()}
+	  			{this.renderPostCard()}
+	  			{this.renderPostCard()}
 	  		</div>	
   		</section>
   	)
@@ -162,17 +164,35 @@ class Profile extends React.Component{
 
   renderLikes () {
   	return (
-  		<section>
-  			LIKES!!!!
-  		</section>
+  		<section className="profile-content-area">
+	  		<div className="row profile-content-items">
+		  		<ProfileCard 
+		  		  title={this.state.title}
+		  		  description={this.state.description}
+		  			likes={this.state.likes}
+		  			upvotes={this.state.upvotes}
+		  			{...this.props}/>
+		  	</div>	
+  		</section>			
   	)
   }
 
   renderFollowers () {
   	return (
-  		<section>
-  			FOLLOWERS!!!!
-  		</section>
+  		<section className="profile-content-area">
+	  		<div className="row profile-content-items">
+		  		{this.renderProfileCard()}
+		  		{this.renderProfileCard()}
+		  		{this.renderProfileCard()}
+	  			{this.renderProfileCard()}
+	  			{this.renderProfileCard()}
+	  			{this.renderProfileCard()}
+	  			{this.renderProfileCard()}
+	  			{this.renderProfileCard()}
+	  			{this.renderProfileCard()}
+	  			{this.renderProfileCard()}
+		  	</div>	
+  		</section>	
   	)
   }
 
@@ -180,7 +200,7 @@ class Profile extends React.Component{
 		return (	
 			<div className="container">
 				{this.renderUser()}
-				{this.renderStatistics()}
+				{this.renderStats()}
 				{
 					this.state.showProfileDescription? this.renderUserDescription():null
 				}

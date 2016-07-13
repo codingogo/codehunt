@@ -13,7 +13,8 @@ class PostPopup extends React.Component{
       upvote: 0,
       maker: {
         name: this.props.user.name,
-        avatar: this.props.user.avatar
+        avatar: this.props.user.avatar,
+        id: this.props.user.id
       }
     }
     if(newProduct.name.length > 0 && newProduct.link.length > 0 && newProduct.description.length > 0 && newProduct.media.length > 0) {
