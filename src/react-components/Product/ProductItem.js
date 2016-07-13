@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductPopup from './ProductPopup';
 import Upvote from './Upvote';
+import { Link } from 'react-router';
 
 class ProductItem extends React.Component {
   constructor(){
@@ -26,11 +27,13 @@ class ProductItem extends React.Component {
   }
 
   renderInfoSession(){
+    console.log(this.props.maker.id)
+    var profileLink = "/profile/"+this.props.maker.id;
     return (
       <section className="product-item-info">
         <h5 onClick={this.showProductPopup} className="clickable">{this.props.name.substring(0,25)}</h5>
         <p className="product-item-description">{this.props.description.substring(0,50)}...</p>
-        <a href="#"><img className="small-avatar" src={this.props.maker.avatar}/></a>
+       <Link to={profileLink}><img className="small-avatar" src={this.props.maker.avatar}/></Link>
       </section>      
     )
   }

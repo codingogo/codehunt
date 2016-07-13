@@ -8,6 +8,7 @@ import Navbar from './Navbar';
 import ProductStore from '../stores/ProductStore';
 import Profile from './Profile/Profile';
 
+
 @connectToStores
 class App extends React.Component {
   constructor() {
@@ -38,7 +39,8 @@ ReactDOM.render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePage}/>
-      <Route path="profile" component={Profile}/>
+      <Route path="/profile" component={Profile}/>
+      <Route path="/profile/:id" component={Profile}/>
     </Route>
   </Router>
   ), document.getElementById('root'));

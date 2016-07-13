@@ -60,6 +60,8 @@ class Navbar extends React.Component {
   }
 
   renderMenuBtn() {
+    console.log('this props id',this.props.user.id);
+    var userLink = ('/profile/' + this.props.user.id);
     return (
       <div>
         <Menu
@@ -77,8 +79,8 @@ class Navbar extends React.Component {
             textAlign:"center",
             lineHeight:"45px",
             backgroundColor: "#fff",
-            border: "1px solid #fefefe",
-            borderRadius: "50%"
+            borderRadius: "50%",
+            boxShadow: "1px 1px 1px #ddd"
           }}
           >
           <span>
@@ -91,7 +93,7 @@ class Navbar extends React.Component {
             }  
           </span>
           
-          <Link to="/profile"><i className="fa fa-user fa-lg menu"></i></Link>
+          <Link to={userLink}><i className="fa fa-user fa-lg menu"></i></Link>
           <a href="#"><i className="fa fa-heart fa-lg menu"></i></a> 
           <a href="#"><i className="fa fa-cog fa-lg menu"></i></a> 
           <a href="#" onClick={this.handleLogout}><i className="fa fa-sign-out fa-lg menu"></i></a> 

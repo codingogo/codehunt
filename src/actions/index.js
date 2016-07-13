@@ -129,6 +129,7 @@ class Actions {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com/comments');
 			firebaseRef.child(productId).on('value', (snapshot) => {
 				var commentsVal = snapshot.val();
+				console.log('commentsVal', commentsVal)
 				var comments = _(commentsVal).keys().map((commentKey) => {
 					var item = _.clone(commentsVal[commentKey]);
 					item.key = commentKey;
@@ -145,13 +146,13 @@ class Actions {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com/profiles');
 			firebaseRef.child(userId).on('value', (snapshot) => {
 				var profilesVal = snapshot.val();
-				var profiles = _(profilesVal).keys().map((profileKey) => {
-					var item =_.clone(profilesVal[profileKey]);
-					item.key = profileKey;
-					return item;
-				})
-				.value();
-				dispatch(profiles);
+				// var profiles = _(profilesVal).keys().map((profileKey) => {
+				// 	var item =_.clone(profilesVal[profileKey]);
+				// 	item.key = profileKey;
+				// 	return item;
+				// })
+				// .value();
+				dispatch(profilesVal);
 			});
 		}
 	}

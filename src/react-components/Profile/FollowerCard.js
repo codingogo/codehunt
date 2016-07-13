@@ -4,7 +4,7 @@ class FollowerCard extends React.Component{
 	render() {
 		var productClass="col-xs-12 col-sm-4 col-md-3 profile-product";
 		var imgClass="profile-product-img";
-		var btnClass="btn-xs btn btn-default profile-product-btn";
+		var btnClass="btn-sm btn btn-default profile-product-btn";
 		var titleClass="profile-product-title";
 		var descriptionClass="profile-product-description";
 
@@ -18,10 +18,10 @@ class FollowerCard extends React.Component{
 			  		</tr>
 			  		<tr>
 			  			<td>
-			  				<span className={btnClass}><i className="fa fa-heart" ariaHidden="true"></i><span>&nbsp;{this.props.likes}</span></span>
+			  				<span className={btnClass}><i className="fa fa-user" ariaHidden="true"></i><span>&nbsp;{this.props.upvotes}</span></span>
 			  			</td>
 			  			<td>
-			  				<span className={btnClass}><i className="fa fa-lg fa-caret-up" ariaHidden="true"></i><span>&nbsp;{this.props.upvotes}</span></span>
+			  				<span className={btnClass}><i className="fa fa-plus" ariaHidden="true"></i><span>&nbsp;Follow</span></span>
 			  			</td>
 			  		</tr>
 			  		<tr>	

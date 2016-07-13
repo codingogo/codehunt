@@ -8,8 +8,9 @@ import PostCard from './PostCard';
 
 @connectToStores
 class Profile extends React.Component{
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
+		Actions.getProfiles(this.props.routeParams.id);
 		this.state ={
 			showProfileDescription: false, 
 			showPosts: true,
@@ -17,8 +18,6 @@ class Profile extends React.Component{
 			showFollowers: false,
 			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
-			likes: 1231,
-			followers: 2324,
 			commentNums: 57,
 			upvotes: 234234,
 			userDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
@@ -68,9 +67,9 @@ class Profile extends React.Component{
   renderUser() {
   	return (
   		<section className="profile-pg-img-container">
-  			<img src={this.props.user ? this.props.user.avatar : null} alt="" className="profile-pg-img"/>
+  			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className="profile-pg-img"/>
   			<a className="profile-pg-name" onClick={this.handleClick}>
-  				<span>{this.props.user ? this.props.user.name : null} </span>
+  				<span>{this.props.profiles ? this.props.profiles.name : null} </span>
   				{
   					this.state.showProfileDescription
   					? 
@@ -112,19 +111,30 @@ class Profile extends React.Component{
 	  	<section className="main-btn-container">
 		  	<ul className="stat-area col-xs-12 col-sm-8">
 		  		<li className={inputClass}>		  	
-		  			<div>12</div>
-		  			<a onClick={this.showPosts} className={activePost} >Posts</a>
+		  			<div>{this.props.profiles.posts? this.props.profiles.posts.length: 0}</div>
+		  			<a onClick={this.showPosts} className={activePost} >POSTS</a>
 		  		</li>
 		  		<li className={inputClass}>			  		
-		  			<div>35</div>
-		  			<a onClick={this.showLikes} className={activeLike}>Likes</a>
+		  			<div>{this.props.profiles.likes? this.props.profiles.likes.length: 0}</div>
+		  			<a onClick={this.showLikes} className={activeLike}>LIKES</a>
 		  		</li>
 		  		<li className={inputClass}>		  			
-		  			<div>1982</div>
-		  			<a onClick={this.showFollows} className={activeFollow}>Followers</a>			  		
+		  			<div>{this.props.profiles.followers? this.props.profiles.followers.length: 0}</div>
+		  			<a onClick={this.showFollows} className={activeFollow}>FOLLOWERS</a>			  		
 		  		</li>
 		  	</ul>
 	  	</section>	
+  	)
+  }
+
+  renderPostCard() {
+  	return(
+  		<PostCard
+  			title={this.state.title}
+  		  description={this.state.description}
+  			commentNums={this.state.commentNums}
+  			upvotes={this.state.upvotes}
+  			{...this.props}/>
   	)
   }
 
@@ -137,17 +147,6 @@ class Profile extends React.Component{
   			upvotes={this.state.upvotes}
   			{...this.props}/>
   	);
-  }
-
-  renderPostCard() {
-  	return(
-  		<PostCard
-  			title={this.state.title}
-  		  description={this.state.description}
-  			commentNums={this.state.commentNums}
-  			upvotes={this.state.upvotes}
-  		{...this.props}/>
-  	)
   }
 
   renderPosts() {
@@ -168,7 +167,7 @@ class Profile extends React.Component{
   	return (
   		<section className="profile-content-area">
 	  		<div className="row profile-content-items">
-		  		<FollowerCard 
+		  		<PostCard 
 		  		  title={this.state.title}
 		  		  description={this.state.description}
 		  			commentNumbs={this.state.commentNumbs}
