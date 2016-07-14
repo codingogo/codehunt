@@ -20,7 +20,7 @@ class Profile extends React.Component{
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
 			commentNums: 57,
 			upvotes: 234234,
-			userDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
+			profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
 		};
 	}
 
@@ -46,7 +46,7 @@ class Profile extends React.Component{
 			this.setState({showLikes: false}),
 			this.setState({showFollowers: false})]
 		: null
-	}
+	};
 
 	showLikes = () => {
 		(this.state.showLikes === false) ?
@@ -54,7 +54,7 @@ class Profile extends React.Component{
 			this.setState({showLikes: true}),
 			this.setState({showFollowers: false})]
 		: null
-	}
+	};
 
 	showFollows = () => {
 		(this.state.showFollowers === false) ?
@@ -62,35 +62,42 @@ class Profile extends React.Component{
 			this.setState({showLikes: false}),
 			this.setState({showFollowers: true})]
 			: null
-	}
+	};
 
-  renderUser() {
+  isActive = (value) => {
+  	return 'profile-stat ' + ((value===this.state.selected) ? 'active' : null);
+  };
+
+  renderProfile() {
+  	var profileImgContainer="profile-pg-img-container";
+  	var profileImg="profile-pg-img";
+  	var profileImgName="profile-pg-name";
+  	var caretUp="fa fa-lg fa-caret-up";
+  	var caretDown="fa fa-lg fa-caret-down";
   	return (
-  		<section className="profile-pg-img-container">
-  			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className="profile-pg-img"/>
-  			<a className="profile-pg-name" onClick={this.handleClick}>
+  		<section className={profileImgContainer}>
+  			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/>
+  			<a onClick={this.handleClick} className={profileImgName}>
   				<span>{this.props.profiles ? this.props.profiles.name : null} </span>
   				{
   					this.state.showProfileDescription
   					? 
-  					<span><i className="fa fa-lg fa-caret-up" ariaHidden="true"></i></span>: 
-  					<span><i className="fa fa-lg fa-caret-down" ariaHidden="true"></i></span>
+  					<span><i className={caretUp} ariaHidden="true"></i></span>
+  					: 
+  					<span><i className={caretDown} ariaHidden="true"></i></span>
   				}
   			</a>
   		</section>
   	)
   }
 
-  renderUserDescription() {
+  renderProfileDescription() {
+  	var profileDesc="col-xs-12 profile-pg-description"
   	return (
-  		<section className="col-xs-12 profile-pg-description" ref="profileDescription">
-  			<p>{this.state.userDescription}</p>
+  		<section className={profileDesc} ref="profileDescription">
+  			<p>{this.state.profileDescription}</p>
   		</section>
   	);
-  }
-
-  isActive = (value) => {
-  	return 'profile-stat ' + ((value===this.state.selected) ? 'active' : null);
   }
 
   renderStats() {
@@ -98,6 +105,8 @@ class Profile extends React.Component{
     var activePost = '';
     var activeLike = '';
     var activeFollow = '';
+    var statArea = 'stat-area col-xs-12 col-sm-8';
+    var btnContainer = 'main-btn-container';
 
     if(this.state.showPosts){
     	activePost = 'active'
@@ -108,11 +117,11 @@ class Profile extends React.Component{
     }
 
   	return (
-	  	<section className="main-btn-container">
-		  	<ul className="stat-area col-xs-12 col-sm-8">
+	  	<section className={btnContainer}>
+		  	<ul className={statArea}>
 		  		<li className={inputClass}>		  	
 		  			<div>{this.props.profiles.posts? this.props.profiles.posts.length: 0}</div>
-		  			<a onClick={this.showPosts} className={activePost} >POSTS</a>
+		  			<a onClick={this.showPosts} className={activePost}>POSTS</a>
 		  		</li>
 		  		<li className={inputClass}>			  		
 		  			<div>{this.props.profiles.likes? this.props.profiles.likes.length: 0}</div>
@@ -197,10 +206,10 @@ class Profile extends React.Component{
 	render() {
 		return (	
 			<div className="container">
-				{this.renderUser()}
+				{this.renderProfile()}
 				{this.renderStats()}
 				{
-					this.state.showProfileDescription? this.renderUserDescription():null
+					this.state.showProfileDescription? this.renderProfileDescription() : null
 				}
 				{
 					this.state.showPosts? this.renderPosts() : null

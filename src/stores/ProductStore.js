@@ -9,7 +9,8 @@ class ProductStore {
 			user: null,
 			products: [],
 			comments: [],
-			profiles: []
+			profiles: [],
+			productCategory: ''
 		};
 	}
 
@@ -32,6 +33,17 @@ class ProductStore {
 	getProfiles(profiles) {
 		this.setState({profiles: profiles});
 	}
+
+	@bind(Actions.updateCategory)
+	updateCategory(productCategory){
+    this.setState(productCategory);
+  }
+
+  // @bind(Actions.updateProductPopup)
+  // updateProductPopup(productPopupStatus){
+  // 	console.log(productPopupStatus);
+  // 	this.setState(productPopupStatus);
+  // }
 }
 
 export default alt.createStore(ProductStore);

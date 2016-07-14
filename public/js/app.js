@@ -45426,6 +45426,21 @@ var Actions = function () {
 				});
 			};
 		}
+	}, {
+		key: 'updateCategory',
+		value: function updateCategory(productCategory) {
+			return function (dispatch) {
+				dispatch(productCategory);
+			};
+		}
+
+		// updateProductPopup(productPopupStatus) {
+		// 	console.log(productPopupStatus);
+		// 	return (dispatch) => {
+		// 		dispatch(productPopupStatus);
+		// 	}
+		// }
+
 	}]);
 
 	return Actions;
@@ -45503,15 +45518,17 @@ var HomePage = (0, _connectToStores2.default)(_class = function (_React$Componen
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HomePage).call(this));
 
-    _this.state = {
-      productCategory: ''
-    };
     _this.changeCategory = _this.changeCategory.bind(_this);
     _actions2.default.getProducts();
     return _this;
   }
 
   _createClass(HomePage, [{
+    key: 'changeCategory',
+    value: function changeCategory(ev) {
+      _actions2.default.updateCategory({ productCategory: ev.target.value });
+    }
+  }, {
     key: 'renderLandingBanner',
     value: function renderLandingBanner() {
       return _react2.default.createElement('section', { className: 'landing-banner' });
@@ -45523,22 +45540,16 @@ var HomePage = (0, _connectToStores2.default)(_class = function (_React$Componen
         'section',
         { className: 'col-xs-12 col-sm-10 col-md-7 col-lg-7 product-list-canvas' },
         this.props.products ? _react2.default.createElement(_ProductList2.default, {
-          productCategory: this.state.productCategory,
+          productCategory: this.props.productCategory,
           productList: this.props.products }) : null
       );
-    }
-  }, {
-    key: 'changeCategory',
-    value: function changeCategory(ev) {
-      this.setState({ productCategory: ev.target.value });
     }
   }, {
     key: 'renderCategory',
     value: function renderCategory() {
       return _react2.default.createElement(
         'section',
-        { className: 'hidden-xs col-sm-2 col-md-2 col-lg-2 left-navbar', productCategory: this.state.productCategory,
-          onCategoryClick: this.changeCategory },
+        { className: 'hidden-xs col-sm-2 col-md-2 col-lg-2 left-navbar', productCategory: this.props.productCategory },
         _react2.default.createElement(
           'h5',
           { className: 'category-title' },
@@ -45581,7 +45592,7 @@ var HomePage = (0, _connectToStores2.default)(_class = function (_React$Componen
           'div',
           { className: 'col-xs-12 col-sm-10 col-md-7 col-lg-7 product-list-canvas' },
           this.props.products ? _react2.default.createElement(_ProductList2.default, {
-            productCategory: this.state.productCategory,
+            productCategory: this.props.productCategory,
             productList: this.props.products }) : null
         )
       );
@@ -46061,12 +46072,25 @@ var Navbar = function (_React$Component) {
 
     _this.state = {
       popupStatus: false,
-      menu1: { isOpen: false }
+      menu1: { isOpen: false },
+      showProfileNav: false,
+      showProfileDescription: false,
+      showPosts: true,
+      showLikes: false,
+      showFollowers: false,
+      title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
+      commentNums: 57,
+      upvotes: 234234,
+      profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
     };
     return _this;
   }
 
   _createClass(Navbar, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {}
+  }, {
     key: 'handleOnOpen',
     value: function handleOnOpen(name) {
       this.setState(_defineProperty({}, name, { isOpen: true }));
@@ -46079,20 +46103,26 @@ var Navbar = function (_React$Component) {
   }, {
     key: 'renderProductSearch',
     value: function renderProductSearch() {
+      var searchBox = "product-search-box";
+      var search = "product-search";
+      var inputGroup = "input-group";
+      var inputBtn = "input-group-btn";
+      var searchBtn = "btn btn-default product-search-btn";
+      var searchIcon = "fa fa-search";
       return _react2.default.createElement(
         'section',
-        { className: 'product-search-box' },
+        { className: searchBox },
         _react2.default.createElement(
           'div',
-          { className: 'input-group' },
-          _react2.default.createElement('input', { className: 'product-search', placeholder: 'search' }),
+          { className: inputGroup },
+          _react2.default.createElement('input', { className: search, placeholder: 'search' }),
           _react2.default.createElement(
             'span',
-            { className: 'input-group-btn' },
+            { className: inputBtn },
             _react2.default.createElement(
               'button',
-              { className: 'btn btn-default product-search-btn' },
-              _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
+              { className: searchBtn },
+              _react2.default.createElement('i', { className: searchIcon, 'aria-hidden': 'true' })
             )
           )
         )
@@ -46115,8 +46145,13 @@ var Navbar = function (_React$Component) {
   }, {
     key: 'renderMenuBtn',
     value: function renderMenuBtn() {
-      console.log('this props id', this.props.user.id);
       var userLink = '/profile/' + this.props.user.id;
+      var timeIcon = "fa fa-times fa-lg";
+      var imgProfile = "profile-img";
+      var userIcon = "fa fa-user fa-lg menu";
+      var heartIcon = "fa fa-heart fa-lg menu";
+      var cogIcon = "fa fa-cog fa-lg menu";
+      var signoutIcon = "fa fa-sign-out fa-lg menu";
       return _react2.default.createElement(
         'div',
         null,
@@ -46128,8 +46163,8 @@ var Navbar = function (_React$Component) {
             onOpen: this.handleOnOpen.bind(this),
             onClose: this.handleOnClose.bind(this),
             distance: 50,
-            width: 45,
-            height: 45,
+            width: 44,
+            height: 44,
             y: -13,
             x: -20,
             customStyle: {
@@ -46139,36 +46174,35 @@ var Navbar = function (_React$Component) {
               backgroundColor: "#fff",
               borderRadius: "50%",
               boxShadow: "1px 1px 1px #ddd"
-            }
-          },
+            } },
           _react2.default.createElement(
             'span',
             null,
             this.state.menu1.isOpen ? _react2.default.createElement(
               'a',
               null,
-              _react2.default.createElement('i', { className: 'fa fa-times fa-lg' })
-            ) : _react2.default.createElement('img', { src: this.props.user.avatar, className: 'profile-img' })
+              _react2.default.createElement('i', { className: timeIcon })
+            ) : _react2.default.createElement('img', { src: this.props.user.avatar, className: imgProfile })
           ),
           _react2.default.createElement(
             _reactRouter.Link,
             { to: userLink },
-            _react2.default.createElement('i', { className: 'fa fa-user fa-lg menu' })
+            _react2.default.createElement('i', { className: userIcon })
           ),
           _react2.default.createElement(
-            'a',
-            { href: '#' },
-            _react2.default.createElement('i', { className: 'fa fa-heart fa-lg menu' })
+            _reactRouter.Link,
+            { to: '/' },
+            _react2.default.createElement('i', { className: heartIcon })
           ),
           _react2.default.createElement(
-            'a',
-            { href: '#' },
-            _react2.default.createElement('i', { className: 'fa fa-cog fa-lg menu' })
+            _reactRouter.Link,
+            { to: '/' },
+            _react2.default.createElement('i', { className: cogIcon })
           ),
           _react2.default.createElement(
-            'a',
-            { href: '#', onClick: this.handleLogout },
-            _react2.default.createElement('i', { className: 'fa fa-sign-out fa-lg menu' })
+            _reactRouter.Link,
+            { to: '/', onClick: this.handleLogout },
+            _react2.default.createElement('i', { className: signoutIcon })
           )
         )
       );
@@ -46193,7 +46227,7 @@ var Navbar = function (_React$Component) {
         'section',
         null,
         this.props.user ?
-        // Display Post link here
+        // Post link
         _react2.default.createElement(
           'section',
           null,
@@ -46209,7 +46243,7 @@ var Navbar = function (_React$Component) {
           ),
           _react2.default.createElement(_PostPopup2.default, { user: this.props.user, status: this.state.popupStatus, hidePopup: this.hidePopup })
         ) :
-        // Display Login link here
+        // Login link
         _react2.default.createElement(
           'section',
           null,
@@ -46225,25 +46259,30 @@ var Navbar = function (_React$Component) {
   }, {
     key: 'renderToggleNav',
     value: function renderToggleNav() {
+      var nav = "navbar";
+      var navHeader = "navbar-header";
+      var navBrand = "navbar-brand";
+      var search = "nav-list-search";
+      var right = "right-align";
       return _react2.default.createElement(
         'section',
-        { className: 'navbar' },
+        { className: nav },
         _react2.default.createElement(
           'div',
-          { className: 'navbar-header' },
+          { className: navHeader },
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: '/', className: 'navbar-brand' },
+            { to: '/', className: navBrand },
             this.renderLogo()
           ),
           _react2.default.createElement(
             'span',
-            { className: 'nav-list-search' },
+            { className: search },
             this.renderProductSearch()
           ),
           _react2.default.createElement(
             'span',
-            { className: 'right-align' },
+            { className: right },
             this.renderUser()
           )
         )
@@ -46340,26 +46379,29 @@ var ProductItem = function (_React$Component) {
   }, {
     key: 'renderInfoSession',
     value: function renderInfoSession() {
-      console.log(this.props.maker.id);
       var profileLink = "/profile/" + this.props.maker.id;
+      var itemInfo = "product-item-info";
+      var clickable = "clickable";
+      var itemDesc = "product-item-description";
+      var avatar = "small-avatar";
       return _react2.default.createElement(
         'section',
-        { className: 'product-item-info' },
+        { className: itemInfo },
         _react2.default.createElement(
           'h5',
-          { onClick: this.showProductPopup, className: 'clickable' },
+          { onClick: this.showProductPopup, className: clickable },
           this.props.name.substring(0, 25)
         ),
         _react2.default.createElement(
           'p',
-          { className: 'product-item-description' },
+          { className: itemDesc },
           this.props.description.substring(0, 50),
           '...'
         ),
         _react2.default.createElement(
           _reactRouter.Link,
-          { to: profileLink },
-          _react2.default.createElement('img', { className: 'small-avatar', src: this.props.maker.avatar })
+          { to: this.props.maker.id ? profileLink : "/" },
+          _react2.default.createElement('img', { className: avatar, src: this.props.maker.avatar })
         )
       );
     }
@@ -46802,6 +46844,8 @@ var FollowerCard = function (_React$Component) {
 			var btnClass = "btn-sm btn btn-default profile-product-btn";
 			var titleClass = "profile-product-title";
 			var descriptionClass = "profile-product-description";
+			var userIcon = "fa fa-user";
+			var plusIcon = "fa fa-plus";
 
 			return _react2.default.createElement(
 				"section",
@@ -46835,7 +46879,7 @@ var FollowerCard = function (_React$Component) {
 								_react2.default.createElement(
 									"span",
 									{ className: btnClass },
-									_react2.default.createElement("i", { className: "fa fa-user", ariaHidden: "true" }),
+									_react2.default.createElement("i", { className: userIcon, ariaHidden: "true" }),
 									_react2.default.createElement(
 										"span",
 										null,
@@ -46850,7 +46894,7 @@ var FollowerCard = function (_React$Component) {
 								_react2.default.createElement(
 									"span",
 									{ className: btnClass },
-									_react2.default.createElement("i", { className: "fa fa-plus", ariaHidden: "true" }),
+									_react2.default.createElement("i", { className: plusIcon, ariaHidden: "true" }),
 									_react2.default.createElement(
 										"span",
 										null,
@@ -46912,23 +46956,25 @@ var PostCard = function (_React$Component) {
 	_createClass(PostCard, [{
 		key: "render",
 		value: function render() {
-			var imgClass = "postcard-img width-full";
+			var img = "postcard-img width-full";
 			var imgUrl = this.props.user ? this.props.user.avatar : "./img/delb.png";
-			var imgStyle = {
+			var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
+			var btn = "btn-sm btn btn-default width-half postcard-btn";
+			var postcardTitle = "width-full postcard-title";
+			var caretUp = "fa fa-lg fa-caret-up";
+			var comment = "fa fa-comment";
+			var imgMain = {
 				backgroundImage: 'url(' + imgUrl + ')',
 				backgroundSize: 'cover'
 			};
-			var postcardClass = "col-xs-6 col-sm-4 col-md-3 postcard";
-			var btnClass = "btn-sm btn btn-default width-half postcard-btn";
-			var postcardTitleClass = "width-full postcard-title";
 
 			return _react2.default.createElement(
 				"section",
-				{ className: postcardClass },
-				_react2.default.createElement("div", { className: imgClass, style: imgStyle }),
+				{ className: postcard },
+				_react2.default.createElement("div", { className: img, style: imgMain }),
 				_react2.default.createElement(
 					"div",
-					{ className: postcardTitleClass },
+					{ className: postcardTitle },
 					this.props.title.length > 27 ? this.props.title.substring(0, 27) + '..' : this.props.title
 				),
 				_react2.default.createElement(
@@ -46936,8 +46982,8 @@ var PostCard = function (_React$Component) {
 					{ className: "width-full" },
 					_react2.default.createElement(
 						"span",
-						{ className: btnClass },
-						_react2.default.createElement("i", { className: "fa fa-lg fa-caret-up", ariaHidden: "true" }),
+						{ className: btn },
+						_react2.default.createElement("i", { className: caretUp, ariaHidden: "true" }),
 						_react2.default.createElement(
 							"span",
 							null,
@@ -46947,8 +46993,8 @@ var PostCard = function (_React$Component) {
 					),
 					_react2.default.createElement(
 						"span",
-						{ className: btnClass },
-						_react2.default.createElement("i", { className: "fa fa-comment", ariaHidden: "true" }),
+						{ className: btn },
+						_react2.default.createElement("i", { className: comment, ariaHidden: "true" }),
 						_react2.default.createElement(
 							"span",
 							null,
@@ -47049,21 +47095,26 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
 			commentNums: 57,
 			upvotes: 234234,
-			userDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
+			profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
 		};
 		return _this;
 	}
 
 	_createClass(Profile, [{
-		key: 'renderUser',
-		value: function renderUser() {
+		key: 'renderProfile',
+		value: function renderProfile() {
+			var profileImgContainer = "profile-pg-img-container";
+			var profileImg = "profile-pg-img";
+			var profileImgName = "profile-pg-name";
+			var caretUp = "fa fa-lg fa-caret-up";
+			var caretDown = "fa fa-lg fa-caret-down";
 			return _react2.default.createElement(
 				'section',
-				{ className: 'profile-pg-img-container' },
-				_react2.default.createElement('img', { src: this.props.profiles ? this.props.profiles.avatar : null, alt: '', className: 'profile-pg-img' }),
+				{ className: profileImgContainer },
+				_react2.default.createElement('img', { src: this.props.profiles ? this.props.profiles.avatar : null, alt: '', className: profileImg }),
 				_react2.default.createElement(
 					'a',
-					{ className: 'profile-pg-name', onClick: this.handleClick },
+					{ onClick: this.handleClick, className: profileImgName },
 					_react2.default.createElement(
 						'span',
 						null,
@@ -47073,25 +47124,26 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 					this.state.showProfileDescription ? _react2.default.createElement(
 						'span',
 						null,
-						_react2.default.createElement('i', { className: 'fa fa-lg fa-caret-up', ariaHidden: 'true' })
+						_react2.default.createElement('i', { className: caretUp, ariaHidden: 'true' })
 					) : _react2.default.createElement(
 						'span',
 						null,
-						_react2.default.createElement('i', { className: 'fa fa-lg fa-caret-down', ariaHidden: 'true' })
+						_react2.default.createElement('i', { className: caretDown, ariaHidden: 'true' })
 					)
 				)
 			);
 		}
 	}, {
-		key: 'renderUserDescription',
-		value: function renderUserDescription() {
+		key: 'renderProfileDescription',
+		value: function renderProfileDescription() {
+			var profileDesc = "col-xs-12 profile-pg-description";
 			return _react2.default.createElement(
 				'section',
-				{ className: 'col-xs-12 profile-pg-description', ref: 'profileDescription' },
+				{ className: profileDesc, ref: 'profileDescription' },
 				_react2.default.createElement(
 					'p',
 					null,
-					this.state.userDescription
+					this.state.profileDescription
 				)
 			);
 		}
@@ -47102,6 +47154,8 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 			var activePost = '';
 			var activeLike = '';
 			var activeFollow = '';
+			var statArea = 'stat-area col-xs-12 col-sm-8';
+			var btnContainer = 'main-btn-container';
 
 			if (this.state.showPosts) {
 				activePost = 'active';
@@ -47113,10 +47167,10 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 
 			return _react2.default.createElement(
 				'section',
-				{ className: 'main-btn-container' },
+				{ className: btnContainer },
 				_react2.default.createElement(
 					'ul',
-					{ className: 'stat-area col-xs-12 col-sm-8' },
+					{ className: statArea },
 					_react2.default.createElement(
 						'li',
 						{ className: inputClass },
@@ -47242,9 +47296,9 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 			return _react2.default.createElement(
 				'div',
 				{ className: 'container' },
-				this.renderUser(),
+				this.renderProfile(),
 				this.renderStats(),
-				this.state.showProfileDescription ? this.renderUserDescription() : null,
+				this.state.showProfileDescription ? this.renderProfileDescription() : null,
 				this.state.showPosts ? this.renderPosts() : null,
 				this.state.showLikes ? this.renderLikes() : null,
 				this.state.showFollowers ? this.renderFollowers() : null
@@ -47634,7 +47688,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _desc, _value, _class2;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _desc, _value, _class2;
 
 var _alt = require('../alt');
 
@@ -47679,7 +47733,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 	return desc;
 }
 
-var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec(_class = (_class2 = function () {
+var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec(_class = (_class2 = function () {
 	function ProductStore() {
 		_classCallCheck(this, ProductStore);
 
@@ -47687,7 +47741,8 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			user: null,
 			products: [],
 			comments: [],
-			profiles: []
+			profiles: [],
+			productCategory: ''
 		};
 	}
 
@@ -47711,10 +47766,22 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 		value: function getProfiles(profiles) {
 			this.setState({ profiles: profiles });
 		}
+	}, {
+		key: 'updateCategory',
+		value: function updateCategory(productCategory) {
+			this.setState(productCategory);
+		}
+
+		// @bind(Actions.updateProductPopup)
+		// updateProductPopup(productPopupStatus){
+		// 	console.log(productPopupStatus);
+		// 	this.setState(productPopupStatus);
+		// }
+
 	}]);
 
 	return ProductStore;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype)), _class2)) || _class);
 exports.default = _alt2.default.createStore(ProductStore);
 
 },{"../actions":266,"../alt":267,"alt-utils/lib/decorators":2}],285:[function(require,module,exports){

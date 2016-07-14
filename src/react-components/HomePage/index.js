@@ -10,9 +10,6 @@ import Topten from '../Topten';
 class HomePage extends React.Component {
   constructor() {
     super();
-    this.state = {
-      productCategory: ''
-    }
     this.changeCategory = this.changeCategory.bind(this);
     Actions.getProducts();
   }
@@ -23,6 +20,10 @@ class HomePage extends React.Component {
 
   static getPropsFromStores(){
     return ProductStore.getState();
+  }
+
+  changeCategory(ev){
+    Actions.updateCategory({productCategory: ev.target.value});
   }
 
   renderLandingBanner() {
@@ -39,7 +40,7 @@ class HomePage extends React.Component {
           this.props.products
           ?
           <ProductList 
-            productCategory={this.state.productCategory} 
+            productCategory={this.props.productCategory}
             productList={this.props.products}/>
           :
           null 
@@ -48,15 +49,9 @@ class HomePage extends React.Component {
     );
   }
 
-
-  changeCategory(ev){
-    this.setState({productCategory: ev.target.value});
-  }
-
   renderCategory() {
     return (
-      <section className="hidden-xs col-sm-2 col-md-2 col-lg-2 left-navbar" productCategory={this.state.productCategory}
-          onCategoryClick={this.changeCategory}>
+      <section className="hidden-xs col-sm-2 col-md-2 col-lg-2 left-navbar" productCategory={this.props.productCategory}>
           <h5 className="category-title">CATEGORIES</h5>
           <div className="category-canvas">
             <a value={"design"} onClick={this.changeCategory} className="category-select">Design </a>
@@ -77,7 +72,7 @@ class HomePage extends React.Component {
             this.props.products
             ?
             <ProductList 
-              productCategory={this.state.productCategory} 
+              productCategory={this.props.productCategory} 
               productList={this.props.products}/>
             :
             null 

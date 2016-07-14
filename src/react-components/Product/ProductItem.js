@@ -27,13 +27,18 @@ class ProductItem extends React.Component {
   }
 
   renderInfoSession(){
-    console.log(this.props.maker.id)
     var profileLink = "/profile/"+this.props.maker.id;
+    var itemInfo = "product-item-info";
+    var clickable = "clickable";
+    var itemDesc = "product-item-description";
+    var avatar = "small-avatar";
     return (
-      <section className="product-item-info">
-        <h5 onClick={this.showProductPopup} className="clickable">{this.props.name.substring(0,25)}</h5>
-        <p className="product-item-description">{this.props.description.substring(0,50)}...</p>
-       <Link to={profileLink}><img className="small-avatar" src={this.props.maker.avatar}/></Link>
+      <section className={itemInfo}>
+        <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name.substring(0,25)}</h5>
+        <p className={itemDesc}>{this.props.description.substring(0,50)}...</p>
+        <Link to={this.props.maker.id? profileLink : "/"}>
+          <img className={avatar} src={this.props.maker.avatar}/>
+        </Link>
       </section>      
     )
   }

@@ -156,6 +156,19 @@ class Actions {
 			});
 		}
 	}
+
+	updateCategory(productCategory) {
+		return (dispatch) => {
+			dispatch(productCategory);
+		}
+	}
+
+	// updateProductPopup(productPopupStatus) {
+	// 	console.log(productPopupStatus);
+	// 	return (dispatch) => {
+	// 		dispatch(productPopupStatus);
+	// 	}
+	// }
 }
 
 export default alt.createActions(Actions);

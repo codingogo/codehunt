@@ -12,8 +12,22 @@ class Navbar extends React.Component {
     super();
     this.state = {
       popupStatus: false,
-      menu1: {isOpen: false}
-    }
+      menu1: {isOpen: false},
+      showProfileNav: false,
+      showProfileDescription: false, 
+      showPosts: true,
+      showLikes: false,
+      showFollowers: false,
+      title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
+      commentNums: 57,
+      upvotes: 234234,
+      profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'      
+    };
+  }
+
+  componentWillMount() {
+ 
   }
 
   handleOnOpen(name){
@@ -39,12 +53,18 @@ class Navbar extends React.Component {
   };
 
   renderProductSearch(){
+    var searchBox="product-search-box";
+    var search="product-search";
+    var inputGroup="input-group";
+    var inputBtn="input-group-btn";
+    var searchBtn="btn btn-default product-search-btn";
+    var searchIcon="fa fa-search";
     return(
-      <section className="product-search-box">
-        <div className="input-group">
-          <input className="product-search" placeholder="search"/>
-          <span className="input-group-btn">
-            <button className="btn btn-default product-search-btn"><i className="fa fa-search" aria-hidden="true"></i></button>
+      <section className={searchBox}>
+        <div className={inputGroup}>
+          <input className={search} placeholder="search"/>
+          <span className={inputBtn}>
+            <button className={searchBtn}><i className={searchIcon} aria-hidden="true"></i></button>
           </span>
         </div>
       </section>
@@ -60,8 +80,13 @@ class Navbar extends React.Component {
   }
 
   renderMenuBtn() {
-    console.log('this props id',this.props.user.id);
     var userLink = ('/profile/' + this.props.user.id);
+    var timeIcon = "fa fa-times fa-lg";
+    var imgProfile = "profile-img";
+    var userIcon = "fa fa-user fa-lg menu";
+    var heartIcon = "fa fa-heart fa-lg menu";
+    var cogIcon = "fa fa-cog fa-lg menu";
+    var signoutIcon = "fa fa-sign-out fa-lg menu";
     return (
       <div>
         <Menu
@@ -70,8 +95,8 @@ class Navbar extends React.Component {
           onOpen={this.handleOnOpen.bind(this)}
           onClose={this.handleOnClose.bind(this)}
           distance={50}
-          width={45}
-          height={45}
+          width={44}
+          height={44}
           y={-13}
           x={-20}
           customStyle={{
@@ -81,22 +106,21 @@ class Navbar extends React.Component {
             backgroundColor: "#fff",
             borderRadius: "50%",
             boxShadow: "1px 1px 1px #ddd"
-          }}
-          >
+          }}>
           <span>
             {
               this.state.menu1.isOpen 
               ?
-              <a><i className="fa fa-times fa-lg"></i></a> 
+              <a><i className={timeIcon}></i></a> 
               :
-              <img src={this.props.user.avatar} className="profile-img"/>
+              <img src={this.props.user.avatar} className={imgProfile} />
             }  
           </span>
           
-          <Link to={userLink}><i className="fa fa-user fa-lg menu"></i></Link>
-          <a href="#"><i className="fa fa-heart fa-lg menu"></i></a> 
-          <a href="#"><i className="fa fa-cog fa-lg menu"></i></a> 
-          <a href="#" onClick={this.handleLogout}><i className="fa fa-sign-out fa-lg menu"></i></a> 
+          <Link to={userLink}><i className={userIcon}></i></Link>
+          <Link to="/"><i className={heartIcon}></i></Link>
+          <Link to="/"><i className={cogIcon}></i></Link>
+          <Link to="/" onClick={this.handleLogout}><i className={signoutIcon}></i></Link> 
         </Menu>
       </div>
     );
@@ -116,15 +140,14 @@ class Navbar extends React.Component {
         {
           this.props.user
           ?
-          // Display Post link here
+          // Post link 
           <section>
-              <span className="post-add">{this.renderPost()}</span>
-              <span className="menu-motion-btn">{this.renderMenuBtn()}</span>
-
+            <span className="post-add">{this.renderPost()}</span>
+            <span className="menu-motion-btn">{this.renderMenuBtn()}</span>
             <PostPopup user={this.props.user} status={this.state.popupStatus} hidePopup={this.hidePopup}/>
           </section>
           :
-          // Display Login link here
+          // Login link
           <section>
             <a href="#" onClick={this.showPopup} className="login-btn">Login</a>
             <LoginPopup status={this.state.popupStatus} hidePopup={this.hidePopup}/>
@@ -135,12 +158,17 @@ class Navbar extends React.Component {
   }
 
   renderToggleNav() {
+    var nav="navbar";
+    var navHeader="navbar-header";
+    var navBrand="navbar-brand";
+    var search="nav-list-search";
+    var right="right-align";
     return (    
-      <section className="navbar">
-          <div className="navbar-header"> 
-            <Link to="/" className="navbar-brand">{this.renderLogo()}</Link>
-            <span className="nav-list-search">{this.renderProductSearch()}</span>    
-            <span className="right-align">{this.renderUser()}</span>
+      <section className={nav}>
+          <div className={navHeader}> 
+            <Link to="/" className={navBrand}>{this.renderLogo()}</Link>
+            <span className={search}>{this.renderProductSearch()}</span>
+            <span className={right}>{this.renderUser()}</span>
         </div>           
       </section>
     );
