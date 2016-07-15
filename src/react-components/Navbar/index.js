@@ -12,17 +12,17 @@ class Navbar extends React.Component {
     super();
     this.state = {
       popupStatus: false,
-      menu1: {isOpen: false},
-      showProfileNav: false,
-      showProfileDescription: false, 
-      showPosts: true,
-      showLikes: false,
-      showFollowers: false,
-      title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
-      commentNums: 57,
-      upvotes: 234234,
-      profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'      
+      menu1: {isOpen: false}
+      // showProfileNav: false,
+      // showProfileDescription: false, 
+      // showPosts: true,
+      // showLikes: false,
+      // showFollowers: false,
+      // title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
+      // description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
+      // commentNums: 57,
+      // upvotes: 234234,
+      // profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'      
     };
   }
 
