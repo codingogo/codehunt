@@ -6,7 +6,11 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import HomePage from './HomePage';
 import Navbar from './Navbar';
 import ProductStore from '../stores/ProductStore';
+
 import Profile from './Profile/Profile';
+import PostList from './Profile/PostList';
+import LikeList from './Profile/LikeList';
+import FollowerList from './Profile/FollowerList';
 
 
 @connectToStores
@@ -39,8 +43,11 @@ ReactDOM.render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePage}/>
-      <Route path="/profile" component={Profile}/>
-      <Route path="/profile/:id" component={Profile}/>
+      <Route path="/profile" component={Profile}>
+        <Route path="/profile/posts/:id" component={PostList}/>
+        <Route path="/profile/likes/:id" component={LikeList}/>
+        <Route path="/profile/followers/:id" component={FollowerList}/>
+      </Route>
     </Route>
   </Router>
   ), document.getElementById('root'));

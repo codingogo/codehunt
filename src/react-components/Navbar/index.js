@@ -6,23 +6,24 @@ import Menu from 'react-motion-menu';
 import Actions from '../../actions';
 import {Link} from 'react-router';
 
+import connectToStores from 'alt-utils/lib/connectToStores';
 
 class Navbar extends React.Component {
   constructor(){
     super();
     this.state = {
       popupStatus: false,
-      menu1: {isOpen: false}
-      // showProfileNav: false,
-      // showProfileDescription: false, 
-      // showPosts: true,
-      // showLikes: false,
-      // showFollowers: false,
-      // title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
-      // description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
-      // commentNums: 57,
-      // upvotes: 234234,
-      // profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'      
+      menu1: {isOpen: false},
+      showProfileNav: false,
+      showProfileDescription: false, 
+      showPosts: true,
+      showLikes: false,
+      showFollowers: false,
+      title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
+      commentNums: 57,
+      upvotes: 234234,
+      profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'      
     };
   }
 
@@ -80,7 +81,7 @@ class Navbar extends React.Component {
   }
 
   renderMenuBtn() {
-    var userLink = ('/profile/' + this.props.user.id);
+    var userLink = ('/profile/posts/' + this.props.user.id);
     var timeIcon = "fa fa-times fa-lg";
     var imgProfile = "profile-img";
     var userIcon = "fa fa-user fa-lg menu";

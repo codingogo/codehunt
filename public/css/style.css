@@ -301,7 +301,7 @@ table {
   width: 100%;
   height: 100%;
   top: 0;
-  left: 0;
+  right: 0;
   background-color: #fff;
   opacity: 0.97;
   z-index: 99;
@@ -384,7 +384,7 @@ button:hover {
 
 /************* PRODUCT POPUP***************/
 .product-popup {
-  width: 80%;
+  width: 90%;
   height: 100%;
   left: 0;
   top: 0;
@@ -401,7 +401,7 @@ button:hover {
 }
 .product-popup header .header-shadow {
   background-color: transparent;
-  background-image: linear-gradient(-225deg, rgba(0,101,168,0.6) 0%, rgba(0,36,61,0.6) 50%);
+  background-image: linear-gradient(-225deg, rgba(214,66,8,0.5) 0%, rgba(255,158,68,0.5) 50%);
   padding: 45px;
 }
 .product-popup header .header-shadow > h1 {

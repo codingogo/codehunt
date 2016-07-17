@@ -27,7 +27,7 @@ class ProductItem extends React.Component {
   }
 
   renderInfoSession(){
-    var profileLink = "/profile/"+this.props.maker.id;
+    var profileLink = "/profile/posts/"+this.props.maker.id;
     var itemInfo = "product-item-info";
     var clickable = "clickable";
     var itemDesc = "product-item-description";

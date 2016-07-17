@@ -1,9 +1,9 @@
+import React from 'react';
 import Actions from '../../actions';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import Firebase from 'firebase';
 import ProductList from '../Product/ProductList';
 import ProductStore from '../../stores/ProductStore';
-import React from 'react';
 import Topten from '../Topten';
 
 @connectToStores
@@ -89,7 +89,7 @@ class HomePage extends React.Component {
         <div className="row">       
             {this.renderLandingBanner()}
             {this.renderProductCategory()}         
-            <Topten/>
+            <Topten {...this.props}/>
             {this.props.children}
         </div> 
       </section>   

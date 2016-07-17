@@ -6,22 +6,14 @@ import ProductStore from '../../stores/ProductStore';
 import FollowerCard from './FollowerCard';
 import PostCard from './PostCard';
 
+import {Link} from 'react-router';
+
 @connectToStores
 class Profile extends React.Component{
 	constructor(props){
 		super(props);
-		Actions.getProfiles(this.props.routeParams.id);
-		this.state ={
-			showProfileDescription: false, 
-			showPosts: true,
-			showLikes: false,
-			showFollowers: false,
-			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
-			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
-			commentNums: 57,
-			upvotes: 234234,
-			profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
-		};
+		Actions.getProfiles(this.props.params.id);
+		this.toggleProfileDesc = this.toggleProfileDesc.bind(this);
 	}
 
   static getStores() {
@@ -32,40 +24,12 @@ class Profile extends React.Component{
     return ProductStore.getState();
   };
 
-	handleClick = () => {
-		this.state.showProfileDescription
-		?
-		this.setState({showProfileDescription: false})
-		:
-		this.setState({showProfileDescription: true})
-	};
-
-	showPosts = () => {
-		(this.state.showPosts === false) ?
-			[this.setState({showPosts: true}),
-			this.setState({showLikes: false}),
-			this.setState({showFollowers: false})]
-		: null
-	};
-
-	showLikes = () => {
-		(this.state.showLikes === false) ?
-			[this.setState({showPosts: false}),
-			this.setState({showLikes: true}),
-			this.setState({showFollowers: false})]
-		: null
-	};
-
-	showFollows = () => {
-		(this.state.showFollowers === false) ?
-			[this.setState({showPosts: false}),
-			this.setState({showLikes: false}),
-			this.setState({showFollowers: true})]
-			: null
+	toggleProfileDesc = () => {
+		this.props.showProfileDescription? Actions.toggleProfileInfo({showProfileDescription:false}) : Actions.toggleProfileInfo({showProfileDescription:true})
 	};
 
   isActive = (value) => {
-  	return 'profile-stat ' + ((value===this.state.selected) ? 'active' : null);
+  	return 'profile-stat ' + ((value===this.props.selected) ? 'active' : null);
   };
 
   renderProfile() {
@@ -77,15 +41,15 @@ class Profile extends React.Component{
   	return (
   		<section className={profileImgContainer}>
   			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/>
-  			<a onClick={this.handleClick} className={profileImgName}>
+  			<a onClick={this.toggleProfileDesc} className={profileImgName}>
   				<span>{this.props.profiles ? this.props.profiles.name : null} </span>
   				{
-  					this.state.showProfileDescription
+  					this.props.showProfileDescription
   					? 
   					<span><i className={caretUp} ariaHidden="true"></i></span>
   					: 
   					<span><i className={caretDown} ariaHidden="true"></i></span>
-  				}
+  				}  				
   			</a>
   		</section>
   	)
@@ -95,7 +59,7 @@ class Profile extends React.Component{
   	var profileDesc="col-xs-12 profile-pg-description"
   	return (
   		<section className={profileDesc} ref="profileDescription">
-  			<p>{this.state.profileDescription}</p>
+  			<p>{this.props.profileDescription}</p>
   		</section>
   	);
   }
@@ -107,122 +71,50 @@ class Profile extends React.Component{
     var activeFollow = '';
     var statArea = 'stat-area col-xs-12 col-sm-8';
     var btnContainer = 'main-btn-container';
-
-    if(this.state.showPosts){
-    	activePost = 'active'
-    } else if (this.state.showLikes){
-    	activeLike = 'active'
-    } else {
-    	activeFollow = 'active'
-    }
+    var postsUrl =('/profile/posts/' + this.props.user.id)
+    var likesUrl =('/profile/likes/' + this.props.user.id)
+    var followersUrl =('/profile/followers/' + this.props.user.id)
 
   	return (
 	  	<section className={btnContainer}>
 		  	<ul className={statArea}>
 		  		<li className={inputClass}>		  	
 		  			<div>{this.props.profiles.posts? this.props.profiles.posts.length: 0}</div>
-		  			<a onClick={this.showPosts} className={activePost}>POSTS</a>
+		  			<Link to={postsUrl} className={activePost}>POSTS</Link>
 		  		</li>
 		  		<li className={inputClass}>			  		
 		  			<div>{this.props.profiles.likes? this.props.profiles.likes.length: 0}</div>
-		  			<a onClick={this.showLikes} className={activeLike}>LIKES</a>
+		  			<Link to={likesUrl} className={activePost}>LIKES</Link>
 		  		</li>
 		  		<li className={inputClass}>		  			
 		  			<div>{this.props.profiles.followers? this.props.profiles.followers.length: 0}</div>
-		  			<a onClick={this.showFollows} className={activeFollow}>FOLLOWERS</a>			  		
+		  			<Link to={followersUrl} className={activePost}>FOLLOWERS</Link>		  		
 		  		</li>
 		  	</ul>
 	  	</section>	
   	)
   }
 
-  renderPostCard() {
-  	return(
-  		<PostCard
-  			title={this.state.title}
-  		  description={this.state.description}
-  			commentNums={this.state.commentNums}
-  			upvotes={this.state.upvotes}
-  			{...this.props}/>
-  	)
-  }
-
-  renderFollowerCard() {
-  	return(
-  		<FollowerCard 
-  		  title={this.state.title}
-  		  description={this.state.description}
-  			likes={this.state.likes}
-  			upvotes={this.state.upvotes}
-  			{...this.props}/>
-  	);
-  }
-
-  renderPosts() {
+  renderProfilePage () {
   	return (
-  		<section className="profile-content-area">
-	  		<div className="row profile-content-items">
-	  			{this.renderPostCard()}
-	  			{this.renderPostCard()}
-	  			{this.renderPostCard()}
-	  			{this.renderPostCard()}
-	  			{this.renderPostCard()}
-	  		</div>	
-  		</section>
+      <div className="container">
+        {this.renderProfile()}
+        {this.renderStats()}
+        {
+					this.props.showProfileDescription? this.renderProfileDescription() : null
+				}
+        {this.props.children}
+      </div>
   	)
   }
 
-  renderLikes () {
-  	return (
-  		<section className="profile-content-area">
-	  		<div className="row profile-content-items">
-		  		<PostCard 
-		  		  title={this.state.title}
-		  		  description={this.state.description}
-		  			commentNumbs={this.state.commentNumbs}
-		  			upvotes={this.state.upvotes}
-		  			{...this.props}/>
-		  	</div>	
-  		</section>			
-  	)
+  render() {
+    return (
+      <section>
+      	{this.renderProfilePage()}
+      </section>
+    )
   }
-
-  renderFollowers () {
-  	return (
-  		<section className="profile-content-area">
-	  		<div className="row profile-content-items">
-		  		{this.renderFollowerCard()}
-		 			{this.renderFollowerCard()}
-		 			{this.renderFollowerCard()}
-		 			{this.renderFollowerCard()}
-		 			{this.renderFollowerCard()}
-		 			{this.renderFollowerCard()}
-		 			{this.renderFollowerCard()}
-		  	</div>	
-  		</section>	
-  	)
-  }
-
-	render() {
-		return (	
-			<div className="container">
-				{this.renderProfile()}
-				{this.renderStats()}
-				{
-					this.state.showProfileDescription? this.renderProfileDescription() : null
-				}
-				{
-					this.state.showPosts? this.renderPosts() : null
-				}
-				{
-					this.state.showLikes? this.renderLikes() : null
-				}
-				{ 
-					this.state.showFollowers? this.renderFollowers() : null
-				}
-			</div>
-		)	
-	}
 }
 
 export default Profile;

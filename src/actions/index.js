@@ -129,7 +129,6 @@ class Actions {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com/comments');
 			firebaseRef.child(productId).on('value', (snapshot) => {
 				var commentsVal = snapshot.val();
-				console.log('commentsVal', commentsVal)
 				var comments = _(commentsVal).keys().map((commentKey) => {
 					var item = _.clone(commentsVal[commentKey]);
 					item.key = commentKey;
@@ -163,12 +162,11 @@ class Actions {
 		}
 	}
 
-	// updateProductPopup(productPopupStatus) {
-	// 	console.log(productPopupStatus);
-	// 	return (dispatch) => {
-	// 		dispatch(productPopupStatus);
-	// 	}
-	// }
+	toggleProfileInfo(showProfileDesc) {
+		return (dispatch) => {
+			dispatch(showProfileDesc);
+		}
+	}
 }
 
 export default alt.createActions(Actions);

@@ -10,7 +10,14 @@ class ProductStore {
 			products: [],
 			comments: [],
 			profiles: [],
-			productCategory: ''
+			productCategory: '',
+			showProfileDescription: false, 
+
+						title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
+			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
+			commentNums: 57,
+			upvotes: 234234,
+			profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
 		};
 	}
 
@@ -39,11 +46,10 @@ class ProductStore {
     this.setState(productCategory);
   }
 
-  // @bind(Actions.updateProductPopup)
-  // updateProductPopup(productPopupStatus){
-  // 	console.log(productPopupStatus);
-  // 	this.setState(productPopupStatus);
-  // }
+  @bind(Actions.toggleProfileInfo)
+  toggleProfileInfo(showProfileDesc){
+  	this.setState(showProfileDesc);
+  }
 }
 
 export default alt.createStore(ProductStore);
