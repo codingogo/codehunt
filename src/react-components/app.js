@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 import Actions from '../actions';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import HomePage from './HomePage';
 import Navbar from './Navbar';
 import ProductStore from '../stores/ProductStore';
+import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 
 import Profile from './Profile/Profile';
 import PostList from './Profile/PostList';
@@ -17,7 +17,6 @@ import FollowerList from './Profile/FollowerList';
 class App extends React.Component {
   constructor() {
     super();
-    Actions.initSession();
   }
 
   static getStores() {
@@ -26,6 +25,15 @@ class App extends React.Component {
 
   static getPropsFromStores() {
     return ProductStore.getState();
+  }
+
+  componentWillMount() {
+    Actions.initSession();
+    hashHistory.listen(function(ev) {
+      if(ev.pathname.length > 2){
+        Actions.getProfiles(ev.pathname.split('/').pop());
+      }
+    });
   }
 
   render() {

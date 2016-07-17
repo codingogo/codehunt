@@ -45415,12 +45415,6 @@ var Actions = function () {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com/profiles');
 				firebaseRef.child(userId).on('value', function (snapshot) {
 					var profilesVal = snapshot.val();
-					// var profiles = _(profilesVal).keys().map((profileKey) => {
-					// 	var item =_.clone(profilesVal[profileKey]);
-					// 	item.key = profileKey;
-					// 	return item;
-					// })
-					// .value();
 					dispatch(profilesVal);
 				});
 			};
@@ -45437,6 +45431,20 @@ var Actions = function () {
 		value: function toggleProfileInfo(showProfileDesc) {
 			return function (dispatch) {
 				dispatch(showProfileDesc);
+			};
+		}
+	}, {
+		key: 'showPopup',
+		value: function showPopup(popupStatus) {
+			return function (dispatch) {
+				dispatch(popupStatus);
+			};
+		}
+	}, {
+		key: 'hidePopup',
+		value: function hidePopup(popupStatus) {
+			return function (dispatch) {
+				dispatch(popupStatus);
 			};
 		}
 	}]);
@@ -46018,6 +46026,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _class;
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -46044,6 +46054,10 @@ var _connectToStores = require('alt-utils/lib/connectToStores');
 
 var _connectToStores2 = _interopRequireDefault(_connectToStores);
 
+var _ProductStore = require('../../stores/ProductStore');
+
+var _ProductStore2 = _interopRequireDefault(_ProductStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -46054,7 +46068,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Navbar = function (_React$Component) {
+var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component) {
   _inherits(Navbar, _React$Component);
 
   function Navbar() {
@@ -46063,11 +46077,11 @@ var Navbar = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Navbar).call(this));
 
     _this.showPopup = function () {
-      _this.setState({ popupStatus: true });
+      _actions2.default.showPopup({ popupStatus: true });
     };
 
     _this.hidePopup = function () {
-      _this.setState({ popupStatus: false });
+      _actions2.default.showPopup({ popupStatus: false });
     };
 
     _this.handleLogout = function (e) {
@@ -46077,18 +46091,7 @@ var Navbar = function (_React$Component) {
     };
 
     _this.state = {
-      popupStatus: false,
-      menu1: { isOpen: false },
-      showProfileNav: false,
-      showProfileDescription: false,
-      showPosts: true,
-      showLikes: false,
-      showFollowers: false,
-      title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
-      commentNums: 57,
-      upvotes: 234234,
-      profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'
+      menu1: { isOpen: false }
     };
     return _this;
   }
@@ -46244,7 +46247,7 @@ var Navbar = function (_React$Component) {
             { className: 'menu-motion-btn' },
             this.renderMenuBtn()
           ),
-          _react2.default.createElement(_PostPopup2.default, { user: this.props.user, status: this.state.popupStatus, hidePopup: this.hidePopup })
+          _react2.default.createElement(_PostPopup2.default, { user: this.props.user, status: this.props.popupStatus, hidePopup: this.hidePopup })
         ) :
         // Login link
         _react2.default.createElement(
@@ -46255,7 +46258,7 @@ var Navbar = function (_React$Component) {
             { href: '#', onClick: this.showPopup, className: 'login-btn' },
             'Login'
           ),
-          _react2.default.createElement(_LoginPopup2.default, { status: this.state.popupStatus, hidePopup: this.hidePopup })
+          _react2.default.createElement(_LoginPopup2.default, { status: this.props.popupStatus, hidePopup: this.hidePopup })
         )
       );
     }
@@ -46304,14 +46307,24 @@ var Navbar = function (_React$Component) {
         )
       );
     }
+  }], [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_ProductStore2.default];
+    }
+  }, {
+    key: 'getPropsFromStores',
+    value: function getPropsFromStores() {
+      return _ProductStore2.default.getState();
+    }
   }]);
 
   return Navbar;
-}(_react2.default.Component);
+}(_react2.default.Component)) || _class;
 
 exports.default = Navbar;
 
-},{"../../actions":266,"./LoginPopup":269,"./PostPopup":271,"alt-utils/lib/connectToStores":1,"react":262,"react-motion-menu":54,"react-router":99}],273:[function(require,module,exports){
+},{"../../actions":266,"../../stores/ProductStore":288,"./LoginPopup":269,"./PostPopup":271,"alt-utils/lib/connectToStores":1,"react":262,"react-motion-menu":54,"react-router":99}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47456,12 +47469,16 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
       return 'profile-stat ' + (value === _this.props.selected ? 'active' : null);
     };
 
-    _actions2.default.getProfiles(_this.props.params.id);
     _this.toggleProfileDesc = _this.toggleProfileDesc.bind(_this);
     return _this;
   }
 
   _createClass(Profile, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      _actions2.default.getProfiles(this.props.params.id);
+    }
+  }, {
     key: 'renderProfile',
     value: function renderProfile() {
       var profileImgContainer = "profile-pg-img-container";
@@ -47887,8 +47904,6 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRouter = require('react-router');
-
 var _actions = require('../actions');
 
 var _actions2 = _interopRequireDefault(_actions);
@@ -47908,6 +47923,8 @@ var _Navbar2 = _interopRequireDefault(_Navbar);
 var _ProductStore = require('../stores/ProductStore');
 
 var _ProductStore2 = _interopRequireDefault(_ProductStore);
+
+var _reactRouter = require('react-router');
 
 var _Profile = require('./Profile/Profile');
 
@@ -47939,13 +47956,20 @@ var App = (0, _connectToStores2.default)(_class = function (_React$Component) {
   function App() {
     _classCallCheck(this, App);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
-
-    _actions2.default.initSession();
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
   }
 
   _createClass(App, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      _actions2.default.initSession();
+      _reactRouter.hashHistory.listen(function (ev) {
+        if (ev.pathname.length > 2) {
+          _actions2.default.getProfiles(ev.pathname.split('/').pop());
+        }
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -47996,7 +48020,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _desc, _value, _class2;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _desc, _value, _class2;
 
 var _alt = require('../alt');
 
@@ -48041,7 +48065,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 	return desc;
 }
 
-var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec7 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec(_class = (_class2 = function () {
+var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec7 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec8 = (0, _decorators.bind)(_actions2.default.showPopup), _dec9 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
 	function ProductStore() {
 		_classCallCheck(this, ProductStore);
 
@@ -48052,6 +48076,8 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			profiles: [],
 			productCategory: '',
 			showProfileDescription: false,
+			showProfileNav: false,
+			popupStatus: false,
 
 			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
@@ -48091,10 +48117,20 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 		value: function toggleProfileInfo(showProfileDesc) {
 			this.setState(showProfileDesc);
 		}
+	}, {
+		key: 'showPopup',
+		value: function showPopup(popupStatus) {
+			this.setState(popupStatus);
+		}
+	}, {
+		key: 'hidePopup',
+		value: function hidePopup(popupStatus) {
+			this.setState(popupStatus);
+		}
 	}]);
 
 	return ProductStore;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
 exports.default = _alt2.default.createStore(ProductStore);
 
 },{"../actions":266,"../alt":267,"alt-utils/lib/decorators":2}],289:[function(require,module,exports){

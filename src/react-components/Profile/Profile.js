@@ -12,8 +12,11 @@ import {Link} from 'react-router';
 class Profile extends React.Component{
 	constructor(props){
 		super(props);
-		Actions.getProfiles(this.props.params.id);
 		this.toggleProfileDesc = this.toggleProfileDesc.bind(this);
+	}
+
+	componentWillMount() {
+		Actions.getProfiles(this.props.params.id);
 	}
 
   static getStores() {

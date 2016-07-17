@@ -7,25 +7,24 @@ import Actions from '../../actions';
 import {Link} from 'react-router';
 
 import connectToStores from 'alt-utils/lib/connectToStores';
+import ProductStore from '../../stores/ProductStore';
 
+@connectToStores
 class Navbar extends React.Component {
   constructor(){
     super();
     this.state = {
-      popupStatus: false,
-      menu1: {isOpen: false},
-      showProfileNav: false,
-      showProfileDescription: false, 
-      showPosts: true,
-      showLikes: false,
-      showFollowers: false,
-      title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
-      commentNums: 57,
-      upvotes: 234234,
-      profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'      
+      menu1: {isOpen: false}    
     };
   }
+
+  static getStores() {
+    return [ProductStore];
+  };
+
+  static getPropsFromStores() {
+    return ProductStore.getState();
+  };
 
   handleOnOpen(name){
     this.setState({[name] : {isOpen: true}});
@@ -36,11 +35,11 @@ class Navbar extends React.Component {
   }
 
   showPopup = () => {
-    this.setState({popupStatus: true});
+    Actions.showPopup({popupStatus: true});
   };
 
   hidePopup = () => {
-    this.setState({popupStatus: false});
+    Actions.showPopup({popupStatus: false});
   };
 
   handleLogout = (e) => {
@@ -141,13 +140,13 @@ class Navbar extends React.Component {
           <section>
             <span className="post-add">{this.renderPost()}</span>
             <span className="menu-motion-btn">{this.renderMenuBtn()}</span>
-            <PostPopup user={this.props.user} status={this.state.popupStatus} hidePopup={this.hidePopup}/>
+            <PostPopup user={this.props.user} status={this.props.popupStatus} hidePopup={this.hidePopup}/>
           </section>
           :
           // Login link
           <section>
             <a href="#" onClick={this.showPopup} className="login-btn">Login</a>
-            <LoginPopup status={this.state.popupStatus} hidePopup={this.hidePopup}/>
+            <LoginPopup status={this.props.popupStatus} hidePopup={this.hidePopup}/>
           </section>
         }
       </section>

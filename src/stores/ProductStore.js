@@ -12,8 +12,10 @@ class ProductStore {
 			profiles: [],
 			productCategory: '',
 			showProfileDescription: false, 
+			showProfileNav: false,
+			popupStatus: false,
 
-						title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
+			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
 			commentNums: 57,
 			upvotes: 234234,
@@ -50,6 +52,16 @@ class ProductStore {
   toggleProfileInfo(showProfileDesc){
   	this.setState(showProfileDesc);
   }
+
+  @bind(Actions.showPopup)
+  showPopup(popupStatus){
+  	this.setState(popupStatus);
+  }
+
+  @bind(Actions.hidePopup)
+  hidePopup(popupStatus){
+  	this.setState(popupStatus);
+  }  
 }
 
 export default alt.createStore(ProductStore);

@@ -145,12 +145,6 @@ class Actions {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com/profiles');
 			firebaseRef.child(userId).on('value', (snapshot) => {
 				var profilesVal = snapshot.val();
-				// var profiles = _(profilesVal).keys().map((profileKey) => {
-				// 	var item =_.clone(profilesVal[profileKey]);
-				// 	item.key = profileKey;
-				// 	return item;
-				// })
-				// .value();
 				dispatch(profilesVal);
 			});
 		}
@@ -167,6 +161,18 @@ class Actions {
 			dispatch(showProfileDesc);
 		}
 	}
+
+	showPopup(popupStatus){
+		return (dispatch) => {
+			dispatch(popupStatus);
+		}
+	}
+
+	hidePopup(popupStatus){
+		return (dispatch) => {
+			dispatch(popupStatus);
+		}
+	}	
 }
 
 export default alt.createActions(Actions);
