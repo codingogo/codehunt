@@ -11,7 +11,6 @@ class HomePage extends React.Component {
   constructor() {
     super();
     this.changeCategory = this.changeCategory.bind(this);
-    Actions.getProducts();
   }
 
   static getStores(){
@@ -20,6 +19,10 @@ class HomePage extends React.Component {
 
   static getPropsFromStores(){
     return ProductStore.getState();
+  }
+
+  componentWillMount() {
+    Actions.getProducts();
   }
 
   changeCategory(ev){

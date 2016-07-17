@@ -27,10 +27,6 @@ class Navbar extends React.Component {
     };
   }
 
-  componentWillMount() {
- 
-  }
-
   handleOnOpen(name){
     this.setState({[name] : {isOpen: true}});
   }

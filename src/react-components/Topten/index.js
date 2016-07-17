@@ -9,7 +9,6 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 class Topten extends React.Component {
   constructor() {
     super();
-    Actions.getProducts();
   }
 
   static getStores(){
@@ -18,6 +17,10 @@ class Topten extends React.Component {
 
   static getPropsFromStores(){
     return ProductStore.getState();
+  }
+
+  componentWillMount() {
+    Actions.getProducts();
   }
 
   renderToptenList() {

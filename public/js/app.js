@@ -45517,11 +45517,15 @@ var HomePage = (0, _connectToStores2.default)(_class = function (_React$Componen
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HomePage).call(this));
 
     _this.changeCategory = _this.changeCategory.bind(_this);
-    _actions2.default.getProducts();
     return _this;
   }
 
   _createClass(HomePage, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      _actions2.default.getProducts();
+    }
+  }, {
     key: 'changeCategory',
     value: function changeCategory(ev) {
       _actions2.default.updateCategory({ productCategory: ev.target.value });
@@ -46090,9 +46094,6 @@ var Navbar = function (_React$Component) {
   }
 
   _createClass(Navbar, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {}
-  }, {
     key: 'handleOnOpen',
     value: function handleOnOpen(name) {
       this.setState(_defineProperty({}, name, { isOpen: true }));
@@ -47815,13 +47816,15 @@ var Topten = (0, _connectToStores2.default)(_class = function (_React$Component)
   function Topten() {
     _classCallCheck(this, Topten);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Topten).call(this));
-
-    _actions2.default.getProducts();
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Topten).call(this));
   }
 
   _createClass(Topten, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      _actions2.default.getProducts();
+    }
+  }, {
     key: 'renderToptenList',
     value: function renderToptenList() {
       var productArray = this.props.products;
