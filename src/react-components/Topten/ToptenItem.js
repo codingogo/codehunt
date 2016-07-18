@@ -31,12 +31,15 @@ class ToptenItem extends React.Component {
   }
 
   renderToptenInfo() {
+    var rank = "topten-rank";
+    var name = "topten-name whitespace";
+    var description = "topten-description whitespace";
   	return (
   		<section onClick={this.showProductPopup}>
-  			<div className="topten-rank">{this.props.rank}</div>
+  			<div className={rank}>{this.props.rank}</div>
 	  		{this.renderProductImg()}
-	  		<div className="topten-name">{this.props.name}</div>
-	  		<div className="topten-description">{this.props.description.substring(0,30)}...</div>
+	  		<div className={name}>{this.props.name}</div>
+	  		<div className={description}>{this.props.description.substring(0,30)}...</div>
   		</section>
   	)
   }

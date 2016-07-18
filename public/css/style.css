@@ -49,6 +49,13 @@ table {
 .width-half {
   width: 50%;
 }
+.whitespace {
+  white-space: nowrap;
+  overflow: hidden;  
+}
+.whitespace-normal {
+  white-space: :normal;
+}
 .menu.fa-bars, .menu.fa-cog, .menu.fa-heart, .menu.fa-user, .menu.fa-sign-out {
   color: #ff6633;
 }
@@ -407,13 +414,16 @@ button:hover {
 .product-popup header .header-shadow > h1 {
   font-size: 40px;
   font-weight: 900;
-  color: white;
+  color: #fff;
   line-height: 48px;
+}
+.product-popup header .header-shadow > h2 {
+  color: #fff;
 }
 .product-popup header .header-shadow > p {
   line-height: 55px;
   font-size: 18px;
-  color: #cdd1d3;
+  color: #fff;
 }
 .product-popup header .header-shadow > section > * {
   display: inline-block;
@@ -430,7 +440,7 @@ button:hover {
   width: 80%;
 }
 .product-popup .product-popup-body main .discussion h2{
-  color: #999;
+  color: #fff;
   padding-bottom: 20px;
 }
 .product-popup .product-popup-body main .discussion .post-comment{
@@ -550,10 +560,6 @@ select.select-category {
 }
 .topten-ul {
   padding:0;
-}
-.topten-item {
-  white-space: nowrap;
-  overflow: hidden;  
 }
 
 /************* PROFILE MENU *************/

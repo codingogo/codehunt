@@ -33,7 +33,7 @@ class Topten extends React.Component {
   	});
 
     return(
-      <section className="topten-item">
+      <section>
         {
           productArray
           ?

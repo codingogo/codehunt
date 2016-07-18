@@ -46409,7 +46409,7 @@ var ProductItem = function (_React$Component) {
         _react2.default.createElement(
           'h5',
           { onClick: this.showProductPopup, className: clickable },
-          this.props.name.substring(0, 25)
+          this.props.name.substring(0, 25).toUpperCase()
         ),
         _react2.default.createElement(
           'p',
@@ -46441,11 +46441,15 @@ var ProductItem = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'li',
-        { className: 'product-item' },
-        _react2.default.createElement(_Upvote2.default, this.props),
-        this.renderProductImg(),
-        this.renderInfoSession(),
-        this.renderNewWindowIcon(),
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'product-item' },
+          _react2.default.createElement(_Upvote2.default, this.props),
+          this.renderProductImg(),
+          this.renderInfoSession(),
+          this.renderNewWindowIcon()
+        ),
         _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
       );
     }
@@ -46629,9 +46633,9 @@ var ProductPopup = (0, _connectToStores2.default)(_class = function (_React$Comp
 					'section',
 					{ className: 'header-shadow' },
 					_react2.default.createElement(
-						'h1',
+						'h2',
 						null,
-						this.props.name
+						this.props.name.toUpperCase()
 					),
 					_react2.default.createElement(
 						'p',
@@ -47694,23 +47698,26 @@ var ToptenItem = function (_React$Component) {
   }, {
     key: 'renderToptenInfo',
     value: function renderToptenInfo() {
+      var rank = "topten-rank";
+      var name = "topten-name whitespace";
+      var description = "topten-description whitespace";
       return _react2.default.createElement(
         'section',
         { onClick: this.showProductPopup },
         _react2.default.createElement(
           'div',
-          { className: 'topten-rank' },
+          { className: rank },
           this.props.rank
         ),
         this.renderProductImg(),
         _react2.default.createElement(
           'div',
-          { className: 'topten-name' },
+          { className: name },
           this.props.name
         ),
         _react2.default.createElement(
           'div',
-          { className: 'topten-description' },
+          { className: description },
           this.props.description.substring(0, 30),
           '...'
         )
@@ -47778,7 +47785,7 @@ var ToptenList = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'section',
-				null,
+				{ className: 'topten-item' },
 				this.props.toptenList.map(function (item, idx) {
 					return _react2.default.createElement(_ToptenItem2.default, _extends({ key: idx, pid: item.key }, item));
 				})
@@ -47857,7 +47864,7 @@ var Topten = (0, _connectToStores2.default)(_class = function (_React$Component)
 
       return _react2.default.createElement(
         'section',
-        { className: 'topten-item' },
+        null,
         productArray ? _react2.default.createElement(_ToptenList2.default, { toptenList: newArray }) : null
       );
     }
@@ -48083,7 +48090,6 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			popupStatus: false,
 
 			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
-			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vel magni aliquid rerum ipsa ea placeat, quo. Atque dolores blanditiis voluptatum reprehenderit tenetur quam, provident sunt tempore, eius, a repellat?',
 			commentNums: 57,
 			upvotes: 234234,
 			profileDescription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolores unde omnis tempore distinctio sit molestiae, optio obcaecati voluptatem ipsa dignissimos, consequuntur fugiat, totam inventore aliquid deserunt quae. Ea, non!'

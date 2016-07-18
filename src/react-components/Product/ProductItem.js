@@ -34,7 +34,7 @@ class ProductItem extends React.Component {
     var avatar = "small-avatar";
     return (
       <section className={itemInfo}>
-        <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name.substring(0,25)}</h5>
+        <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name.substring(0,25).toUpperCase()}</h5>
         <p className={itemDesc}>{this.props.description.substring(0,50)}...</p>
         <Link to={this.props.maker.id? profileLink : "/"}>
           <img className={avatar} src={this.props.maker.avatar}/>
@@ -58,11 +58,13 @@ class ProductItem extends React.Component {
 
   render() {
     return (
-      <li className="product-item">
-        <Upvote {...this.props} /> 
-        {this.renderProductImg()}    
-        {this.renderInfoSession()}
-        {this.renderNewWindowIcon()}  
+      <li>
+        <div className="product-item">
+          <Upvote {...this.props} /> 
+          {this.renderProductImg()}    
+          {this.renderInfoSession()}
+          {this.renderNewWindowIcon()}  
+        </div>  
         <ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
       </li>
     );
