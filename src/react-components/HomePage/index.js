@@ -21,7 +21,7 @@ class HomePage extends React.Component {
     return ProductStore.getState();
   }
 
-  componentWillMount() {
+  componentDidMount() {
     Actions.getProducts();
   }
 

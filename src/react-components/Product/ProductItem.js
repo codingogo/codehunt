@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductPopup from './ProductPopup';
 import Upvote from './Upvote';
-import { Link } from 'react-router';
+import NavLink from '../Navbar/NavLink'
 
 class ProductItem extends React.Component {
   constructor(){
@@ -36,9 +36,9 @@ class ProductItem extends React.Component {
       <section className={itemInfo}>
         <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name.substring(0,25).toUpperCase()}</h5>
         <p className={itemDesc}>{this.props.description.substring(0,50)}...</p>
-        <Link to={this.props.maker.id? profileLink : "/"}>
+        <NavLink to={this.props.maker.id? profileLink : "/"}>
           <img className={avatar} src={this.props.maker.avatar}/>
-        </Link>
+        </NavLink>
       </section>      
     )
   }

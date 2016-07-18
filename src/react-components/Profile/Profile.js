@@ -7,6 +7,7 @@ import FollowerCard from './FollowerCard';
 import PostCard from './PostCard';
 
 import {Link} from 'react-router';
+import NavLink from '../Navbar/NavLink';
 
 @connectToStores
 class Profile extends React.Component{
@@ -83,15 +84,15 @@ class Profile extends React.Component{
 		  	<ul className={statArea}>
 		  		<li className={inputClass}>		  	
 		  			<div>{this.props.profiles.posts? this.props.profiles.posts.length: 0}</div>
-		  			<Link to={postsUrl} className={activePost}>POSTS</Link>
+		  			<NavLink to={postsUrl} className={activePost}>POSTS</NavLink>
 		  		</li>
 		  		<li className={inputClass}>			  		
 		  			<div>{this.props.profiles.likes? this.props.profiles.likes.length: 0}</div>
-		  			<Link to={likesUrl} className={activePost}>LIKES</Link>
+		  			<NavLink to={likesUrl} className={activePost}>LIKES</NavLink>
 		  		</li>
 		  		<li className={inputClass}>		  			
 		  			<div>{this.props.profiles.followers? this.props.profiles.followers.length: 0}</div>
-		  			<Link to={followersUrl} className={activePost}>FOLLOWERS</Link>		  		
+		  			<NavLink to={followersUrl} className={activePost}>FOLLOWERS</NavLink>		  		
 		  		</li>
 		  	</ul>
 	  	</section>	
