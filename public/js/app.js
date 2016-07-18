@@ -45870,7 +45870,8 @@ var PostPopup = function (_React$Component) {
           name: _this.props.user.name,
           avatar: _this.props.user.avatar,
           id: _this.props.user.id
-        }
+        },
+        category: _this.refs.category.value
       };
       if (newProduct.name.length > 0 && newProduct.link.length > 0 && newProduct.description.length > 0 && newProduct.media.length > 0) {
         _actions2.default.addProduct(newProduct);
@@ -45888,7 +45889,9 @@ var PostPopup = function (_React$Component) {
     value: function renderPostForm() {
       var isRequired = true;
       var inputClass = 'form-control';
-
+      var group = 'form-group';
+      var label = "col-xs-4 col-sm-3 control-label";
+      var inputArea = "col-xs-8 col-sm-9 padding-zero-left";
       return _react2.default.createElement(
         'section',
         null,
@@ -45902,71 +45905,71 @@ var PostPopup = function (_React$Component) {
           { className: 'form-horizontal' },
           _react2.default.createElement(
             'div',
-            { className: 'form-group' },
+            { className: group },
             _react2.default.createElement(
               'label',
-              { htmlFor: 'listingTitle', className: 'col-xs-4 col-sm-3 control-label' },
+              { htmlFor: 'listingTitle', className: label },
               'Name:'
             ),
             _react2.default.createElement(
               'div',
-              { className: 'col-xs-8 col-sm-9 padding-zero-left' },
+              { className: inputArea },
               _react2.default.createElement('input', { type: 'text', className: inputClass, id: 'listingTitle', placeholder: 'name', ref: 'name', required: isRequired })
             )
           ),
           _react2.default.createElement(
             'div',
-            { className: 'form-group' },
+            { className: group },
             _react2.default.createElement(
               'label',
-              { htmlFor: 'listingDescription', className: 'col-xs-4 col-sm-3 control-label' },
+              { htmlFor: 'listingDescription', className: label },
               'Description:'
             ),
             _react2.default.createElement(
               'div',
-              { className: 'col-xs-8 col-sm-9 padding-zero-left' },
+              { className: inputArea },
               _react2.default.createElement('input', { type: 'text', className: inputClass, id: 'listingDescription', placeholder: 'description', ref: 'description', required: isRequired })
             )
           ),
           _react2.default.createElement(
             'div',
-            { className: 'form-group' },
+            { className: group },
             _react2.default.createElement(
               'label',
-              { htmlFor: 'listingLink', className: 'col-xs-4 col-sm-3 control-label' },
+              { htmlFor: 'listingLink', className: label },
               'Web Link:'
             ),
             _react2.default.createElement(
               'div',
-              { className: 'col-xs-8 col-sm-9 padding-zero-left' },
+              { className: inputArea },
               _react2.default.createElement('input', { type: 'text', className: inputClass, id: 'listingLink', placeholder: 'http://www...', ref: 'link', required: isRequired })
             )
           ),
           _react2.default.createElement(
             'div',
-            { className: 'form-group' },
+            { className: group },
             _react2.default.createElement(
               'label',
-              { htmlFor: 'listingMedia', className: 'col-xs-4 col-sm-3 control-label' },
+              { htmlFor: 'listingMedia', className: label },
               'Media link:'
             ),
             _react2.default.createElement(
               'div',
-              { className: 'col-xs-8 col-sm-9 padding-zero-left' },
+              { className: inputArea },
               _react2.default.createElement('input', { type: 'text', className: inputClass, id: 'listingMedia', placeholder: 'image link here..', ref: 'media', required: isRequired })
             )
           ),
           _react2.default.createElement(
             'div',
-            { className: 'form-group' },
+            { className: group },
             _react2.default.createElement(
               'label',
-              { htmlFor: 'listingCategory', className: 'col-xs-4 col-sm-3 control-label' },
+              { htmlFor: 'listingCategory', className: label },
               'Category:'
             ),
             _react2.default.createElement(
               'select',
-              { className: 'col-xs-8 col-sm-9 select-category' },
+              { className: 'col-xs-8 col-sm-9 select-category', ref: 'category' },
               _react2.default.createElement(
                 'option',
                 { value: 'design', className: 'option-category' },
