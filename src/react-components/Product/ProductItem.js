@@ -32,14 +32,17 @@ class ProductItem extends React.Component {
     var clickable = "clickable";
     var itemDesc = "product-item-description";
     var avatar = "small-avatar";
+    var productStats = "product-stats";
     return (
       <section className={itemInfo}>
         <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name.substring(0,25).toUpperCase()}</h5>
         <p className={itemDesc}>{this.props.description.substring(0,50)}...</p>
-        <NavLink to={this.props.maker.id? profileLink : "/"}>
-          <img className={avatar} src={this.props.maker.avatar}/>
-        </NavLink>
-        <Upvote {...this.props} /> 
+        <div className={productStats}>
+          <NavLink to={this.props.maker.id? profileLink : "/"}>
+            <img className={avatar} src={this.props.maker.avatar}/>
+          </NavLink>
+          <Upvote {...this.props} /> 
+        </div>  
       </section>      
     )
   }
@@ -61,8 +64,7 @@ class ProductItem extends React.Component {
     return (
       <li>
         <div className="product-item">
-          {this.renderProductImg()}    
-          
+          {this.renderProductImg()}      
           {this.renderInfoSession()}
           {this.renderNewWindowIcon()}  
         </div>  

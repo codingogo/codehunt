@@ -46452,6 +46452,7 @@ var ProductItem = function (_React$Component) {
       var clickable = "clickable";
       var itemDesc = "product-item-description";
       var avatar = "small-avatar";
+      var productStats = "product-stats";
       return _react2.default.createElement(
         'section',
         { className: itemInfo },
@@ -46467,11 +46468,15 @@ var ProductItem = function (_React$Component) {
           '...'
         ),
         _react2.default.createElement(
-          _NavLink2.default,
-          { to: this.props.maker.id ? profileLink : "/" },
-          _react2.default.createElement('img', { className: avatar, src: this.props.maker.avatar })
-        ),
-        _react2.default.createElement(_Upvote2.default, this.props)
+          'div',
+          { className: productStats },
+          _react2.default.createElement(
+            _NavLink2.default,
+            { to: this.props.maker.id ? profileLink : "/" },
+            _react2.default.createElement('img', { className: avatar, src: this.props.maker.avatar })
+          ),
+          _react2.default.createElement(_Upvote2.default, this.props)
+        )
       );
     }
   }, {
@@ -46860,7 +46865,7 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
         ),
         _react2.default.createElement(
           'span',
-          null,
+          { className: 'upcount' },
           this.props.upvote
         )
       );
@@ -47445,6 +47450,7 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
     key: 'renderPostList',
     value: function renderPostList() {
       var postArr = this.props.posts.slice(0).reverse();
+      console.log(postArr.length);
       return _react2.default.createElement(
         'section',
         { className: 'profile-content-area' },
@@ -47458,12 +47464,29 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
       );
     }
   }, {
+    key: 'renderEmptyPost',
+    value: function renderEmptyPost() {
+      return _react2.default.createElement(
+        'section',
+        { className: 'profile-content-area' },
+        _react2.default.createElement(
+          'div',
+          { className: 'row profile-content-items empty-post' },
+          _react2.default.createElement(
+            'h1',
+            { className: 'empty-post-heading' },
+            'Pretty empty here...'
+          )
+        )
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'section',
         null,
-        this.renderPostList()
+        this.props.posts.length > 0 ? this.renderPostList() : this.renderEmptyPost()
       );
     }
   }], [{
@@ -47513,8 +47536,6 @@ var _ProductStore2 = _interopRequireDefault(_ProductStore);
 var _FollowerCard = require('./FollowerCard');
 
 var _FollowerCard2 = _interopRequireDefault(_FollowerCard);
-
-var _reactRouter = require('react-router');
 
 var _NavLink = require('../Navbar/NavLink');
 
@@ -47703,7 +47724,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 
 exports.default = Profile;
 
-},{"../../actions":266,"../../stores/ProductStore":289,"../Navbar/NavLink":270,"./FollowerCard":278,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],285:[function(require,module,exports){
+},{"../../actions":266,"../../stores/ProductStore":289,"../Navbar/NavLink":270,"./FollowerCard":278,"alt-utils/lib/connectToStores":1,"react":262}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

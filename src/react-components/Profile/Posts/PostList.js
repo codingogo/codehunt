@@ -27,6 +27,7 @@ class PostList extends React.Component{
 
   renderPostList() {
     var postArr = this.props.posts.slice(0).reverse();
+    console.log(postArr.length)
     return (
       <section className="profile-content-area">
         <ul className="row profile-content-items">
@@ -44,10 +45,26 @@ class PostList extends React.Component{
     )    
   }
 
+  renderEmptyPost () {
+    return (
+      <section className="profile-content-area">
+        <div className="row profile-content-items empty-post">
+          <h1 className="empty-post-heading">Pretty empty here...</h1>
+        </div>
+      </section>
+    )
+  }
+
   render() {
   	return (
   		<section>
-        {this.renderPostList()}
+        {
+          (this.props.posts.length > 0)
+          ?
+          this.renderPostList()
+          :
+          this.renderEmptyPost()
+        } 
       </section>
   	)
   }

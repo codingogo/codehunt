@@ -22,7 +22,7 @@ class Upvote extends React.Component {
     return (
       <a className="upvote-button" href="#" onClick={this.handleVote.bind(this)}>
         <span className="uparrow"><i className="fa fa-sort-asc"></i></span>
-        <span>{this.props.upvote}</span>
+        <span className="upcount">{this.props.upvote}</span>
       </a>
     );
 	}

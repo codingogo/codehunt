@@ -4,9 +4,6 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../stores/ProductStore';
 
 import FollowerCard from './FollowerCard';
-
-
-import {Link} from 'react-router';
 import NavLink from '../Navbar/NavLink';
 
 @connectToStores
