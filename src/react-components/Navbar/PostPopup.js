@@ -33,6 +33,7 @@ class PostPopup extends React.Component{
     var group = 'form-group';
     var label = "col-xs-4 col-sm-3 control-label";
     var inputArea = "col-xs-8 col-sm-9 padding-zero-left";
+    var fullWidth = {width: '100%'}
     return(
       <section>
         <h3 className="post-header">New Post</h3>
@@ -40,25 +41,25 @@ class PostPopup extends React.Component{
           <div className={group}>
             <label htmlFor="listingTitle" className={label}>Name:</label>
             <div className={inputArea}>
-              <input type="text" className={inputClass} id="listingTitle" placeholder="name" ref="name" required={isRequired} />
+              <input type="text" className={inputClass} style={fullWidth} id="listingTitle" placeholder="name" ref="name" required={isRequired} />
             </div>
           </div>
           <div className={group}>
             <label htmlFor="listingDescription" className={label}>Description:</label>
             <div className={inputArea}>
-              <input type="text" className={inputClass} id="listingDescription" placeholder="description" ref="description" required={isRequired} />
+              <input type="text" className={inputClass} style={fullWidth} id="listingDescription" placeholder="description" ref="description" required={isRequired} />
             </div> 
           </div> 
           <div className={group}>
             <label htmlFor="listingLink" className={label}>Web Link:</label>
             <div className={inputArea}>
-              <input type="text" className={inputClass} id="listingLink" placeholder="http://www..." ref="link" required={isRequired}/>
+              <input type="text" className={inputClass} style={fullWidth} id="listingLink" placeholder="http://www..." ref="link" required={isRequired}/>
             </div>  
           </div>
           <div className={group}>
             <label htmlFor="listingMedia" className={label}>Media link:</label>
             <div className={inputArea}>
-              <input type="text" className={inputClass} id="listingMedia" placeholder="image link here.."  ref="media" required={isRequired}/>
+              <input type="text" className={inputClass} style={fullWidth} id="listingMedia" placeholder="image link here.."  ref="media" required={isRequired}/>
             </div>  
           </div> 
           <div className={group}>

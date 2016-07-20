@@ -10,6 +10,7 @@ class ProductStore {
 			products: [],
 			comments: [],
 			profiles: [],
+			posts: [],
 			productCategory: '',
 			showProfileDescription: false, 
 			showProfileNav: false,
@@ -40,6 +41,11 @@ class ProductStore {
 	@bind(Actions.getProfiles)
 	getProfiles(profiles) {
 		this.setState({profiles: profiles});
+	}
+
+	@bind(Actions.getPosts)
+	getPosts(posts) {
+		this.setState({posts: posts});
 	}
 
 	@bind(Actions.updateCategory)

@@ -23,7 +23,7 @@ a {
   color: #888;
   text-decoration: none;
 }
-a:hover {
+a:hover, a:focus {
   color: #ff6633;
   text-decoration: none;
   cursor: pointer;
@@ -40,6 +40,9 @@ p {
 table {
   width: 100%;
 }
+.form-control {
+  width: 100%;
+}
 .right-align {
   float: right;
 }
@@ -48,6 +51,9 @@ table {
 }
 .width-half {
   width: 50%;
+}
+.padding-left-none {
+  padding-left: 0;
 }
 .whitespace {
   white-space: nowrap;
@@ -645,6 +651,7 @@ select.select-category {
 }
 .profile-content-items {
   margin-top: 5px;
+  padding-left: 0;
 }
 .profile-product {
   padding: 8px;
@@ -683,6 +690,7 @@ select.select-category {
 .postcard {
   margin-bottom: 8px;
   padding: 8px;
+  list-style: none;
 }
 .postcard-img {
   height: 202px;

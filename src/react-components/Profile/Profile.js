@@ -4,7 +4,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../stores/ProductStore';
 
 import FollowerCard from './FollowerCard';
-import PostCard from './PostCard';
+
 
 import {Link} from 'react-router';
 import NavLink from '../Navbar/NavLink';
@@ -16,10 +16,6 @@ class Profile extends React.Component{
 		this.toggleProfileDesc = this.toggleProfileDesc.bind(this);
 	}
 
-	componentWillMount() {
-		Actions.getProfiles(this.props.params.id);
-	}
-
   static getStores() {
     return [ProductStore];
   };
@@ -27,6 +23,11 @@ class Profile extends React.Component{
   static getPropsFromStores() {
     return ProductStore.getState();
   };
+
+	componentWillMount() {
+    Actions.getProfiles(this.props.params.id);
+    Actions.getPosts(this.props.params.id);
+  }
 
 	toggleProfileDesc = () => {
 		this.props.showProfileDescription? Actions.toggleProfileInfo({showProfileDescription:false}) : Actions.toggleProfileInfo({showProfileDescription:true})
@@ -83,7 +84,7 @@ class Profile extends React.Component{
 	  	<section className={btnContainer}>
 		  	<ul className={statArea}>
 		  		<li className={inputClass}>		  	
-		  			<div>{this.props.profiles.posts? this.props.profiles.posts.length: 0}</div>
+		  			<div>{this.props.posts? this.props.posts.length: 0}</div>
 		  			<NavLink to={postsUrl} className={activePost}>POSTS</NavLink>
 		  		</li>
 		  		<li className={inputClass}>			  		

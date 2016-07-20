@@ -5,6 +5,7 @@ import PostPopup from './PostPopup';
 import Menu from 'react-motion-menu';
 import Actions from '../../actions';
 import {Link} from 'react-router';
+import NavLink from './NavLink';
 
 import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../stores/ProductStore';

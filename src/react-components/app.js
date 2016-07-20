@@ -8,7 +8,7 @@ import ProductStore from '../stores/ProductStore';
 import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 
 import Profile from './Profile/Profile';
-import PostList from './Profile/PostList';
+import PostList from './Profile/Posts/PostList';
 import LikeList from './Profile/LikeList';
 import FollowerList from './Profile/FollowerList';
 

@@ -91,22 +91,23 @@ class Actions {
 
 	addProduct(product) {
 		return (dispatch) => {
-			var firebaseRef = new Firebase('https://delb.firebaseio.com/products');
-			firebaseRef.push(product);
+			var firebaseRef = new Firebase('https://delb.firebaseio.com');
+		
+			firebaseRef.child('products').push(product);
+
+			var userId = product.maker.id;
+			firebaseRef.child('posts').child(userId).push(product);
 		}
 	}
 
 	addVote(productId, userId) {
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
-
 			var voteRef = firebaseRef.child('votes').child(productId).child(userId);
 			voteRef.on('value', (snapshot) => {
 				if(snapshot.val() == null){
 					voteRef.set(true);
-
 					firebaseRef = firebaseRef.child('products').child(productId).child('upvote');
-			
 					var vote = 0;
 					firebaseRef.on('value', (snapshot)=> {
 						vote = snapshot.val();
@@ -136,6 +137,22 @@ class Actions {
 				})
 				.value();
 				dispatch(comments);
+			});
+		}
+	}
+
+	getPosts(userId) {
+		return (dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com/posts');
+			firebaseRef.child(userId).on('value', (snapshot) => {
+				var postsVal = snapshot.val();
+				var posts =  _(postsVal).keys().map((postKey) => {
+					var item =_.clone(postsVal[postKey]);
+					item.key = postKey;
+					return item;
+				})
+				.value();
+				dispatch(posts);
 			});
 		}
 	}

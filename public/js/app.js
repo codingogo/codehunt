@@ -45358,8 +45358,12 @@ var Actions = function () {
 		key: 'addProduct',
 		value: function addProduct(product) {
 			return function (dispatch) {
-				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com/products');
-				firebaseRef.push(product);
+				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
+
+				firebaseRef.child('products').push(product);
+
+				var userId = product.maker.id;
+				firebaseRef.child('posts').child(userId).push(product);
 			};
 		}
 	}, {
@@ -45367,14 +45371,11 @@ var Actions = function () {
 		value: function addVote(productId, userId) {
 			return function (dispatch) {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
-
 				var voteRef = firebaseRef.child('votes').child(productId).child(userId);
 				voteRef.on('value', function (snapshot) {
 					if (snapshot.val() == null) {
 						voteRef.set(true);
-
 						firebaseRef = firebaseRef.child('products').child(productId).child('upvote');
-
 						var vote = 0;
 						firebaseRef.on('value', function (snapshot) {
 							vote = snapshot.val();
@@ -45405,6 +45406,22 @@ var Actions = function () {
 						return item;
 					}).value();
 					dispatch(comments);
+				});
+			};
+		}
+	}, {
+		key: 'getPosts',
+		value: function getPosts(userId) {
+			return function (dispatch) {
+				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com/posts');
+				firebaseRef.child(userId).on('value', function (snapshot) {
+					var postsVal = snapshot.val();
+					var posts = (0, _lodash2.default)(postsVal).keys().map(function (postKey) {
+						var item = _lodash2.default.clone(postsVal[postKey]);
+						item.key = postKey;
+						return item;
+					}).value();
+					dispatch(posts);
 				});
 			};
 		}
@@ -45916,6 +45933,7 @@ var PostPopup = function (_React$Component) {
       var group = 'form-group';
       var label = "col-xs-4 col-sm-3 control-label";
       var inputArea = "col-xs-8 col-sm-9 padding-zero-left";
+      var fullWidth = { width: '100%' };
       return _react2.default.createElement(
         'section',
         null,
@@ -45938,7 +45956,7 @@ var PostPopup = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: inputArea },
-              _react2.default.createElement('input', { type: 'text', className: inputClass, id: 'listingTitle', placeholder: 'name', ref: 'name', required: isRequired })
+              _react2.default.createElement('input', { type: 'text', className: inputClass, style: fullWidth, id: 'listingTitle', placeholder: 'name', ref: 'name', required: isRequired })
             )
           ),
           _react2.default.createElement(
@@ -45952,7 +45970,7 @@ var PostPopup = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: inputArea },
-              _react2.default.createElement('input', { type: 'text', className: inputClass, id: 'listingDescription', placeholder: 'description', ref: 'description', required: isRequired })
+              _react2.default.createElement('input', { type: 'text', className: inputClass, style: fullWidth, id: 'listingDescription', placeholder: 'description', ref: 'description', required: isRequired })
             )
           ),
           _react2.default.createElement(
@@ -45966,7 +45984,7 @@ var PostPopup = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: inputArea },
-              _react2.default.createElement('input', { type: 'text', className: inputClass, id: 'listingLink', placeholder: 'http://www...', ref: 'link', required: isRequired })
+              _react2.default.createElement('input', { type: 'text', className: inputClass, style: fullWidth, id: 'listingLink', placeholder: 'http://www...', ref: 'link', required: isRequired })
             )
           ),
           _react2.default.createElement(
@@ -45980,7 +45998,7 @@ var PostPopup = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: inputArea },
-              _react2.default.createElement('input', { type: 'text', className: inputClass, id: 'listingMedia', placeholder: 'image link here..', ref: 'media', required: isRequired })
+              _react2.default.createElement('input', { type: 'text', className: inputClass, style: fullWidth, id: 'listingMedia', placeholder: 'image link here..', ref: 'media', required: isRequired })
             )
           ),
           _react2.default.createElement(
@@ -46076,6 +46094,10 @@ var _actions = require('../../actions');
 var _actions2 = _interopRequireDefault(_actions);
 
 var _reactRouter = require('react-router');
+
+var _NavLink = require('./NavLink');
+
+var _NavLink2 = _interopRequireDefault(_NavLink);
 
 var _connectToStores = require('alt-utils/lib/connectToStores');
 
@@ -46351,7 +46373,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
 
 exports.default = Navbar;
 
-},{"../../actions":266,"../../stores/ProductStore":289,"./LoginPopup":269,"./PostPopup":272,"alt-utils/lib/connectToStores":1,"react":262,"react-motion-menu":54,"react-router":99}],274:[function(require,module,exports){
+},{"../../actions":266,"../../stores/ProductStore":289,"./LoginPopup":269,"./NavLink":270,"./PostPopup":272,"alt-utils/lib/connectToStores":1,"react":262,"react-motion-menu":54,"react-router":99}],274:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47251,7 +47273,7 @@ exports.default = LikeList;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -47269,69 +47291,69 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var PostCard = function (_React$Component) {
-	_inherits(PostCard, _React$Component);
+  _inherits(PostCard, _React$Component);
 
-	function PostCard() {
-		_classCallCheck(this, PostCard);
+  function PostCard() {
+    _classCallCheck(this, PostCard);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(PostCard).apply(this, arguments));
-	}
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(PostCard).apply(this, arguments));
+  }
 
-	_createClass(PostCard, [{
-		key: "render",
-		value: function render() {
-			var img = "postcard-img width-full";
-			var imgUrl = this.props.user ? this.props.user.avatar : "./img/delb.png";
-			var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
-			var btn = "btn-sm btn btn-default width-half postcard-btn";
-			var postcardTitle = "width-full postcard-title";
-			var caretUp = "fa fa-lg fa-caret-up";
-			var comment = "fa fa-comment";
-			var imgMain = {
-				backgroundImage: 'url(' + imgUrl + ')',
-				backgroundSize: 'cover'
-			};
+  _createClass(PostCard, [{
+    key: "render",
+    value: function render() {
+      var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
+      var img = "postcard-img width-full";
+      var imgUrl = this.props.media ? this.props.media : "./img/delb.png";
+      var btn = "btn-sm btn btn-default width-half postcard-btn";
+      var postcardTitle = "width-full postcard-title";
+      var caretUp = "fa fa-lg fa-caret-up";
+      var comment = "fa fa-comment";
+      var imgMain = {
+        backgroundImage: 'url(' + imgUrl + ')',
+        backgroundSize: 'cover'
+      };
 
-			return _react2.default.createElement(
-				"section",
-				{ className: postcard },
-				_react2.default.createElement("div", { className: img, style: imgMain }),
-				_react2.default.createElement(
-					"div",
-					{ className: postcardTitle },
-					this.props.title.length > 27 ? this.props.title.substring(0, 27) + '..' : this.props.title
-				),
-				_react2.default.createElement(
-					"div",
-					{ className: "width-full" },
-					_react2.default.createElement(
-						"span",
-						{ className: btn },
-						_react2.default.createElement("i", { className: caretUp, ariaHidden: "true" }),
-						_react2.default.createElement(
-							"span",
-							null,
-							" ",
-							this.props.upvotes
-						)
-					),
-					_react2.default.createElement(
-						"span",
-						{ className: btn },
-						_react2.default.createElement("i", { className: comment, ariaHidden: "true" }),
-						_react2.default.createElement(
-							"span",
-							null,
-							" ",
-							this.props.commentNums
-						)
-					)
-				)
-			);
-		}
-	}]);
+      return _react2.default.createElement(
+        "li",
+        { className: postcard },
+        _react2.default.createElement("div", { className: img, style: imgMain }),
+        _react2.default.createElement(
+          "div",
+          { className: postcardTitle },
+          this.props.name.substring(0, 27)
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "width-full" },
+          _react2.default.createElement(
+            "span",
+            { className: btn },
+            _react2.default.createElement("i", { className: caretUp, ariaHidden: "true" }),
+            _react2.default.createElement(
+              "span",
+              null,
+              " ",
+              this.props.upvote
+            )
+          ),
+          _react2.default.createElement(
+            "span",
+            { className: btn },
+            _react2.default.createElement("i", { className: comment, ariaHidden: "true" }),
+            _react2.default.createElement(
+              "span",
+              null,
+              " ",
+              this.props.commentNums
+            )
+          )
+        )
+      );
+    }
+  }]);
 
-	return PostCard;
+  return PostCard;
 }(_react2.default.Component);
 
 exports.default = PostCard;
@@ -47353,7 +47375,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _actions = require('../../actions');
+var _actions = require('../../../actions');
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -47361,15 +47383,15 @@ var _connectToStores = require('alt-utils/lib/connectToStores');
 
 var _connectToStores2 = _interopRequireDefault(_connectToStores);
 
-var _ProductStore = require('../../stores/ProductStore');
+var _ProductStore = require('../../../stores/ProductStore');
 
 var _ProductStore2 = _interopRequireDefault(_ProductStore);
+
+var _reactRouter = require('react-router');
 
 var _PostCard = require('./PostCard');
 
 var _PostCard2 = _interopRequireDefault(_PostCard);
-
-var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47389,39 +47411,23 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
   }
 
   _createClass(PostList, [{
-    key: 'renderPostCard',
-    value: function renderPostCard() {
-      return _react2.default.createElement(_PostCard2.default, _extends({
-        title: this.props.title,
-        description: this.props.description,
-        commentNums: this.props.commentNums,
-        upvotes: this.props.upvotes
-      }, this.props));
-    }
-  }, {
-    key: 'renderPosts',
-    value: function renderPosts() {
-      return _react2.default.createElement(
-        'section',
-        { className: 'profile-content-area' },
-        _react2.default.createElement(
-          'div',
-          { className: 'row profile-content-items' },
-          this.renderPostCard(),
-          this.renderPostCard(),
-          this.renderPostCard(),
-          this.renderPostCard(),
-          this.renderPostCard()
-        )
-      );
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      _actions2.default.getPosts(this.props.params.id);
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'div',
-        null,
-        this.renderPosts()
+        'section',
+        { className: 'profile-content-area' },
+        _react2.default.createElement(
+          'ul',
+          { className: 'row profile-content-items' },
+          this.props.posts ? this.props.posts.map(function (item, idx) {
+            return _react2.default.createElement(_PostCard2.default, _extends({ key: idx, pid: item.key }, item));
+          }) : null
+        )
       );
     }
   }], [{
@@ -47441,7 +47447,7 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
 
 exports.default = PostList;
 
-},{"../../actions":266,"../../stores/ProductStore":289,"./PostCard":282,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],284:[function(require,module,exports){
+},{"../../../actions":266,"../../../stores/ProductStore":289,"./PostCard":282,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],284:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47471,10 +47477,6 @@ var _ProductStore2 = _interopRequireDefault(_ProductStore);
 var _FollowerCard = require('./FollowerCard');
 
 var _FollowerCard2 = _interopRequireDefault(_FollowerCard);
-
-var _PostCard = require('./PostCard');
-
-var _PostCard2 = _interopRequireDefault(_PostCard);
 
 var _reactRouter = require('react-router');
 
@@ -47514,6 +47516,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
     key: 'componentWillMount',
     value: function componentWillMount() {
       _actions2.default.getProfiles(this.props.params.id);
+      _actions2.default.getPosts(this.props.params.id);
     }
   }, {
     key: 'renderProfile',
@@ -47587,7 +47590,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
             _react2.default.createElement(
               'div',
               null,
-              this.props.profiles.posts ? this.props.profiles.posts.length : 0
+              this.props.posts ? this.props.posts.length : 0
             ),
             _react2.default.createElement(
               _NavLink2.default,
@@ -47664,7 +47667,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 
 exports.default = Profile;
 
-},{"../../actions":266,"../../stores/ProductStore":289,"../Navbar/NavLink":270,"./FollowerCard":278,"./PostCard":282,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],285:[function(require,module,exports){
+},{"../../actions":266,"../../stores/ProductStore":289,"../Navbar/NavLink":270,"./FollowerCard":278,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47970,7 +47973,7 @@ var _Profile = require('./Profile/Profile');
 
 var _Profile2 = _interopRequireDefault(_Profile);
 
-var _PostList = require('./Profile/PostList');
+var _PostList = require('./Profile/Posts/PostList');
 
 var _PostList2 = _interopRequireDefault(_PostList);
 
@@ -48051,7 +48054,7 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), document.getElementById('root'));
 
-},{"../actions":266,"../stores/ProductStore":289,"./HomePage":268,"./Navbar":273,"./Profile/FollowerList":279,"./Profile/LikeList":281,"./Profile/PostList":283,"./Profile/Profile":284,"alt-utils/lib/connectToStores":1,"react":262,"react-dom":52,"react-router":99}],289:[function(require,module,exports){
+},{"../actions":266,"../stores/ProductStore":289,"./HomePage":268,"./Navbar":273,"./Profile/FollowerList":279,"./Profile/LikeList":281,"./Profile/Posts/PostList":283,"./Profile/Profile":284,"alt-utils/lib/connectToStores":1,"react":262,"react-dom":52,"react-router":99}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48060,7 +48063,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _desc, _value, _class2;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _desc, _value, _class2;
 
 var _alt = require('../alt');
 
@@ -48105,7 +48108,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 	return desc;
 }
 
-var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec7 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec8 = (0, _decorators.bind)(_actions2.default.showPopup), _dec9 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
+var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.getPosts), _dec7 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec8 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec9 = (0, _decorators.bind)(_actions2.default.showPopup), _dec10 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
 	function ProductStore() {
 		_classCallCheck(this, ProductStore);
 
@@ -48114,6 +48117,7 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			products: [],
 			comments: [],
 			profiles: [],
+			posts: [],
 			productCategory: '',
 			showProfileDescription: false,
 			showProfileNav: false,
@@ -48147,6 +48151,11 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			this.setState({ profiles: profiles });
 		}
 	}, {
+		key: 'getPosts',
+		value: function getPosts(posts) {
+			this.setState({ posts: posts });
+		}
+	}, {
 		key: 'updateCategory',
 		value: function updateCategory(productCategory) {
 			this.setState(productCategory);
@@ -48169,7 +48178,7 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 	}]);
 
 	return ProductStore;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPosts', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'getPosts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
 exports.default = _alt2.default.createStore(ProductStore);
 
 },{"../actions":266,"../alt":267,"alt-utils/lib/decorators":2}],290:[function(require,module,exports){
