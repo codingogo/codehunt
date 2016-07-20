@@ -39,6 +39,7 @@ class ProductItem extends React.Component {
         <NavLink to={this.props.maker.id? profileLink : "/"}>
           <img className={avatar} src={this.props.maker.avatar}/>
         </NavLink>
+        <Upvote {...this.props} /> 
       </section>      
     )
   }
@@ -60,8 +61,8 @@ class ProductItem extends React.Component {
     return (
       <li>
         <div className="product-item">
-          <Upvote {...this.props} /> 
           {this.renderProductImg()}    
+          
           {this.renderInfoSession()}
           {this.renderNewWindowIcon()}  
         </div>  

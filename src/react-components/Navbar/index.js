@@ -15,7 +15,8 @@ class Navbar extends React.Component {
   constructor(){
     super();
     this.state = {
-      menu1: {isOpen: false}    
+      menu1: {isOpen: false},
+      popupStatus: false    
     };
   }
 
@@ -36,18 +37,18 @@ class Navbar extends React.Component {
   }
 
   showPopup = () => {
-    Actions.showPopup({popupStatus: true});
-  };
+    this.setState({popupStatus: true});
+  }
 
   hidePopup = () => {
-    Actions.showPopup({popupStatus: false});
-  };
+    this.setState({popupStatus: false});
+  }
 
   handleLogout = (e) => {
     this.setState({menu1: {isOpen: false}});
     e.preventDefault();
     Actions.logout();
-  };
+  }
 
   renderProductSearch(){
     var searchBox="product-search-box";
@@ -141,13 +142,13 @@ class Navbar extends React.Component {
           <section>
             <span className="post-add">{this.renderPost()}</span>
             <span className="menu-motion-btn">{this.renderMenuBtn()}</span>
-            <PostPopup user={this.props.user} status={this.props.popupStatus} hidePopup={this.hidePopup}/>
+            <PostPopup user={this.props.user} status={this.state.popupStatus} hidePopup={this.hidePopup}/>
           </section>
           :
           // Login link
           <section>
             <a href="#" onClick={this.showPopup} className="login-btn">Login</a>
-            <LoginPopup status={this.props.popupStatus} hidePopup={this.hidePopup}/>
+            <LoginPopup status={this.state.popupStatus} hidePopup={this.hidePopup}/>
           </section>
         }
       </section>

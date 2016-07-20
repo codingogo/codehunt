@@ -46126,11 +46126,11 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Navbar).call(this));
 
     _this.showPopup = function () {
-      _actions2.default.showPopup({ popupStatus: true });
+      _this.setState({ popupStatus: true });
     };
 
     _this.hidePopup = function () {
-      _actions2.default.showPopup({ popupStatus: false });
+      _this.setState({ popupStatus: false });
     };
 
     _this.handleLogout = function (e) {
@@ -46140,7 +46140,8 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
     };
 
     _this.state = {
-      menu1: { isOpen: false }
+      menu1: { isOpen: false },
+      popupStatus: false
     };
     return _this;
   }
@@ -46296,7 +46297,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
             { className: 'menu-motion-btn' },
             this.renderMenuBtn()
           ),
-          _react2.default.createElement(_PostPopup2.default, { user: this.props.user, status: this.props.popupStatus, hidePopup: this.hidePopup })
+          _react2.default.createElement(_PostPopup2.default, { user: this.props.user, status: this.state.popupStatus, hidePopup: this.hidePopup })
         ) :
         // Login link
         _react2.default.createElement(
@@ -46307,7 +46308,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
             { href: '#', onClick: this.showPopup, className: 'login-btn' },
             'Login'
           ),
-          _react2.default.createElement(_LoginPopup2.default, { status: this.props.popupStatus, hidePopup: this.hidePopup })
+          _react2.default.createElement(_LoginPopup2.default, { status: this.state.popupStatus, hidePopup: this.hidePopup })
         )
       );
     }
@@ -46469,7 +46470,8 @@ var ProductItem = function (_React$Component) {
           _NavLink2.default,
           { to: this.props.maker.id ? profileLink : "/" },
           _react2.default.createElement('img', { className: avatar, src: this.props.maker.avatar })
-        )
+        ),
+        _react2.default.createElement(_Upvote2.default, this.props)
       );
     }
   }, {
@@ -46493,7 +46495,6 @@ var ProductItem = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'product-item' },
-          _react2.default.createElement(_Upvote2.default, this.props),
           this.renderProductImg(),
           this.renderInfoSession(),
           this.renderNewWindowIcon()
@@ -46854,10 +46855,14 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
         { className: 'upvote-button', href: '#', onClick: this.handleVote.bind(this) },
         _react2.default.createElement(
           'span',
-          null,
+          { className: 'uparrow' },
           _react2.default.createElement('i', { className: 'fa fa-sort-asc' })
         ),
-        this.props.upvote
+        _react2.default.createElement(
+          'span',
+          null,
+          this.props.upvote
+        )
       );
     }
   }], [{
@@ -47119,9 +47124,9 @@ var LikeCard = function (_React$Component) {
 	_createClass(LikeCard, [{
 		key: "render",
 		value: function render() {
+			var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
 			var img = "postcard-img width-full";
 			var imgUrl = this.props.user ? this.props.user.avatar : "./img/delb.png";
-			var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
 			var btn = "btn-sm btn btn-default width-half postcard-btn";
 			var postcardTitle = "width-full postcard-title";
 			var caretUp = "fa fa-lg fa-caret-up";
@@ -47270,17 +47275,23 @@ var LikeList = (0, _connectToStores2.default)(_class = function (_React$Componen
 exports.default = LikeList;
 
 },{"../../actions":266,"../../stores/ProductStore":289,"./LikeCard":280,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],282:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _ProductPopup = require('../../Product/ProductPopup');
+
+var _ProductPopup2 = _interopRequireDefault(_ProductPopup);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47296,11 +47307,24 @@ var PostCard = function (_React$Component) {
   function PostCard() {
     _classCallCheck(this, PostCard);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(PostCard).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PostCard).call(this));
+
+    _this.showPostPopup = function () {
+      _this.setState({ postPopupStatus: true });
+    };
+
+    _this.hidePostPopup = function () {
+      _this.setState({ postPopupStatus: false });
+    };
+
+    _this.state = {
+      postPopupStatus: false
+    };
+    return _this;
   }
 
   _createClass(PostCard, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
       var img = "postcard-img width-full";
@@ -47311,44 +47335,46 @@ var PostCard = function (_React$Component) {
       var comment = "fa fa-comment";
       var imgMain = {
         backgroundImage: 'url(' + imgUrl + ')',
-        backgroundSize: 'cover'
+        backgroundSize: 'cover',
+        cursor: 'pointer'
       };
 
       return _react2.default.createElement(
-        "li",
+        'li',
         { className: postcard },
-        _react2.default.createElement("div", { className: img, style: imgMain }),
+        _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showPostPopup }),
         _react2.default.createElement(
-          "div",
+          'div',
           { className: postcardTitle },
           this.props.name.substring(0, 27)
         ),
         _react2.default.createElement(
-          "div",
-          { className: "width-full" },
+          'div',
+          { className: 'width-full' },
           _react2.default.createElement(
-            "span",
+            'span',
             { className: btn },
-            _react2.default.createElement("i", { className: caretUp, ariaHidden: "true" }),
+            _react2.default.createElement('i', { className: caretUp, ariaHidden: 'true' }),
             _react2.default.createElement(
-              "span",
+              'span',
               null,
-              " ",
+              ' ',
               this.props.upvote
             )
           ),
           _react2.default.createElement(
-            "span",
+            'span',
             { className: btn },
-            _react2.default.createElement("i", { className: comment, ariaHidden: "true" }),
+            _react2.default.createElement('i', { className: comment, ariaHidden: 'true' }),
             _react2.default.createElement(
-              "span",
+              'span',
               null,
-              " ",
+              ' ',
               this.props.commentNums
             )
           )
-        )
+        ),
+        _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.postPopupStatus, hidePopup: this.hidePostPopup }))
       );
     }
   }]);
@@ -47358,7 +47384,7 @@ var PostCard = function (_React$Component) {
 
 exports.default = PostCard;
 
-},{"react":262}],283:[function(require,module,exports){
+},{"../../Product/ProductPopup":276,"react":262}],283:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47416,18 +47442,28 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
       _actions2.default.getPosts(this.props.params.id);
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'renderPostList',
+    value: function renderPostList() {
+      var postArr = this.props.posts.slice(0).reverse();
       return _react2.default.createElement(
         'section',
         { className: 'profile-content-area' },
         _react2.default.createElement(
           'ul',
           { className: 'row profile-content-items' },
-          this.props.posts ? this.props.posts.map(function (item, idx) {
+          this.props.posts ? postArr.map(function (item, idx) {
             return _react2.default.createElement(_PostCard2.default, _extends({ key: idx, pid: item.key }, item));
           }) : null
         )
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'section',
+        null,
+        this.renderPostList()
       );
     }
   }], [{

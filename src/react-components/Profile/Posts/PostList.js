@@ -25,21 +25,30 @@ class PostList extends React.Component{
     Actions.getPosts(this.props.params.id);
   }
 
-  render() {
-  	return (
-  		<section className="profile-content-area">
-	  		<ul className="row profile-content-items">
-          	{
+  renderPostList() {
+    var postArr = this.props.posts.slice(0).reverse();
+    return (
+      <section className="profile-content-area">
+        <ul className="row profile-content-items">
+            {
               this.props.posts 
               ?
-              this.props.posts.map(function(item,idx){
+              postArr.map(function(item,idx){
                 return <PostCard key={idx} pid={item.key} {...item}/>
               })
               :
               null
             }
-	  		</ul>	
-  		</section>
+        </ul> 
+      </section>
+    )    
+  }
+
+  render() {
+  	return (
+  		<section>
+        {this.renderPostList()}
+      </section>
   	)
   }
 }

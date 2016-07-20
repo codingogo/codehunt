@@ -2,9 +2,9 @@ import React from 'react';
 
 class LikeCard extends React.Component{
 	render() {
+	  var postcard="col-xs-6 col-sm-4 col-md-3 postcard";
 		var img = "postcard-img width-full"
 		var imgUrl = this.props.user? this.props.user.avatar: "./img/delb.png";
-	  var postcard="col-xs-6 col-sm-4 col-md-3 postcard";
 	  var btn = "btn-sm btn btn-default width-half postcard-btn";
 	  var postcardTitle="width-full postcard-title";
 	  var caretUp = "fa fa-lg fa-caret-up";
