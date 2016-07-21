@@ -21,7 +21,7 @@ class Upvote extends React.Component {
 	render() {
     return (
       <a className="upvote-button" href="#" onClick={this.handleVote.bind(this)}>
-        <span className="uparrow"><i className="fa fa-sort-asc"></i></span>
+        <span className="up-heart"><i className="fa fa-heart-o"></i></span>
         <span className="upcount">{this.props.upvote}</span>
       </a>
     );

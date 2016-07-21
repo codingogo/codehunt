@@ -333,12 +333,9 @@ table {
   /*display: block;*/
   padding: 3px;
 }
-.uparrow {
-  vertical-align: sub;
+.up-heart {
+  vertical-align: text-top;
 }
-/*.upcount {
-  color: #666;
-}*/
 
 /* Category*/
 .category-select {

@@ -46860,8 +46860,8 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
         { className: 'upvote-button', href: '#', onClick: this.handleVote.bind(this) },
         _react2.default.createElement(
           'span',
-          { className: 'uparrow' },
-          _react2.default.createElement('i', { className: 'fa fa-sort-asc' })
+          { className: 'up-heart' },
+          _react2.default.createElement('i', { className: 'fa fa-heart-o' })
         ),
         _react2.default.createElement(
           'span',
