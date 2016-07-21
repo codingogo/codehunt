@@ -47131,17 +47131,23 @@ var FollowerList = (0, _connectToStores2.default)(_class = function (_React$Comp
 exports.default = FollowerList;
 
 },{"../../actions":266,"../../stores/ProductStore":289,"./FollowerCard":278,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],280:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _ProductPopup = require('../../Product/ProductPopup');
+
+var _ProductPopup2 = _interopRequireDefault(_ProductPopup);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47152,74 +47158,89 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var LikeCard = function (_React$Component) {
-	_inherits(LikeCard, _React$Component);
+  _inherits(LikeCard, _React$Component);
 
-	function LikeCard() {
-		_classCallCheck(this, LikeCard);
+  function LikeCard() {
+    _classCallCheck(this, LikeCard);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(LikeCard).apply(this, arguments));
-	}
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LikeCard).call(this));
 
-	_createClass(LikeCard, [{
-		key: "render",
-		value: function render() {
-			var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
-			var img = "postcard-img width-full";
-			var imgUrl = this.props.user ? this.props.user.avatar : "./img/delb.png";
-			var btn = "btn-sm btn btn-default width-half postcard-btn";
-			var postcardTitle = "width-full postcard-title";
-			var caretUp = "fa fa-lg fa-caret-up";
-			var comment = "fa fa-comment";
-			var imgMain = {
-				backgroundImage: 'url(' + imgUrl + ')',
-				backgroundSize: 'cover'
-			};
+    _this.showPostPopup = function () {
+      _this.setState({ postPopupStatus: true });
+    };
 
-			return _react2.default.createElement(
-				"section",
-				{ className: postcard },
-				_react2.default.createElement("div", { className: img, style: imgMain }),
-				_react2.default.createElement(
-					"div",
-					{ className: postcardTitle },
-					this.props.title.length > 27 ? this.props.title.substring(0, 27) + '..' : this.props.title
-				),
-				_react2.default.createElement(
-					"div",
-					{ className: "width-full" },
-					_react2.default.createElement(
-						"span",
-						{ className: btn },
-						_react2.default.createElement("i", { className: caretUp, ariaHidden: "true" }),
-						_react2.default.createElement(
-							"span",
-							null,
-							" ",
-							this.props.upvotes
-						)
-					),
-					_react2.default.createElement(
-						"span",
-						{ className: btn },
-						_react2.default.createElement("i", { className: comment, ariaHidden: "true" }),
-						_react2.default.createElement(
-							"span",
-							null,
-							" ",
-							this.props.commentNums
-						)
-					)
-				)
-			);
-		}
-	}]);
+    _this.hidePostPopup = function () {
+      _this.setState({ postPopupStatus: false });
+    };
 
-	return LikeCard;
+    _this.state = {
+      postPopupStatus: false
+    };
+    return _this;
+  }
+
+  _createClass(LikeCard, [{
+    key: 'render',
+    value: function render() {
+      var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
+      var img = "postcard-img width-full";
+      var imgUrl = this.props.media ? this.props.media : "./img/delb.png";
+      var btn = "btn-sm btn btn-default width-half postcard-btn";
+      var postcardTitle = "width-full postcard-title";
+      var caretUp = "fa fa-lg fa-caret-up";
+      var comment = "fa fa-comment";
+      var imgMain = {
+        backgroundImage: 'url(' + imgUrl + ')',
+        backgroundSize: 'cover',
+        cursor: 'pointer'
+      };
+
+      return _react2.default.createElement(
+        'li',
+        { className: postcard },
+        _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showPostPopup }),
+        _react2.default.createElement(
+          'div',
+          { className: postcardTitle },
+          this.props.name.substring(0, 27)
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'width-full' },
+          _react2.default.createElement(
+            'span',
+            { className: btn },
+            _react2.default.createElement('i', { className: caretUp, ariaHidden: 'true' }),
+            _react2.default.createElement(
+              'span',
+              null,
+              ' ',
+              this.props.upvote
+            )
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: btn },
+            _react2.default.createElement('i', { className: comment, ariaHidden: 'true' }),
+            _react2.default.createElement(
+              'span',
+              null,
+              ' ',
+              this.props.commentNums
+            )
+          )
+        ),
+        _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.postPopupStatus, hidePopup: this.hidePostPopup }))
+      );
+    }
+  }]);
+
+  return LikeCard;
 }(_react2.default.Component);
 
 exports.default = LikeCard;
 
-},{"react":262}],281:[function(require,module,exports){
+},{"../../Product/ProductPopup":276,"react":262}],281:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47236,7 +47257,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _actions = require('../../actions');
+var _actions = require('../../../actions');
 
 var _actions2 = _interopRequireDefault(_actions);
 
@@ -47244,15 +47265,15 @@ var _connectToStores = require('alt-utils/lib/connectToStores');
 
 var _connectToStores2 = _interopRequireDefault(_connectToStores);
 
-var _ProductStore = require('../../stores/ProductStore');
+var _ProductStore = require('../../../stores/ProductStore');
 
 var _ProductStore2 = _interopRequireDefault(_ProductStore);
+
+var _reactRouter = require('react-router');
 
 var _LikeCard = require('./LikeCard');
 
 var _LikeCard2 = _interopRequireDefault(_LikeCard);
-
-var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47272,28 +47293,50 @@ var LikeList = (0, _connectToStores2.default)(_class = function (_React$Componen
   }
 
   _createClass(LikeList, [{
-    key: 'renderLikes',
-    value: function renderLikes() {
-      return _react2.default.createElement(_LikeCard2.default, _extends({
-        title: this.props.title,
-        description: this.props.description,
-        likes: this.props.likes,
-        upvotes: this.props.upvotes
-      }, this.props));
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      _actions2.default.getLikes(this.props.params.id);
+    }
+  }, {
+    key: 'renderLikeList',
+    value: function renderLikeList() {
+      var likeArr = this.props.likes.slice(0).reverse();
+      return _react2.default.createElement(
+        'section',
+        { className: 'profile-content-area' },
+        _react2.default.createElement(
+          'ul',
+          { className: 'row profile-content-items' },
+          this.props.likes ? likeArr.map(function (item, idx) {
+            return _react2.default.createElement(_LikeCard2.default, _extends({ key: idx, pid: item.key }, item));
+          }) : null
+        )
+      );
+    }
+  }, {
+    key: 'renderEmptyLike',
+    value: function renderEmptyLike() {
+      return _react2.default.createElement(
+        'section',
+        { className: 'profile-content-area' },
+        _react2.default.createElement(
+          'div',
+          { className: 'row profile-content-items empty-post' },
+          _react2.default.createElement(
+            'h1',
+            { className: 'empty-post-heading' },
+            'Pretty empty here...'
+          )
+        )
+      );
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'section',
-        { className: 'profile-content-area' },
-        _react2.default.createElement(
-          'div',
-          { className: 'row profile-content-items' },
-          this.renderLikes(),
-          this.renderLikes(),
-          this.renderLikes()
-        )
+        null,
+        this.props.likes.length > 0 ? this.renderLikeList() : this.renderEmptyLike()
       );
     }
   }], [{
@@ -47313,7 +47356,7 @@ var LikeList = (0, _connectToStores2.default)(_class = function (_React$Componen
 
 exports.default = LikeList;
 
-},{"../../actions":266,"../../stores/ProductStore":289,"./LikeCard":280,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],282:[function(require,module,exports){
+},{"../../../actions":266,"../../../stores/ProductStore":289,"./LikeCard":280,"alt-utils/lib/connectToStores":1,"react":262,"react-router":99}],282:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47484,7 +47527,6 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
     key: 'renderPostList',
     value: function renderPostList() {
       var postArr = this.props.posts.slice(0).reverse();
-      console.log(postArr.length);
       return _react2.default.createElement(
         'section',
         { className: 'profile-content-area' },
@@ -48069,7 +48111,7 @@ var _PostList = require('./Profile/Posts/PostList');
 
 var _PostList2 = _interopRequireDefault(_PostList);
 
-var _LikeList = require('./Profile/LikeList');
+var _LikeList = require('./Profile/Likes/LikeList');
 
 var _LikeList2 = _interopRequireDefault(_LikeList);
 
@@ -48146,7 +48188,7 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), document.getElementById('root'));
 
-},{"../actions":266,"../stores/ProductStore":289,"./HomePage":268,"./Navbar":273,"./Profile/FollowerList":279,"./Profile/LikeList":281,"./Profile/Posts/PostList":283,"./Profile/Profile":284,"alt-utils/lib/connectToStores":1,"react":262,"react-dom":52,"react-router":99}],289:[function(require,module,exports){
+},{"../actions":266,"../stores/ProductStore":289,"./HomePage":268,"./Navbar":273,"./Profile/FollowerList":279,"./Profile/Likes/LikeList":281,"./Profile/Posts/PostList":283,"./Profile/Profile":284,"alt-utils/lib/connectToStores":1,"react":262,"react-dom":52,"react-router":99}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

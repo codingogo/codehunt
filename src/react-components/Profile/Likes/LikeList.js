@@ -4,14 +4,13 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../../stores/ProductStore';
 
 import {Link} from 'react-router';
-
-import PostCard from './PostCard';
+import LikeCard from './LikeCard';
 
 @connectToStores
-class PostList extends React.Component{
-	constructor(){
-		super();
-	}
+class LikeList extends React.Component{
+  constructor(){
+    super();
+  }
 
   static getStores() {
     return [ProductStore];
@@ -22,19 +21,19 @@ class PostList extends React.Component{
   };
 
   componentWillMount() {
-    Actions.getPosts(this.props.params.id);
+    Actions.getLikes(this.props.params.id);
   }
 
-  renderPostList() {
-    var postArr = this.props.posts.slice(0).reverse();
+  renderLikeList() {
+    var likeArr = this.props.likes.slice(0).reverse();
     return (
       <section className="profile-content-area">
         <ul className="row profile-content-items">
             {
-              this.props.posts 
+              this.props.likes 
               ?
-              postArr.map(function(item,idx){
-                return <PostCard key={idx} pid={item.key} {...item}/>
+              likeArr.map(function(item,idx){
+                return <LikeCard key={idx} pid={item.key} {...item}/>
               })
               :
               null
@@ -44,7 +43,7 @@ class PostList extends React.Component{
     )    
   }
 
-  renderEmptyPost () {
+  renderEmptyLike () {
     return (
       <section className="profile-content-area">
         <div className="row profile-content-items empty-post">
@@ -55,18 +54,18 @@ class PostList extends React.Component{
   }
 
   render() {
-  	return (
-  		<section>
+    return (
+      <section>
         {
-          (this.props.posts.length > 0)
+          (this.props.likes.length > 0)
           ?
-          this.renderPostList()
+          this.renderLikeList()
           :
-          this.renderEmptyPost()
+          this.renderEmptyLike()
         } 
       </section>
-  	)
+    )
   }
 }
 
-export default PostList;
+export default LikeList;
