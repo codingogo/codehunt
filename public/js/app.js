@@ -47166,16 +47166,16 @@ var LikeCard = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LikeCard).call(this));
 
-    _this.showPostPopup = function () {
-      _this.setState({ postPopupStatus: true });
+    _this.showLikePopup = function () {
+      _this.setState({ likePopupStatus: true });
     };
 
-    _this.hidePostPopup = function () {
-      _this.setState({ postPopupStatus: false });
+    _this.hideLikePopup = function () {
+      _this.setState({ likePopupStatus: false });
     };
 
     _this.state = {
-      postPopupStatus: false
+      likePopupStatus: false
     };
     return _this;
   }
@@ -47183,11 +47183,11 @@ var LikeCard = function (_React$Component) {
   _createClass(LikeCard, [{
     key: 'render',
     value: function render() {
-      var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
+      var likecard = "col-xs-6 col-sm-4 col-md-3 postcard";
       var img = "postcard-img width-full";
       var imgUrl = this.props.media ? this.props.media : "./img/delb.png";
       var btn = "btn-sm btn btn-default width-half postcard-btn";
-      var postcardTitle = "width-full postcard-title";
+      var likecardTitle = "width-full postcard-title";
       var caretUp = "fa fa-lg fa-caret-up";
       var comment = "fa fa-comment";
       var imgMain = {
@@ -47198,11 +47198,11 @@ var LikeCard = function (_React$Component) {
 
       return _react2.default.createElement(
         'li',
-        { className: postcard },
+        { className: likecard },
         _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showPostPopup }),
         _react2.default.createElement(
           'div',
-          { className: postcardTitle },
+          { className: likecardTitle },
           this.props.name.substring(0, 27)
         ),
         _react2.default.createElement(
@@ -47231,7 +47231,7 @@ var LikeCard = function (_React$Component) {
             )
           )
         ),
-        _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.postPopupStatus, hidePopup: this.hidePostPopup }))
+        _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.likePopupStatus, hidePopup: this.hidePostPopup }))
       );
     }
   }]);
@@ -47661,10 +47661,20 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
       var profileImgName = "profile-pg-name";
       var caretUp = "fa fa-lg fa-caret-up";
       var caretDown = "fa fa-lg fa-caret-down";
+      var followBtnMobile = "visible-xs btn btn-default follow-btn-mobile";
       return _react2.default.createElement(
         'section',
         { className: profileImgContainer },
         _react2.default.createElement('img', { src: this.props.profiles ? this.props.profiles.avatar : null, alt: '', className: profileImg }),
+        _react2.default.createElement(
+          'span',
+          null,
+          _react2.default.createElement(
+            'button',
+            { className: followBtnMobile },
+            '+ Follow'
+          )
+        ),
         _react2.default.createElement(
           'a',
           { onClick: this.toggleProfileDesc, className: profileImgName },
@@ -47712,7 +47722,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
       var postsUrl = '/profile/posts/' + this.props.user.id;
       var likesUrl = '/profile/likes/' + this.props.user.id;
       var followersUrl = '/profile/followers/' + this.props.user.id;
-
+      var followBtnDesktop = "hidden-xs btn btn-default follow-btn-desktop";
       return _react2.default.createElement(
         'section',
         { className: btnContainer },
@@ -47724,7 +47734,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
             { className: inputClass },
             _react2.default.createElement(
               'div',
-              null,
+              { className: 'stat-center' },
               this.props.posts ? this.props.posts.length : 0
             ),
             _react2.default.createElement(
@@ -47738,7 +47748,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
             { className: inputClass },
             _react2.default.createElement(
               'div',
-              null,
+              { className: 'stat-center' },
               this.props.likes ? this.props.likes.length : 0
             ),
             _react2.default.createElement(
@@ -47752,7 +47762,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
             { className: inputClass },
             _react2.default.createElement(
               'div',
-              null,
+              { className: 'stat-center' },
               this.props.profiles.followers ? this.props.profiles.followers.length : 0
             ),
             _react2.default.createElement(
@@ -47760,6 +47770,11 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
               { to: followersUrl, className: activePost },
               'FOLLOWERS'
             )
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: followBtnDesktop },
+            '+ Follow'
           )
         )
       );

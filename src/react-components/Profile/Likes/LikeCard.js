@@ -5,24 +5,24 @@ class LikeCard extends React.Component{
   constructor(){
     super();
     this.state = {
-      postPopupStatus: false
+      likePopupStatus: false
     }
   }
 
-  showPostPopup = () => {
-    this.setState({postPopupStatus: true});
+  showLikePopup = () => {
+    this.setState({likePopupStatus: true});
   };
 
-  hidePostPopup = () => {
-    this.setState({postPopupStatus: false});
+  hideLikePopup = () => {
+    this.setState({likePopupStatus: false});
   };  
 
   render() {
-    var postcard="col-xs-6 col-sm-4 col-md-3 postcard";
+    var likecard="col-xs-6 col-sm-4 col-md-3 postcard";
     var img = "postcard-img width-full"
     var imgUrl = this.props.media? this.props.media : "./img/delb.png";
     var btn = "btn-sm btn btn-default width-half postcard-btn";
-    var postcardTitle="width-full postcard-title";
+    var likecardTitle="width-full postcard-title";
     var caretUp = "fa fa-lg fa-caret-up";
     var comment = "fa fa-comment";
     var imgMain = {
@@ -32,9 +32,9 @@ class LikeCard extends React.Component{
     };
     
     return (
-      <li className={postcard}>
+      <li className={likecard}>
         <div className={img} style={imgMain} onClick={this.showPostPopup}></div>
-        <div className={postcardTitle}>
+        <div className={likecardTitle}>
           {this.props.name.substring(0,27)}
         </div>          
         <div className="width-full">
@@ -47,7 +47,7 @@ class LikeCard extends React.Component{
             <span>&nbsp;{this.props.commentNums}</span>
           </span>
         </div>
-        <ProductPopup {...this.props} status={this.state.postPopupStatus} hidePopup={this.hidePostPopup}/>
+        <ProductPopup {...this.props} status={this.state.likePopupStatus} hidePopup={this.hidePostPopup}/>
       </li>
     )
   }

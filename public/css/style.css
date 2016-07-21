@@ -645,14 +645,14 @@ select.select-category {
 .profile-pg-img-container {
   background-color: #fff;
   margin-top: 65px;
-  height: 180px;
+  height: 220px;
 }
 .profile-pg-img {
-  margin-top: 118px;
+  margin-top: 148px;
   float: left;
   border: 15px solid #fff;
-  width: 150px;
-  height: 150px;
+  width: 170px;
+  height: 170px;
   margin-left: 50px;
   padding: 0;
 }
@@ -660,8 +660,8 @@ select.select-category {
   padding-bottom: 15px;
   display: inline-block;
   position: absolute;
-  margin-top: 132px;
-  padding-left: 20px;
+  margin-top: 166px;
+  padding-left: 34px;
   font-size: 22px;
   color: #fff;
   text-shadow: 1px 1px 6px #555;
@@ -673,8 +673,10 @@ select.select-category {
   display: inline-block;
   list-style: none;
   padding: 35px 20px 10px 20px;
-  margin-left: 10px;
   color: #888;
+}
+.profile-stat .stat-center {
+  text-align: center;
 }
 .profile-stat > a {
   font-size: 14px;
@@ -724,6 +726,35 @@ select.select-category {
 }
 .profile-product-btn .fa-heart {
   color: #888;
+}
+.follow-btn-desktop {
+  padding: 6px 18px;
+  color: #777;
+  font-size: 15px;
+  position: absolute;
+  top: 37px;
+  margin-left: 28px;  
+}
+.follow-btn-desktop:hover, .follow-btn-mobile:hover {
+  color: #ff6633;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+}
+.follow-btn-mobile {
+  padding: 5px 10px;
+  color: #777;
+  font-size: 15px;
+  position: relative;
+  color: #777;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: -9px;
+  font-size: 13px;
+}  
+}
+.stat-center {
+  text-align: center;
+  padding-bottom: 4px;
 }
 /********** POST CARD **************/
 .postcard {
@@ -800,9 +831,7 @@ select.select-category {
   .padding-zero-left {
     padding-left: 0;
   }
-/*  .popup-close {
-    right: 4.4%;
-  }*/
+
   /********* LANDING PAGE Mobile ************/
   .product-list-canvas {
     padding: 0;
@@ -839,7 +868,7 @@ select.select-category {
   .profile-pg-name {
     display: block;
     position: relative;
-    margin-top: 0px;
+    margin-top: 12px;
     padding: 5px;
     font-size: 18px;
   }
@@ -850,6 +879,7 @@ select.select-category {
   .profile-stat {
     margin-left: 0;
     font-size: 14px;
+    min-width: 100px;
   }
   .profile-product-img {
     width: 90px;

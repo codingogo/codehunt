@@ -4,7 +4,6 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../../stores/ProductStore';
 
 import {Link} from 'react-router';
-
 import PostCard from './PostCard';
 
 @connectToStores

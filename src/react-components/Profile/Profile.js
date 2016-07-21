@@ -41,9 +41,10 @@ class Profile extends React.Component{
   	var profileImgName="profile-pg-name";
   	var caretUp="fa fa-lg fa-caret-up";
   	var caretDown="fa fa-lg fa-caret-down";
+    var followBtnMobile = "visible-xs btn btn-default follow-btn-mobile"
   	return (
   		<section className={profileImgContainer}>
-  			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/>
+  			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/><span><button className={followBtnMobile}>+ Follow</button></span>
   			<a onClick={this.toggleProfileDesc} className={profileImgName}>
   				<span>{this.props.profiles ? this.props.profiles.name : null} </span>
   				{
@@ -77,22 +78,23 @@ class Profile extends React.Component{
     var postsUrl =('/profile/posts/' + this.props.user.id);
     var likesUrl =('/profile/likes/' + this.props.user.id);
     var followersUrl =('/profile/followers/' + this.props.user.id);
-    
+    var followBtnDesktop = "hidden-xs btn btn-default follow-btn-desktop";
   	return (
 	  	<section className={btnContainer}>
 		  	<ul className={statArea}>
 		  		<li className={inputClass}>		  	
-		  			<div>{this.props.posts? this.props.posts.length: 0}</div>
+		  			<div className='stat-center'>{this.props.posts? this.props.posts.length: 0}</div>
 		  			<NavLink to={postsUrl} className={activePost}>POSTS</NavLink>
 		  		</li>
 		  		<li className={inputClass}>			  		
-		  			<div>{this.props.likes? this.props.likes.length: 0}</div>
+		  			<div className='stat-center'>{this.props.likes? this.props.likes.length: 0}</div>
 		  			<NavLink to={likesUrl} className={activePost}>LIKES</NavLink>
 		  		</li>
 		  		<li className={inputClass}>		  			
-		  			<div>{this.props.profiles.followers? this.props.profiles.followers.length: 0}</div>
-		  			<NavLink to={followersUrl} className={activePost}>FOLLOWERS</NavLink>		  		
+		  			<div className='stat-center'>{this.props.profiles.followers? this.props.profiles.followers.length: 0}</div>
+		  			<NavLink to={followersUrl} className={activePost}>FOLLOWERS</NavLink>	
 		  		</li>
+          <button className={followBtnDesktop}>+ Follow</button>
 		  	</ul>
 	  	</section>	
   	)
