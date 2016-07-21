@@ -166,7 +166,7 @@ class Actions {
 	getLikes(userId) {
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com/likes');
-			firebaseRef.child(userId).on('value', (snapshot) => {
+			firebaseRef.child(userId).orderByChild('timestamp').on('value', (snapshot) => {
 				var likesVal = snapshot.val();
 				var likes = _(likesVal).keys().map((likeKey) => {
 					var item = _.clone(likesVal[likeKey]);

@@ -45436,7 +45436,7 @@ var Actions = function () {
 		value: function getLikes(userId) {
 			return function (dispatch) {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com/likes');
-				firebaseRef.child(userId).on('value', function (snapshot) {
+				firebaseRef.child(userId).orderByChild('timestamp').on('value', function (snapshot) {
 					var likesVal = snapshot.val();
 					var likes = (0, _lodash2.default)(likesVal).keys().map(function (likeKey) {
 						var item = _lodash2.default.clone(likesVal[likeKey]);
@@ -46880,7 +46880,8 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
           id: _this.props.maker.id,
           name: _this.props.maker.name
         },
-        category: _this.props.category
+        category: _this.props.category,
+        timestamp: Firebase.ServerValue.TIMESTAMP
       };
       _actions2.default.addVote(_this.props.pid, _this.props.user.id, productObj);
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -47300,7 +47301,7 @@ var LikeList = (0, _connectToStores2.default)(_class = function (_React$Componen
   }, {
     key: 'renderLikeList',
     value: function renderLikeList() {
-      var likeArr = this.props.likes.slice(0).reverse();
+      var likeArr = this.props.likes;
       return _react2.default.createElement(
         'section',
         { className: 'profile-content-area' },

@@ -25,7 +25,7 @@ class LikeList extends React.Component{
   }
 
   renderLikeList() {
-    var likeArr = this.props.likes.slice(0).reverse();
+    var likeArr = this.props.likes;
     return (
       <section className="profile-content-area">
         <ul className="row profile-content-items">

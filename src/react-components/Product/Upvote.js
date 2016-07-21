@@ -25,7 +25,8 @@ class Upvote extends React.Component {
         id: this.props.maker.id,
         name: this.props.maker.name
       },
-      category: this.props.category
+      category: this.props.category,
+      timestamp:Firebase.ServerValue.TIMESTAMP
     }
     Actions.addVote(this.props.pid, this.props.user.id, productObj);
   };
