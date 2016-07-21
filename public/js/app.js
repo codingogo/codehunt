@@ -45354,18 +45354,6 @@ var Actions = function () {
 				});
 			};
 		}
-
-		// addProduct(product) {
-		// 	return (dispatch) => {
-		// 		var firebaseRef = new Firebase('https://delb.firebaseio.com');
-
-		// 		firebaseRef.child('products').push(product);
-
-		// 		var userId = product.maker.id;
-		// 		firebaseRef.child('posts').child(userId).push(product);
-		// 	}
-		// }
-
 	}, {
 		key: 'addProduct',
 		value: function addProduct(product) {
@@ -45384,7 +45372,7 @@ var Actions = function () {
 		}
 	}, {
 		key: 'addVote',
-		value: function addVote(productId, userId) {
+		value: function addVote(productId, userId, productObj) {
 			return function (dispatch) {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
 				var voteRef = firebaseRef.child('votes').child(productId).child(userId);
@@ -45399,6 +45387,8 @@ var Actions = function () {
 						firebaseRef.set(vote + 1);
 					}
 				});
+				// save to Profile Likes
+				firebaseRef.child('likes').child(userId).child(productId).set(productObj);
 			};
 		}
 	}, {
@@ -45438,6 +45428,22 @@ var Actions = function () {
 						return item;
 					}).value();
 					dispatch(posts);
+				});
+			};
+		}
+	}, {
+		key: 'getLikes',
+		value: function getLikes(userId) {
+			return function (dispatch) {
+				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com/likes');
+				firebaseRef.child(userId).on('value', function (snapshot) {
+					var likesVal = snapshot.val();
+					var likes = (0, _lodash2.default)(likesVal).keys().map(function (likeKey) {
+						var item = _lodash2.default.clone(likesVal[likeKey]);
+						item.key = likeKey;
+						return item;
+					}).value();
+					dispatch(likes);
 				});
 			};
 		}
@@ -46864,7 +46870,19 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Upvote)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.handleVote = function () {
-      _actions2.default.addVote(_this.props.pid, _this.props.user.id);
+      var productObj = {
+        name: _this.props.name,
+        media: _this.props.media,
+        description: _this.props.description,
+        link: _this.props.link,
+        maker: {
+          avatar: _this.props.maker.avatar,
+          id: _this.props.maker.id,
+          name: _this.props.maker.name
+        },
+        category: _this.props.category
+      };
+      _actions2.default.addVote(_this.props.pid, _this.props.user.id, productObj);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -47590,6 +47608,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
     value: function componentWillMount() {
       _actions2.default.getProfiles(this.props.params.id);
       _actions2.default.getPosts(this.props.params.id);
+      _actions2.default.getLikes(this.props.params.id);
     }
   }, {
     key: 'renderProfile',
@@ -47677,7 +47696,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
             _react2.default.createElement(
               'div',
               null,
-              this.props.profiles.likes ? this.props.profiles.likes.length : 0
+              this.props.likes ? this.props.likes.length : 0
             ),
             _react2.default.createElement(
               _NavLink2.default,
@@ -48136,7 +48155,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _desc, _value, _class2;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _class, _desc, _value, _class2;
 
 var _alt = require('../alt');
 
@@ -48181,7 +48200,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 	return desc;
 }
 
-var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.getPosts), _dec7 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec8 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec9 = (0, _decorators.bind)(_actions2.default.showPopup), _dec10 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
+var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.getPosts), _dec7 = (0, _decorators.bind)(_actions2.default.getLikes), _dec8 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec9 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec10 = (0, _decorators.bind)(_actions2.default.showPopup), _dec11 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
 	function ProductStore() {
 		_classCallCheck(this, ProductStore);
 
@@ -48191,6 +48210,7 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			comments: [],
 			profiles: [],
 			posts: [],
+			likes: [],
 			productCategory: '',
 			showProfileDescription: false,
 			showProfileNav: false,
@@ -48228,6 +48248,11 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			this.setState({ posts: posts });
 		}
 	}, {
+		key: 'getLikes',
+		value: function getLikes(likes) {
+			this.setState({ likes: likes });
+		}
+	}, {
 		key: 'updateCategory',
 		value: function updateCategory(productCategory) {
 			this.setState(productCategory);
@@ -48250,7 +48275,7 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 	}]);
 
 	return ProductStore;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPosts', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'getPosts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPosts', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'getPosts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getLikes', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'getLikes'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
 exports.default = _alt2.default.createStore(ProductStore);
 
 },{"../actions":266,"../alt":267,"alt-utils/lib/decorators":2}],290:[function(require,module,exports){

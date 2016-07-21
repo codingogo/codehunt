@@ -11,6 +11,7 @@ class ProductStore {
 			comments: [],
 			profiles: [],
 			posts: [],
+			likes: [],
 			productCategory: '',
 			showProfileDescription: false, 
 			showProfileNav: false,
@@ -46,6 +47,11 @@ class ProductStore {
 	getPosts(posts) {
 		this.setState({posts: posts});
 	}
+
+	@bind(Actions.getLikes)
+	getLikes(likes) {
+		this.setState({likes: likes});
+	}	
 
 	@bind(Actions.updateCategory)
 	updateCategory(productCategory){

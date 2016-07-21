@@ -15,7 +15,19 @@ class Upvote extends React.Component {
   }
 
   handleVote = () => {
-    Actions.addVote(this.props.pid, this.props.user.id);
+    var productObj = {
+      name: this.props.name,
+      media: this.props.media,
+      description: this.props.description,
+      link: this.props.link,
+      maker: {
+        avatar: this.props.maker.avatar,
+        id: this.props.maker.id,
+        name: this.props.maker.name
+      },
+      category: this.props.category
+    }
+    Actions.addVote(this.props.pid, this.props.user.id, productObj);
   };
 
 	render() {

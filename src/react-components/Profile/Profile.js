@@ -24,6 +24,7 @@ class Profile extends React.Component{
 	componentWillMount() {
     Actions.getProfiles(this.props.params.id);
     Actions.getPosts(this.props.params.id);
+    Actions.getLikes(this.props.params.id);
   }
 
 	toggleProfileDesc = () => {
@@ -73,10 +74,10 @@ class Profile extends React.Component{
     var activeFollow = '';
     var statArea = 'stat-area col-xs-12 col-sm-8';
     var btnContainer = 'main-btn-container';
-    var postsUrl =('/profile/posts/' + this.props.user.id)
-    var likesUrl =('/profile/likes/' + this.props.user.id)
-    var followersUrl =('/profile/followers/' + this.props.user.id)
-
+    var postsUrl =('/profile/posts/' + this.props.user.id);
+    var likesUrl =('/profile/likes/' + this.props.user.id);
+    var followersUrl =('/profile/followers/' + this.props.user.id);
+    
   	return (
 	  	<section className={btnContainer}>
 		  	<ul className={statArea}>
@@ -85,7 +86,7 @@ class Profile extends React.Component{
 		  			<NavLink to={postsUrl} className={activePost}>POSTS</NavLink>
 		  		</li>
 		  		<li className={inputClass}>			  		
-		  			<div>{this.props.profiles.likes? this.props.profiles.likes.length: 0}</div>
+		  			<div>{this.props.likes? this.props.likes.length: 0}</div>
 		  			<NavLink to={likesUrl} className={activePost}>LIKES</NavLink>
 		  		</li>
 		  		<li className={inputClass}>		  			
