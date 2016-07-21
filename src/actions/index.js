@@ -89,15 +89,30 @@ class Actions {
 		}
 	}
 
-	addProduct(product) {
-		return (dispatch) => {
-			var firebaseRef = new Firebase('https://delb.firebaseio.com');
+	// addProduct(product) {
+	// 	return (dispatch) => {
+	// 		var firebaseRef = new Firebase('https://delb.firebaseio.com');
 		
-			firebaseRef.child('products').push(product);
+	// 		firebaseRef.child('products').push(product);
 
-			var userId = product.maker.id;
-			firebaseRef.child('posts').child(userId).push(product);
-		}
+	// 		var userId = product.maker.id;
+	// 		firebaseRef.child('posts').child(userId).push(product);
+	// 	}
+	// }
+
+	addProduct(product){
+		var ref = new Firebase('https://delb.firebaseio.com');
+		var newPostRef = ref.child('products').push(product);
+		var newPostKey = newPostRef.key();
+		var updatedPostData = {};
+		var userId = product.maker.id;
+		updatedPostData["users/"+ userId + "/posts/" + newPostKey] = true;
+		updatedPostData["posts/"+ userId + '/' + newPostKey] = product;
+		ref.update(updatedPostData, function(error){
+			if(error){
+				console.log("Error updating data:", error);
+			}
+		})
 	}
 
 	addVote(productId, userId) {

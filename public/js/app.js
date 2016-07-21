@@ -45354,17 +45354,33 @@ var Actions = function () {
 				});
 			};
 		}
+
+		// addProduct(product) {
+		// 	return (dispatch) => {
+		// 		var firebaseRef = new Firebase('https://delb.firebaseio.com');
+
+		// 		firebaseRef.child('products').push(product);
+
+		// 		var userId = product.maker.id;
+		// 		firebaseRef.child('posts').child(userId).push(product);
+		// 	}
+		// }
+
 	}, {
 		key: 'addProduct',
 		value: function addProduct(product) {
-			return function (dispatch) {
-				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
-
-				firebaseRef.child('products').push(product);
-
-				var userId = product.maker.id;
-				firebaseRef.child('posts').child(userId).push(product);
-			};
+			var ref = new _firebase2.default('https://delb.firebaseio.com');
+			var newPostRef = ref.child('products').push(product);
+			var newPostKey = newPostRef.key();
+			var updatedPostData = {};
+			var userId = product.maker.id;
+			updatedPostData["users/" + userId + "/posts/" + newPostKey] = true;
+			updatedPostData["posts/" + userId + '/' + newPostKey] = product;
+			ref.update(updatedPostData, function (error) {
+				if (error) {
+					console.log("Error updating data:", error);
+				}
+			});
 		}
 	}, {
 		key: 'addVote',
@@ -48178,7 +48194,6 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			productCategory: '',
 			showProfileDescription: false,
 			showProfileNav: false,
-			popupStatus: false,
 
 			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			commentNums: 57,
