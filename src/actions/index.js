@@ -124,6 +124,44 @@ class Actions {
 		}
 	}
 
+	addFollow(followedId, followerId, followed) {
+		return (dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com');
+			var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
+			var updatedFollowData = {};
+			updatedFollowData["profiles/"+followedId+"/followers/"+followerId] = true;
+			followRef.on('value', (snapshot) => {
+				if(snapshot.val() == null){
+					followRef.set(followed);
+					firebaseRef.update(updatedFollowData, function(error){
+						if(error){
+							console.log("Error updating data:", error);
+						}
+					})
+				}
+			});
+		}
+	}
+
+	removeFollow(followedId, followerId) {
+		return (dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com');
+			var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
+			var updatedFollowData = {};
+			updatedFollowData["profiles/"+followedId+"/followers/"+followerId] = null;
+			followRef.on('value', (snapshot) => {
+				if(snapshot.val() != null){
+					followRef.set(null);
+					firebaseRef.update(updatedFollowData, function(error){
+						if(error){
+							console.log("Error removing follow:", error);
+						}
+					})
+				}
+			})
+		}
+	}
+
 	addComment(productId, comment){
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com/comments');
@@ -181,6 +219,22 @@ class Actions {
 		}
 	}
 
+	getFollowers(userId) {
+		return (dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com/followers');
+			firebaseRef.child(userId).on('value', (snapshot) => {
+				var followersVal = snapshot.val();
+				var followers = _(followersVal).keys().map((followerKey) => {
+					var item = _.clone(followersVal[followerKey]);
+					item.key = followerKey;
+					return item;
+				})
+				.value();
+				dispatch(followers);
+			})
+		}
+	}
+
 	getProfiles(userId) {
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com/profiles');
@@ -191,9 +245,9 @@ class Actions {
 		}
 	}
 
-	initializeProfileStats(initState) {
+	initializeProfileStats(initObj) {
 		return (dispatch) => {
-			dispatch(initState);
+			dispatch(initObj);
 		}
 	}
 

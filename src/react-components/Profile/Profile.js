@@ -3,14 +3,15 @@ import Actions from '../../actions';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../stores/ProductStore';
 
-import FollowerCard from './FollowerCard';
+import FollowerCard from './Followers/FollowerCard';
 import NavLink from '../Navbar/NavLink';
 
 @connectToStores
 class Profile extends React.Component{
 	constructor(props){
 		super(props);
-		this.toggleProfileDesc = this.toggleProfileDesc.bind(this);
+    this.toggleProfileDesc = this.toggleProfileDesc.bind(this);
+    this.handleFollow = this.handleFollow.bind(this);
 	}
 
   static getStores() {
@@ -25,6 +26,7 @@ class Profile extends React.Component{
     Actions.getProfiles(this.props.params.id);
     Actions.getPosts(this.props.params.id);
     Actions.getLikes(this.props.params.id);
+    Actions.getFollowers(this.props.params.id);
   }
 
 	toggleProfileDesc = () => {
@@ -35,16 +37,88 @@ class Profile extends React.Component{
   	return 'profile-stat ' + ((value===this.props.selected) ? 'active' : null);
   };
 
+  handleFollow = () => {
+    var followedId = this.props.params.id;
+    var followerId = this.props.user.id;
+    var followed = {
+      name: this.props.user.name,
+      media: this.props.user.avatar,
+      timestamp: Firebase.ServerValue.TIMESTAMP
+    };
+    Actions.addFollow(followedId, followerId, followed);
+  }
+
+  handleUnFollow = () => {
+    var followedId = this.props.params.id;
+    var followerId = this.props.user.id;
+    Actions.removeFollow(followedId, followerId);
+  }
+
+  renderFollowBtnMobile() {
+    var obj = this.props.followers;
+    var followerArr = [];
+    var i;
+    var userId;
+    var followBtnMobile = "visible-xs btn btn-default follow-btn-mobile"
+
+    for(i=0;i<obj.length; i++){
+      followerArr.push(obj[i].key);
+    }
+    if(this.props.user !== null){
+      userId = this.props.user.id;
+    }
+
+    return(
+      <section>
+        {
+          (followerArr.indexOf(userId) > -1)
+          ?
+          <button className={followBtnMobile} onClick={this.handleUnFollow}>Unfollow</button>
+          :
+          <button className={followBtnMobile} onClick={this.handleFollow}>+ Follow</button>
+        }
+      </section>
+    );
+  }
+
+  renderFollowBtnDesktop() {
+    var obj = this.props.followers;
+    var followerArr = [];
+    var i;
+    var userId;
+    var followBtnDesktop = "hidden-xs btn btn-default follow-btn-desktop";
+
+    for(i=0;i<obj.length; i++){
+      followerArr.push(obj[i].key);
+    }
+    if(this.props.user !== null){
+      userId = this.props.user.id;
+    }
+
+    return(
+      <section>
+        {
+          (followerArr.indexOf(userId) > -1)
+          ?
+          <button className={followBtnDesktop} onClick={this.handleUnFollow}>Unfollow</button>
+          :
+          <button className={followBtnDesktop} onClick={this.handleFollow}>+ Follow</button>
+        }
+      </section>  
+    );
+  }
+
   renderProfile() {
   	var profileImgContainer="profile-pg-img-container";
   	var profileImg="profile-pg-img";
   	var profileImgName="profile-pg-name";
   	var caretUp="fa fa-lg fa-caret-up";
   	var caretDown="fa fa-lg fa-caret-down";
-    var followBtnMobile = "visible-xs btn btn-default follow-btn-mobile"
+    
   	return (
   		<section className={profileImgContainer}>
-  			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/><span><button className={followBtnMobile}>+ Follow</button></span>
+  			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/>
+        {this.renderFollowBtnMobile()}
   			<a onClick={this.toggleProfileDesc} className={profileImgName}>
   				<span>{this.props.profiles ? this.props.profiles.name : null} </span>
   				{
@@ -77,8 +151,7 @@ class Profile extends React.Component{
     var btnContainer = 'main-btn-container';
     var postsUrl ='/profile/posts/' + this.props.profiles.id;
     var likesUrl ='/profile/likes/' + this.props.profiles.id;
-    var followersUrl =('/profile/followers/' + this.props.user.id);
-    var followBtnDesktop = "hidden-xs btn btn-default follow-btn-desktop";
+    var followersUrl =('/profile/followers/' + this.props.profiles.id);
 
   	return (
 	  	<section className={btnContainer}>
@@ -92,10 +165,10 @@ class Profile extends React.Component{
 		  			<NavLink to={likesUrl} className={activePost}>LIKES</NavLink>
 		  		</li>
 		  		<li className={inputClass}>		  			
-		  			<div className='stat-center'>{this.props.profiles.followers? this.props.profiles.followers.length: 0}</div>
+		  			<div className='stat-center'>{this.props.followers? this.props.followers.length: 0}</div>
 		  			<NavLink to={followersUrl} className={activePost}>FOLLOWERS</NavLink>	
 		  		</li>
-          <button className={followBtnDesktop}>+ Follow</button>
+          {this.renderFollowBtnDesktop()}
 		  	</ul>
 	  	</section>	
   	)

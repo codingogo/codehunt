@@ -2,8 +2,6 @@ import React from 'react';
 import Actions from '../../../actions';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../../stores/ProductStore';
-
-import {Link} from 'react-router';
 import PostCard from './PostCard';
 
 @connectToStores
@@ -23,7 +21,8 @@ class PostList extends React.Component{
   componentWillMount() {
     Actions.getProfiles(this.props.params.id);
     Actions.getPosts(this.props.params.id);
-    Actions.getLikes(this.props.params.id);  
+    Actions.getLikes(this.props.params.id); 
+    Actions.getFollowers(this.props.params.id); 
   }  
 
   renderPostList() {

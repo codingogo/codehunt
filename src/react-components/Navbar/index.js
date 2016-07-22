@@ -56,6 +56,7 @@ class Navbar extends React.Component {
     var initObj = {
       posts: [],
       likes: [],
+      followers: [],
       comments: []
     }
     Actions.initializeProfileStats(initObj);
@@ -65,6 +66,7 @@ class Navbar extends React.Component {
     var statId = this.props.user.id;
     Actions.getPosts(statId);
     Actions.getLikes(statId);
+    Actions.getFollowers(statId);
     Actions.getProfiles(statId);
   }
 

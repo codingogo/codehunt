@@ -12,6 +12,7 @@ class ProductStore {
 			profiles: [],
 			posts: [],
 			likes: [],
+			followers: [],
 			productCategory: '',
 			showProfileDescription: false, 
 			showProfileNav: false,
@@ -53,6 +54,11 @@ class ProductStore {
 		this.setState({likes: likes});
 	}	
 
+	@bind(Actions.getFollowers)
+	getFollowers(followers) {
+		this.setState({followers: followers});
+	}
+
 	@bind(Actions.updateCategory)
 	updateCategory(productCategory){
     this.setState(productCategory);
@@ -66,6 +72,11 @@ class ProductStore {
   @bind(Actions.initializeProfileStats)
   initializeProfileStats(initObj){
   	this.setState(initObj);
+  }
+
+  @bind(Actions.removeFollow)
+  removeFollow(followers){
+  	this.setState({followers: followers});
   }
 
   @bind(Actions.showPopup)

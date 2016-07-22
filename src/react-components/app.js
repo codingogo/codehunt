@@ -10,7 +10,7 @@ import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 import Profile from './Profile/Profile';
 import PostList from './Profile/Posts/PostList';
 import LikeList from './Profile/Likes/LikeList';
-import FollowerList from './Profile/FollowerList';
+import FollowerList from './Profile/Followers/FollowerList';
 
 
 @connectToStores

@@ -30,6 +30,7 @@ class ProductItem extends React.Component {
     var userId = this.props.maker.id;
     Actions.getPosts(userId);
     Actions.getLikes(userId);
+    Actions.getFollowers(userId);
     Actions.getProfiles(userId);
   }
 
