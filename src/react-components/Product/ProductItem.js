@@ -1,7 +1,7 @@
 import React from 'react';
+import NavLink from '../Navbar/NavLink'
 import ProductPopup from './ProductPopup';
 import Upvote from './Upvote';
-import NavLink from '../Navbar/NavLink'
 
 class ProductItem extends React.Component {
   constructor(){
@@ -9,6 +9,7 @@ class ProductItem extends React.Component {
     this.state = {
       productPopupStatus: false
     }
+    this.refreshStats = this.refreshStats.bind(this);
   }
 
   showProductPopup = () => {
@@ -19,11 +20,17 @@ class ProductItem extends React.Component {
     this.setState({productPopupStatus: false});
   };  
 
-
   renderNewWindowIcon(){
     return (
       <a className="product-item-link" href={this.props.link}><span><i className="fa fa-external-link" aria-hidden="true"></i></span></a>
     )
+  }
+
+  refreshStats = () => {
+    var userId = this.props.maker.id;
+    Actions.getPosts(userId);
+    Actions.getLikes(userId);
+    Actions.getProfiles(userId);
   }
 
   renderInfoSession(){
@@ -38,7 +45,7 @@ class ProductItem extends React.Component {
         <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name.substring(0,25).toUpperCase()}</h5>
         <p className={itemDesc}>{this.props.description.substring(0,50)}...</p>
         <div className={productStats}>
-          <NavLink to={this.props.maker.id? profileLink : "/"}>
+          <NavLink to={this.props.maker.id? ("/profile/posts/"+this.props.maker.id): "/"} onClick={this.refreshStats}>
             <img className={avatar} src={this.props.maker.avatar}/>
           </NavLink>
           <Upvote {...this.props} /> 
@@ -56,7 +63,7 @@ class ProductItem extends React.Component {
     }
 
     return (
-      <div className={imgClass} style={imgStyle} onClick={this.showProductPopup}></div> 
+      <div className={imgClass} style={imgStyle} onClick={this.showProductPopup}></div>
     )
   }
 

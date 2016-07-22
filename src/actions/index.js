@@ -155,6 +155,7 @@ class Actions {
 				var posts =  _(postsVal).keys().map((postKey) => {
 					var item =_.clone(postsVal[postKey]);
 					item.key = postKey;
+					item.postOwnerId = userId;
 					return item;
 				})
 				.value();
@@ -171,6 +172,7 @@ class Actions {
 				var likes = _(likesVal).keys().map((likeKey) => {
 					var item = _.clone(likesVal[likeKey]);
 					item.key = likeKey;
+					item.likedOwnerId = userId;
 					return item;
 				})
 				.value();
@@ -186,6 +188,12 @@ class Actions {
 				var profilesVal = snapshot.val();
 				dispatch(profilesVal);
 			});
+		}
+	}
+
+	initializeProfileStats(initState) {
+		return (dispatch) => {
+			dispatch(initState);
 		}
 	}
 

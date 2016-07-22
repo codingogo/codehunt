@@ -55,7 +55,7 @@ class HomePage extends React.Component {
   renderCategory() {
     return (
       <section className="hidden-xs col-sm-2 col-md-2 col-lg-2 left-navbar" productCategory={this.props.productCategory}>
-          <h5 className="category-title">CATEGORIES</h5>
+          <h5 className="category-title" value={""} onClick={this.changeCategory}>CATEGORIES</h5>
           <div className="category-canvas">
             <a value={"design"} onClick={this.changeCategory} className="category-select">Design </a>
             <a value={"entertainment"} onClick={this.changeCategory} className="category-select">Entertainment </a>

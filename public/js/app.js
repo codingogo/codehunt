@@ -45425,6 +45425,7 @@ var Actions = function () {
 					var posts = (0, _lodash2.default)(postsVal).keys().map(function (postKey) {
 						var item = _lodash2.default.clone(postsVal[postKey]);
 						item.key = postKey;
+						item.postOwnerId = userId;
 						return item;
 					}).value();
 					dispatch(posts);
@@ -45441,6 +45442,7 @@ var Actions = function () {
 					var likes = (0, _lodash2.default)(likesVal).keys().map(function (likeKey) {
 						var item = _lodash2.default.clone(likesVal[likeKey]);
 						item.key = likeKey;
+						item.likedOwnerId = userId;
 						return item;
 					}).value();
 					dispatch(likes);
@@ -45456,6 +45458,13 @@ var Actions = function () {
 					var profilesVal = snapshot.val();
 					dispatch(profilesVal);
 				});
+			};
+		}
+	}, {
+		key: 'initializeProfileStats',
+		value: function initializeProfileStats(initState) {
+			return function (dispatch) {
+				dispatch(initState);
 			};
 		}
 	}, {
@@ -45601,7 +45610,7 @@ var HomePage = (0, _connectToStores2.default)(_class = function (_React$Componen
         { className: 'hidden-xs col-sm-2 col-md-2 col-lg-2 left-navbar', productCategory: this.props.productCategory },
         _react2.default.createElement(
           'h5',
-          { className: 'category-title' },
+          { className: 'category-title', value: "", onClick: this.changeCategory },
           'CATEGORIES'
         ),
         _react2.default.createElement(
@@ -46103,27 +46112,27 @@ var _LoginPopup = require('./LoginPopup');
 
 var _LoginPopup2 = _interopRequireDefault(_LoginPopup);
 
-var _PostPopup = require('./PostPopup');
+var _actions = require('../../actions');
 
-var _PostPopup2 = _interopRequireDefault(_PostPopup);
+var _actions2 = _interopRequireDefault(_actions);
+
+var _connectToStores = require('alt-utils/lib/connectToStores');
+
+var _connectToStores2 = _interopRequireDefault(_connectToStores);
+
+var _reactRouter = require('react-router');
 
 var _reactMotionMenu = require('react-motion-menu');
 
 var _reactMotionMenu2 = _interopRequireDefault(_reactMotionMenu);
 
-var _actions = require('../../actions');
-
-var _actions2 = _interopRequireDefault(_actions);
-
-var _reactRouter = require('react-router');
-
 var _NavLink = require('./NavLink');
 
 var _NavLink2 = _interopRequireDefault(_NavLink);
 
-var _connectToStores = require('alt-utils/lib/connectToStores');
+var _PostPopup = require('./PostPopup');
 
-var _connectToStores2 = _interopRequireDefault(_connectToStores);
+var _PostPopup2 = _interopRequireDefault(_PostPopup);
 
 var _ProductStore = require('../../stores/ProductStore');
 
@@ -46161,10 +46170,28 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
       _actions2.default.logout();
     };
 
+    _this.initializeStats = function () {
+      var initObj = {
+        posts: [],
+        likes: [],
+        comments: []
+      };
+      _actions2.default.initializeProfileStats(initObj);
+    };
+
+    _this.refreshStats = function () {
+      var statId = _this.props.user.id;
+      _actions2.default.getPosts(statId);
+      _actions2.default.getLikes(statId);
+      _actions2.default.getProfiles(statId);
+    };
+
     _this.state = {
       menu1: { isOpen: false },
       popupStatus: false
     };
+    _this.initializeStats = _this.initializeStats.bind(_this);
+    _this.refreshStats = _this.refreshStats.bind(_this);
     return _this;
   }
 
@@ -46264,7 +46291,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
           ),
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: userLink },
+            { to: userLink, onClick: this.refreshStats },
             _react2.default.createElement('i', { className: userIcon })
           ),
           _react2.default.createElement(
@@ -46350,7 +46377,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
           { className: navHeader },
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: '/', className: navBrand },
+            { to: '/', className: navBrand, onClick: this.initializeStats },
             this.renderLogo()
           ),
           _react2.default.createElement(
@@ -46411,6 +46438,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _NavLink = require('../Navbar/NavLink');
+
+var _NavLink2 = _interopRequireDefault(_NavLink);
+
 var _ProductPopup = require('./ProductPopup');
 
 var _ProductPopup2 = _interopRequireDefault(_ProductPopup);
@@ -46418,10 +46449,6 @@ var _ProductPopup2 = _interopRequireDefault(_ProductPopup);
 var _Upvote = require('./Upvote');
 
 var _Upvote2 = _interopRequireDefault(_Upvote);
-
-var _NavLink = require('../Navbar/NavLink');
-
-var _NavLink2 = _interopRequireDefault(_NavLink);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46447,9 +46474,17 @@ var ProductItem = function (_React$Component) {
       _this.setState({ productPopupStatus: false });
     };
 
+    _this.refreshStats = function () {
+      var userId = _this.props.maker.id;
+      Actions.getPosts(userId);
+      Actions.getLikes(userId);
+      Actions.getProfiles(userId);
+    };
+
     _this.state = {
       productPopupStatus: false
     };
+    _this.refreshStats = _this.refreshStats.bind(_this);
     return _this;
   }
 
@@ -46494,7 +46529,7 @@ var ProductItem = function (_React$Component) {
           { className: productStats },
           _react2.default.createElement(
             _NavLink2.default,
-            { to: this.props.maker.id ? profileLink : "/" },
+            { to: this.props.maker.id ? "/profile/posts/" + this.props.maker.id : "/", onClick: this.refreshStats },
             _react2.default.createElement('img', { className: avatar, src: this.props.maker.avatar })
           ),
           _react2.default.createElement(_Upvote2.default, this.props)
@@ -47522,7 +47557,9 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
   _createClass(PostList, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
+      _actions2.default.getProfiles(this.props.params.id);
       _actions2.default.getPosts(this.props.params.id);
+      _actions2.default.getLikes(this.props.params.id);
     }
   }, {
     key: 'renderPostList',
@@ -47719,10 +47756,11 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
       var activeFollow = '';
       var statArea = 'stat-area col-xs-12 col-sm-8';
       var btnContainer = 'main-btn-container';
-      var postsUrl = '/profile/posts/' + this.props.user.id;
-      var likesUrl = '/profile/likes/' + this.props.user.id;
+      var postsUrl = '/profile/posts/' + this.props.profiles.id;
+      var likesUrl = '/profile/likes/' + this.props.profiles.id;
       var followersUrl = '/profile/followers/' + this.props.user.id;
       var followBtnDesktop = "hidden-xs btn btn-default follow-btn-desktop";
+
       return _react2.default.createElement(
         'section',
         { className: btnContainer },
@@ -48213,7 +48251,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _class, _desc, _value, _class2;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _class, _desc, _value, _class2;
 
 var _alt = require('../alt');
 
@@ -48258,7 +48296,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 	return desc;
 }
 
-var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.getPosts), _dec7 = (0, _decorators.bind)(_actions2.default.getLikes), _dec8 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec9 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec10 = (0, _decorators.bind)(_actions2.default.showPopup), _dec11 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
+var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.getPosts), _dec7 = (0, _decorators.bind)(_actions2.default.getLikes), _dec8 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec9 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec10 = (0, _decorators.bind)(_actions2.default.initializeProfileStats), _dec11 = (0, _decorators.bind)(_actions2.default.showPopup), _dec12 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
 	function ProductStore() {
 		_classCallCheck(this, ProductStore);
 
@@ -48321,6 +48359,11 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			this.setState(showProfileDesc);
 		}
 	}, {
+		key: 'initializeProfileStats',
+		value: function initializeProfileStats(initObj) {
+			this.setState(initObj);
+		}
+	}, {
 		key: 'showPopup',
 		value: function showPopup(popupStatus) {
 			this.setState(popupStatus);
@@ -48333,7 +48376,7 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 	}]);
 
 	return ProductStore;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPosts', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'getPosts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getLikes', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'getLikes'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPosts', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'getPosts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getLikes', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'getLikes'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'initializeProfileStats', [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, 'initializeProfileStats'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
 exports.default = _alt2.default.createStore(ProductStore);
 
 },{"../actions":266,"../alt":267,"alt-utils/lib/decorators":2}],290:[function(require,module,exports){

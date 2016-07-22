@@ -75,10 +75,11 @@ class Profile extends React.Component{
     var activeFollow = '';
     var statArea = 'stat-area col-xs-12 col-sm-8';
     var btnContainer = 'main-btn-container';
-    var postsUrl =('/profile/posts/' + this.props.user.id);
-    var likesUrl =('/profile/likes/' + this.props.user.id);
+    var postsUrl ='/profile/posts/' + this.props.profiles.id;
+    var likesUrl ='/profile/likes/' + this.props.profiles.id;
     var followersUrl =('/profile/followers/' + this.props.user.id);
     var followBtnDesktop = "hidden-xs btn btn-default follow-btn-desktop";
+
   	return (
 	  	<section className={btnContainer}>
 		  	<ul className={statArea}>
@@ -106,7 +107,11 @@ class Profile extends React.Component{
         {this.renderProfile()}
         {this.renderStats()}
         {
-					this.props.showProfileDescription? this.renderProfileDescription() : null
+					this.props.showProfileDescription
+          ? 
+          this.renderProfileDescription() 
+          : 
+          null
 				}
         {this.props.children}
       </div>

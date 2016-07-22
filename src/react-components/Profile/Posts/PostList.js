@@ -21,8 +21,10 @@ class PostList extends React.Component{
   };
 
   componentWillMount() {
+    Actions.getProfiles(this.props.params.id);
     Actions.getPosts(this.props.params.id);
-  }
+    Actions.getLikes(this.props.params.id);  
+  }  
 
   renderPostList() {
     var postArr = this.props.posts.slice(0).reverse();

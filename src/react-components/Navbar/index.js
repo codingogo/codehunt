@@ -1,14 +1,14 @@
 import React from 'react';
 import LoginPopup from './LoginPopup';
-import PostPopup from './PostPopup';
 
-import Menu from 'react-motion-menu';
 import Actions from '../../actions';
-import {Link} from 'react-router';
-import NavLink from './NavLink';
-
 import connectToStores from 'alt-utils/lib/connectToStores';
+import {Link} from 'react-router';
+import Menu from 'react-motion-menu';
+import NavLink from './NavLink';
+import PostPopup from './PostPopup';
 import ProductStore from '../../stores/ProductStore';
+
 
 @connectToStores
 class Navbar extends React.Component {
@@ -18,6 +18,8 @@ class Navbar extends React.Component {
       menu1: {isOpen: false},
       popupStatus: false    
     };
+    this.initializeStats = this.initializeStats.bind(this);
+    this.refreshStats = this.refreshStats.bind(this);
   }
 
   static getStores() {
@@ -48,6 +50,22 @@ class Navbar extends React.Component {
     this.setState({menu1: {isOpen: false}});
     e.preventDefault();
     Actions.logout();
+  }
+
+  initializeStats = () => {
+    var initObj = {
+      posts: [],
+      likes: [],
+      comments: []
+    }
+    Actions.initializeProfileStats(initObj);
+  }
+
+  refreshStats = () => {
+    var statId = this.props.user.id;
+    Actions.getPosts(statId);
+    Actions.getLikes(statId);
+    Actions.getProfiles(statId);
   }
 
   renderProductSearch(){
@@ -115,7 +133,7 @@ class Navbar extends React.Component {
             }  
           </span>
           
-          <Link to={userLink}><i className={userIcon}></i></Link>
+          <Link to={userLink} onClick={this.refreshStats}><i className={userIcon}></i></Link>
           <Link to="/"><i className={heartIcon}></i></Link>
           <Link to="/"><i className={cogIcon}></i></Link>
           <Link to="/" onClick={this.handleLogout}><i className={signoutIcon}></i></Link> 
@@ -164,7 +182,7 @@ class Navbar extends React.Component {
     return (    
       <section className={nav}>
           <div className={navHeader}> 
-            <Link to="/" className={navBrand}>{this.renderLogo()}</Link>
+            <Link to="/" className={navBrand} onClick={this.initializeStats}>{this.renderLogo()}</Link>
             <span className={search}>{this.renderProductSearch()}</span>
             <span className={right}>{this.renderUser()}</span>
         </div>           

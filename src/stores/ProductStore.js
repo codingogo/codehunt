@@ -63,6 +63,11 @@ class ProductStore {
   	this.setState(showProfileDesc);
   }
 
+  @bind(Actions.initializeProfileStats)
+  initializeProfileStats(initObj){
+  	this.setState(initObj);
+  }
+
   @bind(Actions.showPopup)
   showPopup(popupStatus){
   	this.setState(popupStatus);

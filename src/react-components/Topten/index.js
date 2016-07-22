@@ -21,7 +21,7 @@ class Topten extends React.Component {
 
   componentWillMount() {
     Actions.getProducts();
-  }
+  } 
 
   renderToptenList() {
   	var productArray = this.props.products;

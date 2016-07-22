@@ -115,6 +115,9 @@ table {
   padding: 0 0 0 15px;
   height: 40px; 
 }
+.navbar-brand:hover{
+  text-shadow: 1px 1px 1px #ddd;
+}
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
   background-color: #fff;
   width: 100%;
@@ -181,6 +184,10 @@ table {
   width: 90px;
   padding-bottom: 5px;
   color: #bbb;
+  cursor: pointer;
+}
+.category-title:hover {
+  color: #ff6633;
 }
 .menu {
   z-index: 999;
