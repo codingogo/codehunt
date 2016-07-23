@@ -22,7 +22,8 @@ class ToptenItem extends React.Component {
     var imgUrl = this.props.media;
     var imgStyle = {
       backgroundImage: 'url(' + imgUrl + ')',
-      backgroundSize: 'cover'
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
     }
 
     return (

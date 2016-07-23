@@ -2,6 +2,8 @@ import React from 'react';
 import NavLink from '../Navbar/NavLink'
 import ProductPopup from './ProductPopup';
 import Upvote from './Upvote';
+import Actions from '../../actions';
+
 
 class ProductItem extends React.Component {
   constructor(){
@@ -28,10 +30,12 @@ class ProductItem extends React.Component {
 
   refreshStats = () => {
     var userId = this.props.maker.id;
-    Actions.getPosts(userId);
-    Actions.getLikes(userId);
-    Actions.getFollowers(userId);
-    Actions.getProfiles(userId);
+    if(userId && Actions){
+      Actions.getPosts(userId);
+      Actions.getLikes(userId);
+      Actions.getFollowers(userId);
+      Actions.getProfiles(userId);
+    }
   }
 
   renderInfoSession(){
@@ -60,7 +64,8 @@ class ProductItem extends React.Component {
     var imgUrl = this.props.media;
     var imgStyle = {
       backgroundImage: 'url(' + imgUrl + ')',
-      backgroundSize: 'cover'
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
     }
 
     return (

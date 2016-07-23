@@ -23,10 +23,12 @@ class Profile extends React.Component{
   };
 
 	componentWillMount() {
-    Actions.getProfiles(this.props.params.id);
-    Actions.getPosts(this.props.params.id);
-    Actions.getLikes(this.props.params.id);
-    Actions.getFollowers(this.props.params.id);
+    if(this.props.params.id){
+      Actions.getProfiles(this.props.params.id);
+      Actions.getPosts(this.props.params.id);
+      Actions.getLikes(this.props.params.id);
+      Actions.getFollowers(this.props.params.id);
+    }
   }
 
 	toggleProfileDesc = () => {
@@ -40,12 +42,13 @@ class Profile extends React.Component{
   handleFollow = () => {
     var followedId = this.props.params.id;
     var followerId = this.props.user.id;
-    var followed = {
+    var follower = {
       name: this.props.user.name,
       media: this.props.user.avatar,
+
       timestamp: Firebase.ServerValue.TIMESTAMP
     };
-    Actions.addFollow(followedId, followerId, followed);
+    Actions.addFollow(followedId, followerId, follower);
   }
 
   handleUnFollow = () => {

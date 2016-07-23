@@ -1,4 +1,5 @@
 import React from 'react';
+import NavLink from '../../Navbar/NavLink';
 
 class FollowerCard extends React.Component{
 	render() {
@@ -14,36 +15,30 @@ class FollowerCard extends React.Component{
       backgroundImage: 'url(' + imgUrl + ')',
       backgroundSize: 'cover',
       cursor: 'pointer'
-    };		
-
+    };	
+    var followerUrl =('/profile/posts/'+this.props.pid);	
+    var center = "center-align";
 		return (
-  		<section className={productClass}>
-  			<table className="thumbnail">
-			  	<tbody>
-			  		<tr>
-			  			<td className={imgClass} style={imgMain}>
-			  			</td>
-				  		<td className={titleClass} colSpan="2">{this.props.name}</td>
-			  		</tr>
-			  		<tr>
-			  			<td>
-			  				<span className={btnClass}>
-			  					<i className={userIcon} ariaHidden="true"></i>
-			  					<span>&nbsp;</span>
-			  				</span>
-			  			</td>
-			  			<td>
-			  				<span className={btnClass}>
-				  				<i className={plusIcon} ariaHidden="true"></i>
-				  				<span>&nbsp;Follow</span>
-			  				</span>
-			  			</td>
-			  		</tr>
-			  		<tr>	
-			  			<td className={descriptionClass} colSpan="3">{this.props.description}</td>
-			  		</tr>
-			  	</tbody>	
-	  		</table>	
+			<section className={productClass}>
+	  		<NavLink to={followerUrl}>
+	  			<table className="thumbnail">
+				  	<tbody>
+				  		<tr>
+				  			<td className={imgClass} style={imgMain} colSpan="2">
+				  			</td>
+				  			<td colSpan="1" className={center}>
+				  				<span className={btnClass}>View</span>
+				  			</td>
+				  		</tr>
+				  		<tr>
+					  		<td className={titleClass} colSpan="3">{this.props.name}</td>
+				  		</tr>
+				  		<tr>	
+				  			<td className={descriptionClass} colSpan="3">{this.props.description}</td>
+				  		</tr>
+				  	</tbody>	
+		  		</table>	
+	  		</NavLink>
   		</section>
 		)
 	}

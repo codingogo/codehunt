@@ -46,6 +46,9 @@ table {
 .right-align {
   float: right;
 }
+.center-align {
+  text-align: center;
+}
 .width-full {
   width: 100%;
 }
@@ -235,6 +238,9 @@ table {
   margin-bottom: 15px;
   margin-top: 65px;
   background: url(https://s3.amazonaws.com/delbapplication/banner.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: none;
 }
 .bars {
   z-index: 999;
@@ -305,8 +311,8 @@ table {
   margin-top: -34px;
 }
 .small-avatar {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   -webkit-transition: all .3s ease-in-out;
   -moz-transition: all .3s ease-in-out;
@@ -686,7 +692,7 @@ select.select-category {
   text-align: center;
 }
 .profile-stat > a {
-  font-size: 14px;
+  font-size: 16px;
 }
 .profile-stat > a:hover {
   color: #ff6633;
@@ -716,10 +722,11 @@ select.select-category {
   width: 70%;
   padding-left: 8px;
   color: #777;
+  padding-top: 11px;
 }
 .profile-product-img {
-  width: 30%;
-  height: 88px;
+  width: 90px;
+  height: 110px;
 }
 .profile-product-description {
   padding-top: 5px;
@@ -728,7 +735,7 @@ select.select-category {
 }
 .profile-product-btn {
   margin: 14px 2px 5px 2px;
-  width: 90px;
+  width: 60px;
   text-align: center;
   color: #888;
 }
@@ -741,7 +748,7 @@ select.select-category {
   font-size: 15px;
   position: absolute;
   top: 45px;
-  margin-left: 318px;  
+  margin-left: 340px;  
 }
 .follow-btn-desktop:hover, .follow-btn-mobile:hover {
   color: #ff6633;

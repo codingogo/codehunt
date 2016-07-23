@@ -45393,15 +45393,16 @@ var Actions = function () {
 		}
 	}, {
 		key: 'addFollow',
-		value: function addFollow(followedId, followerId, followed) {
+		value: function addFollow(followedId, followerId, follower) {
 			return function (dispatch) {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
 				var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 				var updatedFollowData = {};
-				updatedFollowData["profiles/" + followedId + "/followers/" + followerId] = true;
+				updatedFollowData["profiles/" + followedId + "/followers/" + followerId] = follower;
+				updatedFollowData["users/" + followedId + "/followers/" + followerId] = follower;
 				followRef.on('value', function (snapshot) {
 					if (snapshot.val() == null) {
-						followRef.set(followed);
+						followRef.set(follower);
 						firebaseRef.update(updatedFollowData, function (error) {
 							if (error) {
 								console.log("Error updating data:", error);
@@ -45419,6 +45420,7 @@ var Actions = function () {
 				var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 				var updatedFollowData = {};
 				updatedFollowData["profiles/" + followedId + "/followers/" + followerId] = null;
+				updatedFollowData["users/" + followedId + "/followers/" + followerId] = null;
 				followRef.on('value', function (snapshot) {
 					if (snapshot.val() != null) {
 						followRef.set(null);
@@ -46508,6 +46510,10 @@ var _Upvote = require('./Upvote');
 
 var _Upvote2 = _interopRequireDefault(_Upvote);
 
+var _actions = require('../../actions');
+
+var _actions2 = _interopRequireDefault(_actions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46534,10 +46540,12 @@ var ProductItem = function (_React$Component) {
 
     _this.refreshStats = function () {
       var userId = _this.props.maker.id;
-      Actions.getPosts(userId);
-      Actions.getLikes(userId);
-      Actions.getFollowers(userId);
-      Actions.getProfiles(userId);
+      if (userId && _actions2.default) {
+        _actions2.default.getPosts(userId);
+        _actions2.default.getLikes(userId);
+        _actions2.default.getFollowers(userId);
+        _actions2.default.getProfiles(userId);
+      }
     };
 
     _this.state = {
@@ -46602,7 +46610,8 @@ var ProductItem = function (_React$Component) {
       var imgUrl = this.props.media;
       var imgStyle = {
         backgroundImage: 'url(' + imgUrl + ')',
-        backgroundSize: 'cover'
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
       };
 
       return _react2.default.createElement('div', { className: imgClass, style: imgStyle, onClick: this.showProductPopup });
@@ -46630,7 +46639,7 @@ var ProductItem = function (_React$Component) {
 
 exports.default = ProductItem;
 
-},{"../Navbar/NavLink":270,"./ProductPopup":276,"./Upvote":277,"react":262}],275:[function(require,module,exports){
+},{"../../actions":266,"../Navbar/NavLink":270,"./ProductPopup":276,"./Upvote":277,"react":262}],275:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47017,7 +47026,7 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
 exports.default = Upvote;
 
 },{"../../actions":266,"../../stores/ProductStore":289,"alt-utils/lib/connectToStores":1,"react":262}],278:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -47025,9 +47034,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _NavLink = require('../../Navbar/NavLink');
+
+var _NavLink2 = _interopRequireDefault(_NavLink);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47047,7 +47060,7 @@ var FollowerCard = function (_React$Component) {
 	}
 
 	_createClass(FollowerCard, [{
-		key: "render",
+		key: 'render',
 		value: function render() {
 			var productClass = "col-xs-12 col-sm-4 col-md-3 profile-product";
 			var imgClass = "profile-product-img";
@@ -47062,65 +47075,51 @@ var FollowerCard = function (_React$Component) {
 				backgroundSize: 'cover',
 				cursor: 'pointer'
 			};
-
+			var followerUrl = '/profile/posts/' + this.props.pid;
+			var center = "center-align";
 			return _react2.default.createElement(
-				"section",
+				'section',
 				{ className: productClass },
 				_react2.default.createElement(
-					"table",
-					{ className: "thumbnail" },
+					_NavLink2.default,
+					{ to: followerUrl },
 					_react2.default.createElement(
-						"tbody",
-						null,
+						'table',
+						{ className: 'thumbnail' },
 						_react2.default.createElement(
-							"tr",
-							null,
-							_react2.default.createElement("td", { className: imgClass, style: imgMain }),
-							_react2.default.createElement(
-								"td",
-								{ className: titleClass, colSpan: "2" },
-								this.props.name
-							)
-						),
-						_react2.default.createElement(
-							"tr",
+							'tbody',
 							null,
 							_react2.default.createElement(
-								"td",
+								'tr',
 								null,
+								_react2.default.createElement('td', { className: imgClass, style: imgMain, colSpan: '2' }),
 								_react2.default.createElement(
-									"span",
-									{ className: btnClass },
-									_react2.default.createElement("i", { className: userIcon, ariaHidden: "true" }),
+									'td',
+									{ colSpan: '1', className: center },
 									_react2.default.createElement(
-										"span",
-										null,
-										" "
+										'span',
+										{ className: btnClass },
+										'View'
 									)
 								)
 							),
 							_react2.default.createElement(
-								"td",
+								'tr',
 								null,
 								_react2.default.createElement(
-									"span",
-									{ className: btnClass },
-									_react2.default.createElement("i", { className: plusIcon, ariaHidden: "true" }),
-									_react2.default.createElement(
-										"span",
-										null,
-										" Follow"
-									)
+									'td',
+									{ className: titleClass, colSpan: '3' },
+									this.props.name
 								)
-							)
-						),
-						_react2.default.createElement(
-							"tr",
-							null,
+							),
 							_react2.default.createElement(
-								"td",
-								{ className: descriptionClass, colSpan: "3" },
-								this.props.description
+								'tr',
+								null,
+								_react2.default.createElement(
+									'td',
+									{ className: descriptionClass, colSpan: '3' },
+									this.props.description
+								)
 							)
 						)
 					)
@@ -47134,7 +47133,7 @@ var FollowerCard = function (_React$Component) {
 
 exports.default = FollowerCard;
 
-},{"react":262}],279:[function(require,module,exports){
+},{"../../Navbar/NavLink":270,"react":262}],279:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47763,12 +47762,13 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
     _this.handleFollow = function () {
       var followedId = _this.props.params.id;
       var followerId = _this.props.user.id;
-      var followed = {
+      var follower = {
         name: _this.props.user.name,
         media: _this.props.user.avatar,
+
         timestamp: Firebase.ServerValue.TIMESTAMP
       };
-      _actions2.default.addFollow(followedId, followerId, followed);
+      _actions2.default.addFollow(followedId, followerId, follower);
     };
 
     _this.handleUnFollow = function () {
@@ -47785,10 +47785,12 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
   _createClass(Profile, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      _actions2.default.getProfiles(this.props.params.id);
-      _actions2.default.getPosts(this.props.params.id);
-      _actions2.default.getLikes(this.props.params.id);
-      _actions2.default.getFollowers(this.props.params.id);
+      if (this.props.params.id) {
+        _actions2.default.getProfiles(this.props.params.id);
+        _actions2.default.getPosts(this.props.params.id);
+        _actions2.default.getLikes(this.props.params.id);
+        _actions2.default.getFollowers(this.props.params.id);
+      }
     }
   }, {
     key: 'renderFollowBtnMobile',
@@ -48058,7 +48060,8 @@ var ToptenItem = function (_React$Component) {
       var imgUrl = this.props.media;
       var imgStyle = {
         backgroundImage: 'url(' + imgUrl + ')',
-        backgroundSize: 'cover'
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
       };
 
       return _react2.default.createElement('div', { className: imgClass, style: imgStyle });

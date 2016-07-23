@@ -124,15 +124,16 @@ class Actions {
 		}
 	}
 
-	addFollow(followedId, followerId, followed) {
+	addFollow(followedId, followerId, follower) {
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
 			var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 			var updatedFollowData = {};
-			updatedFollowData["profiles/"+followedId+"/followers/"+followerId] = true;
+			updatedFollowData["profiles/"+followedId+"/followers/"+followerId] = follower;
+			updatedFollowData["users/"+followedId+"/followers/"+followerId] = follower;
 			followRef.on('value', (snapshot) => {
 				if(snapshot.val() == null){
-					followRef.set(followed);
+					followRef.set(follower);
 					firebaseRef.update(updatedFollowData, function(error){
 						if(error){
 							console.log("Error updating data:", error);
@@ -149,6 +150,7 @@ class Actions {
 			var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 			var updatedFollowData = {};
 			updatedFollowData["profiles/"+followedId+"/followers/"+followerId] = null;
+			updatedFollowData["users/"+followedId+"/followers/"+followerId] = null;
 			followRef.on('value', (snapshot) => {
 				if(snapshot.val() != null){
 					followRef.set(null);
