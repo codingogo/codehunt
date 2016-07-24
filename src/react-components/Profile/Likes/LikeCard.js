@@ -28,7 +28,8 @@ class LikeCard extends React.Component{
     var imgMain = {
       backgroundImage: 'url(' + imgUrl + ')',
       backgroundSize: 'cover',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      backgroundPosition: 'center'
     };
     
     return (

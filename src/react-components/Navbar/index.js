@@ -98,7 +98,8 @@ class Navbar extends React.Component {
   }
 
   renderMenuBtn() {
-    var userLink = ('/profile/posts/' + this.props.user.id);
+    var userPostLink = ('/profile/posts/' + this.props.user.id);
+    var userLikeLink = ('/profile/likes/' + this.props.user.id);
     var timeIcon = "fa fa-times fa-lg";
     var imgProfile = "profile-img";
     var userIcon = "fa fa-user fa-lg menu";
@@ -135,8 +136,8 @@ class Navbar extends React.Component {
             }  
           </span>
           
-          <Link to={userLink} onClick={this.refreshStats}><i className={userIcon}></i></Link>
-          <Link to="/"><i className={heartIcon}></i></Link>
+          <Link to={userPostLink} onClick={this.refreshStats}><i className={userIcon}></i></Link>
+          <Link to={userLikeLink} onClick={this.refreshStats}><i className={heartIcon}></i></Link>
           <Link to="/"><i className={cogIcon}></i></Link>
           <Link to="/" onClick={this.handleLogout}><i className={signoutIcon}></i></Link> 
         </Menu>
@@ -145,14 +146,16 @@ class Navbar extends React.Component {
   }
 
   renderPost(){
+    var pointer = "pointer";
     return(
       <span>
-        <a href="#" onClick={this.showPopup} className="plus">+</a>
+        <a className={pointer} onClick={this.showPopup} className="plus">+</a>
       </span>      
     );
   }
 
   renderUser() {
+    var pointer = "pointer post-add";
     return (
       <section>
         {
@@ -160,14 +163,14 @@ class Navbar extends React.Component {
           ?
           // Post link 
           <section>
-            <span className="post-add">{this.renderPost()}</span>
+            <span className={pointer}>{this.renderPost()}</span>
             <span className="menu-motion-btn">{this.renderMenuBtn()}</span>
             <PostPopup user={this.props.user} status={this.state.popupStatus} hidePopup={this.hidePopup}/>
           </section>
           :
           // Login link
           <section>
-            <a href="#" onClick={this.showPopup} className="login-btn">Login</a>
+            <a onClick={this.showPopup} className="login-btn">Login</a>
             <LoginPopup status={this.state.popupStatus} hidePopup={this.hidePopup}/>
           </section>
         }

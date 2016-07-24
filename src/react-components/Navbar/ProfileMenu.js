@@ -37,10 +37,11 @@ class ProfileMenu extends React.Component{
 	}	
 
 	renderProfileNav() {
+		var pointer = "pointer";
 		return (
 			<nav className="profile-nav" ref="profileNav">
-				<a href="#">My Profile</a>
-				<a href="#" onClick={this.handleLogout}>Logout</a>
+				<a className={pointer}>My Profile</a>
+				<a className={pointer} onClick={this.handleLogout}>Logout</a>
 			</nav>
 		);
 	}

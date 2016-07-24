@@ -30,11 +30,11 @@ class ProductPopup extends React.Component{
 		return(
 			<header style={{backgroundImage: 'url(' + this.props.media + ')'}}>
 				<section className="header-shadow">
-					<h2>{this.props.name.toUpperCase()}</h2>
-					<p>{this.props.description}</p>
+					<h2>{this.props.name? this.props.name.toUpperCase():null}</h2>
+					<p>{this.props.description? this.props.description:null}</p>
 					<section>
 						<Upvote {...this.props} />
-						<a className="getit-btn" href={this.props.link} target="_blank">GET IT</a>
+						<a className="getit-btn" href={this.props.link? this.props.link:null} target="_blank">GO</a>
 					</section>
 				</section>
 			</header>

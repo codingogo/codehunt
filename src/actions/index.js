@@ -81,11 +81,11 @@ class Actions {
 		})
 	}
 
-	addVote(productId, userId, productObj) {
+	addVote(productId, userId, productObj, productOwnerId) {
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
-
 			var voteRef = firebaseRef.child('votes').child(productId).child(userId);
+			var postRef = firebaseRef.child('posts').child(productOwnerId).child(productId).child('upvote'); 
 			voteRef.on('value', (snapshot) => {
 				if(snapshot.val() == null){
 					voteRef.set(true);
@@ -95,6 +95,12 @@ class Actions {
 						vote = snapshot.val();
 					});
 					firebaseRef.set(vote+1);
+
+					// update post				
+					postRef.on('value', (snapshot) => {
+						vote = snapshot.val();
+					})
+					postRef.set(vote+1);
 				}
 			});
 			// save to Profile Likes
@@ -106,7 +112,7 @@ class Actions {
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
 			firebaseRef.child('comments').child(productId).push(comment);
-			
+
 			// add commentCount to product & user comment only count once
 			var commentRef = firebaseRef.child('products').child(productId).child('comments').child(userId);
 			commentRef.on('value', (snapshot) => {

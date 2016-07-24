@@ -30,7 +30,7 @@ class ProductItem extends React.Component {
   }
 
   refreshStats = () => {
-    var userId = this.props.maker.id;
+    var userId = (this.props.maker? this.props.maker.id:null);
     if(userId && Actions){
       Actions.getPosts(userId);
       Actions.getLikes(userId);
@@ -40,7 +40,6 @@ class ProductItem extends React.Component {
   }
 
   renderInfoSession(){
-    var profileLink = "/profile/posts/"+this.props.maker.id;
     var itemInfo = "product-item-info";
     var clickable = "clickable";
     var itemDesc = "product-item-description";
@@ -48,11 +47,11 @@ class ProductItem extends React.Component {
     var productStats = "product-stats";
     return (
       <section className={itemInfo}>
-        <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name.substring(0,25).toUpperCase()}</h5>
-        <p className={itemDesc}>{this.props.description.substring(0,50)}...</p>
+        <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name? this.props.name.substring(0,25).toUpperCase():null}</h5>
+        <p className={itemDesc}>{this.props.description? this.props.description.substring(0,50):null}...</p>
         <div className={productStats}>
-          <NavLink to={this.props.maker.id? ("/profile/posts/"+this.props.maker.id): "/"} onClick={this.refreshStats}>
-            <img className={avatar} src={this.props.maker.avatar}/>
+          <NavLink to={this.props.maker? ("/profile/posts/"+this.props.maker.id): "/"} onClick={this.refreshStats}>
+            <img className={avatar} src={this.props.maker? this.props.maker.avatar:null}/>
           </NavLink>
           <Upvote {...this.props} /> 
           <span onClick={this.showProductPopup}><Comment {...this.props} /></span>

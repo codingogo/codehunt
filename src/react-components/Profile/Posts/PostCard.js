@@ -28,6 +28,7 @@ class PostCard extends React.Component{
     var imgMain = {
       backgroundImage: 'url(' + imgUrl + ')',
       backgroundSize: 'cover',
+      backgroundPosition: 'center',
       cursor: 'pointer'
     };
     
@@ -35,7 +36,7 @@ class PostCard extends React.Component{
       <li className={postcard}>
         <div className={img} style={imgMain} onClick={this.showPostPopup}></div>
         <div className={postcardTitle}>
-          {this.props.name.substring(0,27)}
+          {this.props.name?this.props.name.substring(0,27):null}
         </div>          
         <div className="width-full">
           <span className={btn}>

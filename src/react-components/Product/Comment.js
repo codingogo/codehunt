@@ -16,7 +16,7 @@ class Comment extends React.Component {
 
 	render() {
     return (
-      <a className="comment-button" href="#">
+      <a className="comment-button">
         <span className="comment-bubble"><i className="fa fa-comment-o"></i></span>
         <span className="comment-count">{this.props.commentCount?this.props.commentCount:0}</span>
       </a>

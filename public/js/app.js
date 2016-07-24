@@ -45348,11 +45348,11 @@ var Actions = function () {
 		}
 	}, {
 		key: 'addVote',
-		value: function addVote(productId, userId, productObj) {
+		value: function addVote(productId, userId, productObj, productOwnerId) {
 			return function (dispatch) {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
-
 				var voteRef = firebaseRef.child('votes').child(productId).child(userId);
+				var postRef = firebaseRef.child('posts').child(productOwnerId).child(productId).child('upvote');
 				voteRef.on('value', function (snapshot) {
 					if (snapshot.val() == null) {
 						voteRef.set(true);
@@ -45362,6 +45362,12 @@ var Actions = function () {
 							vote = snapshot.val();
 						});
 						firebaseRef.set(vote + 1);
+
+						// update post				
+						postRef.on('value', function (snapshot) {
+							vote = snapshot.val();
+						});
+						postRef.set(vote + 1);
 					}
 				});
 				// save to Profile Likes
@@ -45907,6 +45913,7 @@ var Popup = function (_React$Component) {
   _createClass(Popup, [{
     key: "renderPopupContent",
     value: function renderPopupContent() {
+      var pointer = "pointer";
       return _react2.default.createElement(
         "section",
         { className: "popup" },
@@ -45915,7 +45922,7 @@ var Popup = function (_React$Component) {
           { className: "popup-wrap" },
           _react2.default.createElement(
             "a",
-            { href: "#", onClick: this.props.hidePopup },
+            { className: pointer, onClick: this.props.hidePopup },
             _react2.default.createElement(
               "span",
               null,
@@ -46317,7 +46324,8 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
   }, {
     key: 'renderMenuBtn',
     value: function renderMenuBtn() {
-      var userLink = '/profile/posts/' + this.props.user.id;
+      var userPostLink = '/profile/posts/' + this.props.user.id;
+      var userLikeLink = '/profile/likes/' + this.props.user.id;
       var timeIcon = "fa fa-times fa-lg";
       var imgProfile = "profile-img";
       var userIcon = "fa fa-user fa-lg menu";
@@ -46358,12 +46366,12 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
           ),
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: userLink, onClick: this.refreshStats },
+            { to: userPostLink, onClick: this.refreshStats },
             _react2.default.createElement('i', { className: userIcon })
           ),
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: '/' },
+            { to: userLikeLink, onClick: this.refreshStats },
             _react2.default.createElement('i', { className: heartIcon })
           ),
           _react2.default.createElement(
@@ -46382,12 +46390,13 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
   }, {
     key: 'renderPost',
     value: function renderPost() {
+      var pointer = "pointer";
       return _react2.default.createElement(
         'span',
         null,
         _react2.default.createElement(
           'a',
-          { href: '#', onClick: this.showPopup, className: 'plus' },
+          _defineProperty({ className: pointer, onClick: this.showPopup }, 'className', 'plus'),
           '+'
         )
       );
@@ -46395,6 +46404,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
   }, {
     key: 'renderUser',
     value: function renderUser() {
+      var pointer = "pointer post-add";
       return _react2.default.createElement(
         'section',
         null,
@@ -46405,7 +46415,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
           null,
           _react2.default.createElement(
             'span',
-            { className: 'post-add' },
+            { className: pointer },
             this.renderPost()
           ),
           _react2.default.createElement(
@@ -46421,7 +46431,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
           null,
           _react2.default.createElement(
             'a',
-            { href: '#', onClick: this.showPopup, className: 'login-btn' },
+            { onClick: this.showPopup, className: 'login-btn' },
             'Login'
           ),
           _react2.default.createElement(_LoginPopup2.default, { status: this.state.popupStatus, hidePopup: this.hidePopup })
@@ -46539,7 +46549,7 @@ var Comment = (0, _connectToStores2.default)(_class = function (_React$Component
     value: function render() {
       return _react2.default.createElement(
         'a',
-        { className: 'comment-button', href: '#' },
+        { className: 'comment-button' },
         _react2.default.createElement(
           'span',
           { className: 'comment-bubble' },
@@ -46629,7 +46639,7 @@ var ProductItem = function (_React$Component) {
     };
 
     _this.refreshStats = function () {
-      var userId = _this.props.maker.id;
+      var userId = _this.props.maker ? _this.props.maker.id : null;
       if (userId && _actions2.default) {
         _actions2.default.getPosts(userId);
         _actions2.default.getLikes(userId);
@@ -46661,7 +46671,6 @@ var ProductItem = function (_React$Component) {
   }, {
     key: 'renderInfoSession',
     value: function renderInfoSession() {
-      var profileLink = "/profile/posts/" + this.props.maker.id;
       var itemInfo = "product-item-info";
       var clickable = "clickable";
       var itemDesc = "product-item-description";
@@ -46673,12 +46682,12 @@ var ProductItem = function (_React$Component) {
         _react2.default.createElement(
           'h5',
           { onClick: this.showProductPopup, className: clickable },
-          this.props.name.substring(0, 25).toUpperCase()
+          this.props.name ? this.props.name.substring(0, 25).toUpperCase() : null
         ),
         _react2.default.createElement(
           'p',
           { className: itemDesc },
-          this.props.description.substring(0, 50),
+          this.props.description ? this.props.description.substring(0, 50) : null,
           '...'
         ),
         _react2.default.createElement(
@@ -46686,8 +46695,8 @@ var ProductItem = function (_React$Component) {
           { className: productStats },
           _react2.default.createElement(
             _NavLink2.default,
-            { to: this.props.maker.id ? "/profile/posts/" + this.props.maker.id : "/", onClick: this.refreshStats },
-            _react2.default.createElement('img', { className: avatar, src: this.props.maker.avatar })
+            { to: this.props.maker ? "/profile/posts/" + this.props.maker.id : "/", onClick: this.refreshStats },
+            _react2.default.createElement('img', { className: avatar, src: this.props.maker ? this.props.maker.avatar : null })
           ),
           _react2.default.createElement(_Upvote2.default, this.props),
           _react2.default.createElement(
@@ -46909,12 +46918,12 @@ var ProductPopup = (0, _connectToStores2.default)(_class = function (_React$Comp
 					_react2.default.createElement(
 						'h2',
 						null,
-						this.props.name.toUpperCase()
+						this.props.name ? this.props.name.toUpperCase() : null
 					),
 					_react2.default.createElement(
 						'p',
 						null,
-						this.props.description
+						this.props.description ? this.props.description : null
 					),
 					_react2.default.createElement(
 						'section',
@@ -46922,8 +46931,8 @@ var ProductPopup = (0, _connectToStores2.default)(_class = function (_React$Comp
 						_react2.default.createElement(_Upvote2.default, this.props),
 						_react2.default.createElement(
 							'a',
-							{ className: 'getit-btn', href: this.props.link, target: '_blank' },
-							'GET IT'
+							{ className: 'getit-btn', href: this.props.link ? this.props.link : null, target: '_blank' },
+							'GO'
 						)
 					)
 				)
@@ -47081,7 +47090,8 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
         category: _this.props.category,
         timestamp: Firebase.ServerValue.TIMESTAMP
       };
-      _actions2.default.addVote(_this.props.pid, _this.props.user.id, productObj);
+      var productOwnerId = _this.props.maker ? _this.props.maker.id : null;
+      _actions2.default.addVote(_this.props.pid, _this.props.user.id, productObj, productOwnerId);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -47090,7 +47100,7 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
     value: function render() {
       return _react2.default.createElement(
         'a',
-        { className: 'upvote-button', href: '#', onClick: this.handleVote.bind(this) },
+        { className: 'upvote-button', onClick: this.handleVote.bind(this) },
         _react2.default.createElement(
           'span',
           { className: 'up-heart' },
@@ -47382,7 +47392,8 @@ var LikeCard = function (_React$Component) {
       var imgMain = {
         backgroundImage: 'url(' + imgUrl + ')',
         backgroundSize: 'cover',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        backgroundPosition: 'center'
       };
 
       return _react2.default.createElement(
@@ -47608,6 +47619,7 @@ var PostCard = function (_React$Component) {
       var imgMain = {
         backgroundImage: 'url(' + imgUrl + ')',
         backgroundSize: 'cover',
+        backgroundPosition: 'center',
         cursor: 'pointer'
       };
 
@@ -47618,7 +47630,7 @@ var PostCard = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: postcardTitle },
-          this.props.name.substring(0, 27)
+          this.props.name ? this.props.name.substring(0, 27) : null
         ),
         _react2.default.createElement(
           'div',
@@ -47866,12 +47878,19 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
       }
     }
   }, {
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      this.isActive;
+      this.handleFollow;
+      this.handleUnFollow;
+    }
+  }, {
     key: 'renderFollowBtnMobile',
     value: function renderFollowBtnMobile() {
-      var obj = this.props.followers;
       var followerArr = [];
-      var i;
       var userId;
+      var i;
+      var obj = this.props.followers;
       var followBtnMobile = "visible-xs btn btn-default follow-btn-mobile";
 
       for (i = 0; i < obj.length; i++) {
@@ -47933,12 +47952,14 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
       var profileImgName = "profile-pg-name";
       var caretUp = "fa fa-lg fa-caret-up";
       var caretDown = "fa fa-lg fa-caret-down";
+      var profileId = this.props.profiles.id;
+      var userId = this.props.user ? this.props.user.id : null;
 
       return _react2.default.createElement(
         'section',
         { className: profileImgContainer },
         _react2.default.createElement('img', { src: this.props.profiles ? this.props.profiles.avatar : null, alt: '', className: profileImg }),
-        this.renderFollowBtnMobile(),
+        profileId !== userId ? this.renderFollowBtnMobile() : null,
         _react2.default.createElement(
           'a',
           { onClick: this.toggleProfileDesc, className: profileImgName },
@@ -47986,7 +48007,8 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
       var postsUrl = '/profile/posts/' + this.props.profiles.id;
       var likesUrl = '/profile/likes/' + this.props.profiles.id;
       var followersUrl = '/profile/followers/' + this.props.profiles.id;
-
+      var profileId = this.props.profiles.id;
+      var userId = this.props.user ? this.props.user.id : null;
       return _react2.default.createElement(
         'section',
         { className: btnContainer },
@@ -48035,7 +48057,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
               'FOLLOWERS'
             )
           ),
-          this.renderFollowBtnDesktop()
+          profileId !== userId ? this.renderFollowBtnDesktop() : null
         )
       );
     }

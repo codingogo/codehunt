@@ -28,12 +28,13 @@ class Upvote extends React.Component {
       category: this.props.category,
       timestamp:Firebase.ServerValue.TIMESTAMP
     }
-    Actions.addVote(this.props.pid, this.props.user.id, productObj);
+    var productOwnerId = (this.props.maker?this.props.maker.id:null);
+    Actions.addVote(this.props.pid, this.props.user.id, productObj, productOwnerId);
   };
 
 	render() {
     return (
-      <a className="upvote-button" href="#" onClick={this.handleVote.bind(this)}>
+      <a className="upvote-button" onClick={this.handleVote.bind(this)}>
         <span className="up-heart"><i className="fa fa-heart-o"></i></span>
         <span className="upcount">{this.props.upvote}</span>
       </a>

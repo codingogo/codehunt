@@ -43,7 +43,9 @@ table {
 .orange {
   color: #ff6633;
 }
-
+.pointer {
+  cursor: pointer;
+}
 .form-control {
   width: 100%;
 }
@@ -331,7 +333,7 @@ table {
   font-weight: 200;
   min-width: 50px;
   text-align: center;
-  padding: 4px 0;
+  padding: 1px 0;
   border-radius: 4px;
   background-color: #fff;
   display: inline-block;
@@ -355,13 +357,14 @@ table {
   font-weight: 200;
   min-width: 50px;
   text-align: center;
-  padding: 4px 0;
+  padding: 1px 0;
   border-radius: 4px;
   background-color: #fff;
   display: inline-block;
   margin-right: 10px;
   margin-left: 10px;
   border: 1px solid #f1f1f1;
+  cursor: pointer;
 }
 .upvote-button:hover {
   color: #ff6633;
@@ -489,7 +492,7 @@ button:hover {
 }
 .product-popup header .header-shadow {
   background-color: transparent;
-  background-image: linear-gradient(-225deg, rgba(214,66,8,0.5) 0%, rgba(255,158,68,0.5) 50%);
+  background-image: linear-gradient(-225deg, rgba(214,66,8,0.5) 0%, rgba(255,158,68,0.5) 60%);
   padding: 45px;
 }
 .product-popup header .header-shadow > h1 {
@@ -497,14 +500,17 @@ button:hover {
   font-weight: 900;
   color: #fff;
   line-height: 48px;
+  text-shadow: 1px 1px 3px #000;
 }
 .product-popup header .header-shadow > h2 {
   color: #fff;
+  text-shadow: 1px 1px 3px #000;
 }
 .product-popup header .header-shadow > p {
   line-height: 30px;
   font-size: 18px;
   color: #fff;
+  text-shadow: 1px 1px 3px #000;
 }
 .product-popup header .header-shadow > section > * {
   display: inline-block;
@@ -515,6 +521,7 @@ button:hover {
   padding: 15px 25px;
   background-color: #5898f1;
   color: white;
+  text-shadow: 0px 0px 0px #000;
 }
 .product-popup .product-popup-body main .discussion {
   margin: 50px auto;

@@ -31,6 +31,12 @@ class Profile extends React.Component{
     }
   }
 
+  componentWillUnMount() {
+    this.isActive;
+    this.handleFollow;
+    this.handleUnFollow;
+  }
+
 	toggleProfileDesc = () => {
 		this.props.showProfileDescription? Actions.toggleProfileInfo({showProfileDescription:false}) : Actions.toggleProfileInfo({showProfileDescription:true})
 	};
@@ -58,10 +64,10 @@ class Profile extends React.Component{
   }
 
   renderFollowBtnMobile() {
-    var obj = this.props.followers;
     var followerArr = [];
-    var i;
     var userId;
+    var i;
+    var obj = this.props.followers;
     var followBtnMobile = "visible-xs btn btn-default follow-btn-mobile"
 
     for(i=0;i<obj.length; i++){
@@ -117,11 +123,13 @@ class Profile extends React.Component{
   	var profileImgName="profile-pg-name";
   	var caretUp="fa fa-lg fa-caret-up";
   	var caretDown="fa fa-lg fa-caret-down";
+    var profileId = this.props.profiles.id;
+    var userId = (this.props.user? this.props.user.id: null);
     
   	return (
   		<section className={profileImgContainer}>
   			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/>
-        {this.renderFollowBtnMobile()}
+        {(profileId!==userId)?this.renderFollowBtnMobile():null}
   			<a onClick={this.toggleProfileDesc} className={profileImgName}>
   				<span>{this.props.profiles ? this.props.profiles.name : null} </span>
   				{
@@ -155,7 +163,8 @@ class Profile extends React.Component{
     var postsUrl ='/profile/posts/' + this.props.profiles.id;
     var likesUrl ='/profile/likes/' + this.props.profiles.id;
     var followersUrl =('/profile/followers/' + this.props.profiles.id);
-
+    var profileId = this.props.profiles.id;
+    var userId = (this.props.user? this.props.user.id: null);
   	return (
 	  	<section className={btnContainer}>
 		  	<ul className={statArea}>
@@ -171,7 +180,7 @@ class Profile extends React.Component{
 		  			<div className='stat-center'>{this.props.followers? this.props.followers.length: 0}</div>
 		  			<NavLink to={followersUrl} className={activePost}>FOLLOWERS</NavLink>	
 		  		</li>
-          {this.renderFollowBtnDesktop()}
+          {(profileId!==userId)?this.renderFollowBtnDesktop():null}
 		  	</ul>
 	  	</section>	
   	)
