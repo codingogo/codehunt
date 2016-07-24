@@ -58,13 +58,6 @@ class Actions {
 		}
 	}
 
-	addComment(productId, comment){
-		return (dispatch) => {
-			var firebaseRef = new Firebase('https://delb.firebaseio.com/comments');
-			firebaseRef.child(productId).push(comment);
-		}
-	}
-
 	logout() {
 		return(dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
@@ -72,22 +65,6 @@ class Actions {
 			setTimeout(() => dispatch(null));
 		}
 	}	
-
-	getProducts() {
-		return(dispatch) => {
-			var firebaseRef = new Firebase('https://delb.firebaseio.com/products');
-			firebaseRef.on('value', (snapshot) => {
-				var productsValue = snapshot.val();
-				var products = _(productsValue).keys().map((productKey) => {
-					var item =_.clone(productsValue[productKey]);
-					item.key = productKey;
-					return item;
-				})
-				.value();
-				dispatch(products);
-			});
-		}
-	}
 
 	addProduct(product){
 		var ref = new Firebase('https://delb.firebaseio.com');
@@ -107,6 +84,7 @@ class Actions {
 	addVote(productId, userId, productObj) {
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
+
 			var voteRef = firebaseRef.child('votes').child(productId).child(userId);
 			voteRef.on('value', (snapshot) => {
 				if(snapshot.val() == null){
@@ -121,6 +99,27 @@ class Actions {
 			});
 			// save to Profile Likes
 			firebaseRef.child('likes').child(userId).child(productId).set(productObj);
+		}
+	}
+
+	addComment(productId, comment, userId){
+		return (dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com');
+			firebaseRef.child('comments').child(productId).push(comment);
+			
+			// add commentCount to product & user comment only count once
+			var commentRef = firebaseRef.child('products').child(productId).child('comments').child(userId);
+			commentRef.on('value', (snapshot) => {
+				if(snapshot.val() == null){
+					commentRef.set(true)
+					firebaseRef = firebaseRef.child('products').child(productId).child('commentCount');
+					var count = 0;
+					firebaseRef.on('value', (snapshot) => {
+						count = snapshot.val();
+					});
+					firebaseRef.set(count+1);
+				}
+			});
 		}
 	}
 
@@ -164,10 +163,19 @@ class Actions {
 		}
 	}
 
-	addComment(productId, comment){
-		return (dispatch) => {
-			var firebaseRef = new Firebase('https://delb.firebaseio.com/comments');
-			firebaseRef.child(productId).push(comment);
+	getProducts() {
+		return(dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com/products');
+			firebaseRef.on('value', (snapshot) => {
+				var productsValue = snapshot.val();
+				var products = _(productsValue).keys().map((productKey) => {
+					var item =_.clone(productsValue[productKey]);
+					item.key = productKey;
+					return item;
+				})
+				.value();
+				dispatch(products);
+			});
 		}
 	}
 

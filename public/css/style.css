@@ -40,6 +40,10 @@ p {
 table {
   width: 100%;
 }
+.orange {
+  color: #ff6633;
+}
+
 .form-control {
   width: 100%;
 }
@@ -322,7 +326,30 @@ table {
 .small-avatar:hover {
   box-shadow: 1px 1px 3px #777;
 }
-
+/******* COMMENT BUTTON *******/
+.comment-button {
+  font-weight: 200;
+  min-width: 50px;
+  text-align: center;
+  padding: 4px 0;
+  border-radius: 4px;
+  background-color: #fff;
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 0px;
+  border: 1px solid #f1f1f1;  
+  cursor: pointer;
+}
+.comment-button:hover {
+  color: #ff6633;
+}
+.comment-bubble {
+  text-align: top;
+  padding: 3px;
+}
+.comment-count {
+  padding: 3px;
+}
 /******* UPVOTE BUTTON *******/
 .upvote-button {
   font-weight: 200;
@@ -685,7 +712,7 @@ select.select-category {
 .profile-stat {
   display: inline-block;
   list-style: none;
-  padding: 35px 20px 10px 20px;
+  padding: 35px 30px 10px 25px;
   color: #888;
 }
 .profile-stat .stat-center {
@@ -704,7 +731,7 @@ select.select-category {
   padding: 110px 20px 15px 20px;
 }
 .profile-content-items {
-  margin-top: 5px;
+  margin-top: 30px;
   padding-left: 0;
 }
 .profile-product {
@@ -714,19 +741,21 @@ select.select-category {
 .profile-product .thumbnail{
   min-height: 200px;
   padding: 10px;
+  text-align: center;
 }
 .profile-product .thumbnail:hover {
   background-color: #f1f1f1;
 }
 .profile-product-title {
-  width: 70%;
+  /*width: 70%;*/
   padding-left: 8px;
   color: #777;
   padding-top: 11px;
 }
 .profile-product-img {
-  width: 90px;
-  height: 110px;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
 }
 .profile-product-description {
   padding-top: 5px;
@@ -746,9 +775,9 @@ select.select-category {
   padding: 6px 18px;
   color: #777;
   font-size: 15px;
-  position: absolute;
-  top: 45px;
-  margin-left: 340px;  
+  float: right;
+  margin-top: -150px;
+  margin-right: -5%;
 }
 .follow-btn-desktop:hover, .follow-btn-mobile:hover {
   color: #ff6633;
@@ -899,6 +928,7 @@ select.select-category {
     margin-left: 0;
     font-size: 14px;
     min-width: 100px;
+    padding: 35px 20px 10px 20px;
   }
   .profile-product-img {
     width: 90px;
@@ -910,7 +940,7 @@ select.select-category {
     padding: 20px 30px 45px 30px;
   }
   .profile-content-items {
-    margin-top: 0px;
+    margin-top: 30px;
   }
   /*** Post Card Mobile ***/
   .postcard {

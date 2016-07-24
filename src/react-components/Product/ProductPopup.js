@@ -49,7 +49,7 @@ class ProductPopup extends React.Component{
 				avatar: this.props.user.avatar
 			}
 
-			Actions.addComment(this.props.pid, comment);
+			Actions.addComment(this.props.pid, comment, this.props.user.id);
 			e.target.value = null;
 		}
 	};

@@ -2,6 +2,7 @@ import React from 'react';
 import NavLink from '../Navbar/NavLink'
 import ProductPopup from './ProductPopup';
 import Upvote from './Upvote';
+import Comment from './Comment';
 import Actions from '../../actions';
 
 
@@ -54,6 +55,7 @@ class ProductItem extends React.Component {
             <img className={avatar} src={this.props.maker.avatar}/>
           </NavLink>
           <Upvote {...this.props} /> 
+          <span onClick={this.showProductPopup}><Comment {...this.props} /></span>
         </div>  
       </section>      
     )

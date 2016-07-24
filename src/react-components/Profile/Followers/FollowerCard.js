@@ -3,7 +3,7 @@ import NavLink from '../../Navbar/NavLink';
 
 class FollowerCard extends React.Component{
 	render() {
-		var productClass="col-xs-12 col-sm-4 col-md-3 profile-product";
+		var productClass="col-xs-6 col-sm-3 col-md-2 profile-product";
 		var imgClass="profile-product-img";
 		var imgUrl = this.props.media? this.props.media : "./img/delb.png";
 		var btnClass="btn-sm btn btn-default profile-product-btn";
@@ -21,23 +21,14 @@ class FollowerCard extends React.Component{
 		return (
 			<section className={productClass}>
 	  		<NavLink to={followerUrl}>
-	  			<table className="thumbnail">
-				  	<tbody>
-				  		<tr>
-				  			<td className={imgClass} style={imgMain} colSpan="2">
-				  			</td>
-				  			<td colSpan="1" className={center}>
-				  				<span className={btnClass}>View</span>
-				  			</td>
-				  		</tr>
-				  		<tr>
-					  		<td className={titleClass} colSpan="3">{this.props.name}</td>
-				  		</tr>
-				  		<tr>	
-				  			<td className={descriptionClass} colSpan="3">{this.props.description}</td>
-				  		</tr>
-				  	</tbody>	
-		  		</table>	
+	  			<div className="thumbnail">
+	  				<div className="col-xs-12">
+	  					<div className={imgClass} style={imgMain}></div>
+	  				</div>
+	  				<div className="col-xs-12">
+	  					<div className={titleClass}>{this.props.name}</div>
+	  				</div>
+	  			</div>
 	  		</NavLink>
   		</section>
 		)

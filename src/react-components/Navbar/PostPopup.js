@@ -59,7 +59,7 @@ class PostPopup extends React.Component{
           <div className={group}>
             <label htmlFor="listingMedia" className={label}>Media link:</label>
             <div className={inputArea}>
-              <input type="text" className={inputClass} style={fullWidth} id="listingMedia" placeholder="image link here.."  ref="media" required={isRequired}/>
+              <input type="text" className={inputClass} style={fullWidth} id="listingMedia" placeholder="image address here.."  ref="media" required={isRequired}/>
             </div>  
           </div> 
           <div className={group}>
