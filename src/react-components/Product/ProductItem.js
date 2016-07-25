@@ -25,7 +25,7 @@ class ProductItem extends React.Component {
 
   renderNewWindowIcon(){
     return (
-      <a className="product-item-link" href={this.props.link}><span><i className="fa fa-external-link" aria-hidden="true"></i></span></a>
+      <a href={this.props.link} className="product-item-link"><span><i className="fa fa-external-link" aria-hidden="true"></i></span></a>
     )
   }
 
@@ -39,12 +39,13 @@ class ProductItem extends React.Component {
     }
   }
 
-  renderInfoSession(){
+  renderInfo(){
     var itemInfo = "product-item-info";
     var clickable = "clickable";
     var itemDesc = "product-item-description";
     var avatar = "small-avatar";
     var productStats = "product-stats";
+    var productLink ="product-item-link";
     return (
       <section className={itemInfo}>
         <h5 onClick={this.showProductPopup} className={clickable}>{this.props.name? this.props.name.substring(0,25).toUpperCase():null}</h5>
@@ -73,15 +74,17 @@ class ProductItem extends React.Component {
       <div className={imgClass} style={imgStyle} onClick={this.showProductPopup}></div>
     )
   }
-
+  windowOpen = () => {
+    window.open(this.props.link,  'newwindow', 'width=300, height=250');
+  }
   render() {
     return (
-      <li>
+      <li className="product-item-li">
         <div className="product-item">
           {this.renderProductImg()}      
-          {this.renderInfoSession()}
-          {this.renderNewWindowIcon()}  
-        </div>  
+          {this.renderInfo()}
+        </div> 
+        <a onClick={this.windowOpen} className="product-item-link"><i className="fa fa-external-link" aria-hidden="true"></i></a> 
         <ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
       </li>
     );

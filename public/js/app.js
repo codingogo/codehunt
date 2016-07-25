@@ -46648,6 +46648,10 @@ var ProductItem = function (_React$Component) {
       }
     };
 
+    _this.windowOpen = function () {
+      window.open(_this.props.link, 'newwindow', 'width=300, height=250');
+    };
+
     _this.state = {
       productPopupStatus: false
     };
@@ -46660,7 +46664,7 @@ var ProductItem = function (_React$Component) {
     value: function renderNewWindowIcon() {
       return _react2.default.createElement(
         'a',
-        { className: 'product-item-link', href: this.props.link },
+        { href: this.props.link, className: 'product-item-link' },
         _react2.default.createElement(
           'span',
           null,
@@ -46669,13 +46673,14 @@ var ProductItem = function (_React$Component) {
       );
     }
   }, {
-    key: 'renderInfoSession',
-    value: function renderInfoSession() {
+    key: 'renderInfo',
+    value: function renderInfo() {
       var itemInfo = "product-item-info";
       var clickable = "clickable";
       var itemDesc = "product-item-description";
       var avatar = "small-avatar";
       var productStats = "product-stats";
+      var productLink = "product-item-link";
       return _react2.default.createElement(
         'section',
         { className: itemInfo },
@@ -46725,13 +46730,17 @@ var ProductItem = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'li',
-        null,
+        { className: 'product-item-li' },
         _react2.default.createElement(
           'div',
           { className: 'product-item' },
           this.renderProductImg(),
-          this.renderInfoSession(),
-          this.renderNewWindowIcon()
+          this.renderInfo()
+        ),
+        _react2.default.createElement(
+          'a',
+          { onClick: this.windowOpen, className: 'product-item-link' },
+          _react2.default.createElement('i', { className: 'fa fa-external-link', 'aria-hidden': 'true' })
         ),
         _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
       );

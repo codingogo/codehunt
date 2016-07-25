@@ -293,6 +293,7 @@ table {
   padding: 0 20px;
   height: 100px;
   white-space: nowrap;
+  width: 100%;
 }
 .product-item-info p {
   line-height: 20px;
@@ -305,16 +306,20 @@ table {
 .product-stats {
   padding-top: 7px;
 }
-.product-item-link {
+.product-item-li:hover .product-item-link {
   display: block;
+}
+.product-item-link {
+  display: none;
+  position: relative;
   width: 24px;
   padding: 3px;
   border-radius: 50%;
   float: right;
   background-color: #fff;
   text-align: center;
-  margin-left: 250px;
-  margin-top: -34px;
+  margin-top: -50px;
+  margin-right: 15px;
 }
 .small-avatar {
   width: 38px;
