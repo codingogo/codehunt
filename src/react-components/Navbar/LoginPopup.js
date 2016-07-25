@@ -12,11 +12,15 @@ class LoginPopup extends React.Component {
     return(
       <Popup {...this.props} style="login-popup">
         <img src="/img/delb.png"/>
-        <h1 className="absolute">(hide)</h1>
-        <h2>Login to Join The Community</h2>
-        <p><strong>delb</strong> is a community to share the latest happiness.</p>
-        <button className="facebook-btn" onClick={this.handleLogin}>Login with Facebook</button>
-        <p>We will never post to Facebook without your permission.</p>
+        <h2 className="header-login">Community for Beautiful Things</h2>
+        <p className="subheader-login"><strong>delb</strong> is a place to share lovely products.</p>
+        <div>
+          <button className="facebook-login-btn" onClick={this.handleLogin}>Login with Facebook</button>
+        </div>  
+        <div>
+          <button className="twitter-login-btn">Login with Twitter</button>
+        </div>  
+        <p className="facebook-disclaimer">We will never post to Facebook or Twitter without your permission.</p>
       </Popup>
     );
   }

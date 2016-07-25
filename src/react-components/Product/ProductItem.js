@@ -23,10 +23,8 @@ class ProductItem extends React.Component {
     this.setState({productPopupStatus: false});
   };  
 
-  renderNewWindowIcon(){
-    return (
-      <a href={this.props.link} className="product-item-link"><span><i className="fa fa-external-link" aria-hidden="true"></i></span></a>
-    )
+  windowOpen = () => {
+    window.open(this.props.link? (this.props.link,  'newwindow', 'width=300, height=450'):null);
   }
 
   refreshStats = () => {
@@ -74,9 +72,7 @@ class ProductItem extends React.Component {
       <div className={imgClass} style={imgStyle} onClick={this.showProductPopup}></div>
     )
   }
-  windowOpen = () => {
-    window.open(this.props.link,  'newwindow', 'width=300, height=250');
-  }
+
   render() {
     return (
       <li className="product-item-li">
@@ -84,7 +80,7 @@ class ProductItem extends React.Component {
           {this.renderProductImg()}      
           {this.renderInfo()}
         </div> 
-        <a onClick={this.windowOpen} className="product-item-link"><i className="fa fa-external-link" aria-hidden="true"></i></a> 
+        <a onClick={this.windowOpen} target="_blank" className="product-item-link"><i className="fa fa-external-link" aria-hidden="true"></i></a> 
         <ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
       </li>
     );

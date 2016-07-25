@@ -457,15 +457,49 @@ button:hover {
 }
 .popup-content.login-popup {
   text-align: center;
-  width: 400px;
+  min-width: 320px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
-.facebook-btn {
+.header-login {
+  font-weight: 200;
+  margin-top: 0;
+}
+.subheader-login {
+  font-weight: 100;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+.facebook-login-btn {
   color: #fff;
   background-color: #3b5998;
-  margin: 20px;
+  padding: 12px 20px;
+  border: none;
+  width: 80%;
+  border-radius: 5px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+}
+.twitter-login-btn {
+  color: #fff;
+  background-color: #55acee;
+  padding: 12px 20px;
+  border: none;
+  width: 80%;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
+.facebook-disclaimer {
+  font-weight: 100;
+  margin: 15px 15px 30px 15px;
+}
+.facebook-login-btn:hover, .twitter-login-btn:hover{
+  color: #ff6633;
+  background-color: #fff;
 }
 .post-popup {
   text-align: center;

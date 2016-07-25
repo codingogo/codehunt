@@ -47,7 +47,7 @@ class PostPopup extends React.Component{
           <div className={group}>
             <label htmlFor="listingDescription" className={label}>Description:</label>
             <div className={inputArea}>
-              <input type="text" className={inputClass} style={fullWidth} id="listingDescription" placeholder="description" ref="description" required={isRequired} />
+              <input type="text" className={inputClass} style={fullWidth} id="listingDescription" placeholder="add a short description of the product" ref="description" required={isRequired} />
             </div> 
           </div> 
           <div className={group}>

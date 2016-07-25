@@ -45818,34 +45818,42 @@ var LoginPopup = function (_React$Component) {
         _extends({}, this.props, { style: 'login-popup' }),
         _react2.default.createElement('img', { src: '/img/delb.png' }),
         _react2.default.createElement(
-          'h1',
-          { className: 'absolute' },
-          '(hide)'
-        ),
-        _react2.default.createElement(
           'h2',
-          null,
-          'Login to Join The Community'
+          { className: 'header-login' },
+          'Community for Beautiful Things'
         ),
         _react2.default.createElement(
           'p',
-          null,
+          { className: 'subheader-login' },
           _react2.default.createElement(
             'strong',
             null,
             'delb'
           ),
-          ' is a community to share the latest happiness.'
+          ' is a place to share lovely products.'
         ),
         _react2.default.createElement(
-          'button',
-          { className: 'facebook-btn', onClick: this.handleLogin },
-          'Login with Facebook'
+          'div',
+          null,
+          _react2.default.createElement(
+            'button',
+            { className: 'facebook-login-btn', onClick: this.handleLogin },
+            'Login with Facebook'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'button',
+            { className: 'twitter-login-btn' },
+            'Login with Twitter'
+          )
         ),
         _react2.default.createElement(
           'p',
-          null,
-          'We will never post to Facebook without your permission.'
+          { className: 'facebook-disclaimer' },
+          'We will never post to Facebook or Twitter without your permission.'
         )
       );
     }
@@ -46073,7 +46081,7 @@ var PostPopup = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: inputArea },
-              _react2.default.createElement('input', { type: 'text', className: inputClass, style: fullWidth, id: 'listingDescription', placeholder: 'description', ref: 'description', required: isRequired })
+              _react2.default.createElement('input', { type: 'text', className: inputClass, style: fullWidth, id: 'listingDescription', placeholder: 'add a short description of the product', ref: 'description', required: isRequired })
             )
           ),
           _react2.default.createElement(
@@ -46638,6 +46646,10 @@ var ProductItem = function (_React$Component) {
       _this.setState({ productPopupStatus: false });
     };
 
+    _this.windowOpen = function () {
+      window.open(_this.props.link ? (_this.props.link, 'newwindow', 'width=300, height=450') : null);
+    };
+
     _this.refreshStats = function () {
       var userId = _this.props.maker ? _this.props.maker.id : null;
       if (userId && _actions2.default) {
@@ -46648,10 +46660,6 @@ var ProductItem = function (_React$Component) {
       }
     };
 
-    _this.windowOpen = function () {
-      window.open(_this.props.link, 'newwindow', 'width=300, height=250');
-    };
-
     _this.state = {
       productPopupStatus: false
     };
@@ -46660,19 +46668,6 @@ var ProductItem = function (_React$Component) {
   }
 
   _createClass(ProductItem, [{
-    key: 'renderNewWindowIcon',
-    value: function renderNewWindowIcon() {
-      return _react2.default.createElement(
-        'a',
-        { href: this.props.link, className: 'product-item-link' },
-        _react2.default.createElement(
-          'span',
-          null,
-          _react2.default.createElement('i', { className: 'fa fa-external-link', 'aria-hidden': 'true' })
-        )
-      );
-    }
-  }, {
     key: 'renderInfo',
     value: function renderInfo() {
       var itemInfo = "product-item-info";
@@ -46739,7 +46734,7 @@ var ProductItem = function (_React$Component) {
         ),
         _react2.default.createElement(
           'a',
-          { onClick: this.windowOpen, className: 'product-item-link' },
+          { onClick: this.windowOpen, target: '_blank', className: 'product-item-link' },
           _react2.default.createElement('i', { className: 'fa fa-external-link', 'aria-hidden': 'true' })
         ),
         _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
@@ -46891,6 +46886,10 @@ var ProductPopup = (0, _connectToStores2.default)(_class = function (_React$Comp
 
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ProductPopup).call(this));
 
+		_this.windowOpen = function () {
+			window.open(_this.props.link ? (_this.props.link, 'newwindow', 'width=300, height=450') : null);
+		};
+
 		_this.handleComment = function (e) {
 			if (e.keyCode === 13 && e.target.value.length > 0) {
 				var comment = {
@@ -46940,7 +46939,7 @@ var ProductPopup = (0, _connectToStores2.default)(_class = function (_React$Comp
 						_react2.default.createElement(_Upvote2.default, this.props),
 						_react2.default.createElement(
 							'a',
-							{ className: 'getit-btn', href: this.props.link ? this.props.link : null, target: '_blank' },
+							{ className: 'getit-btn', target: '_blank', onClick: this.windowOpen },
 							'GO'
 						)
 					)

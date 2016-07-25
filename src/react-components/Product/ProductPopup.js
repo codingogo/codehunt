@@ -26,6 +26,10 @@ class ProductPopup extends React.Component{
   	return true;
   };
 
+  windowOpen = () => {
+    window.open(this.props.link? (this.props.link,  'newwindow', 'width=300, height=450'):null);
+  }
+
 	renderHeader() {
 		return(
 			<header style={{backgroundImage: 'url(' + this.props.media + ')'}}>
@@ -34,7 +38,7 @@ class ProductPopup extends React.Component{
 					<p>{this.props.description? this.props.description:null}</p>
 					<section>
 						<Upvote {...this.props} />
-						<a className="getit-btn" href={this.props.link? this.props.link:null} target="_blank">GO</a>
+						<a className="getit-btn" target="_blank" onClick={this.windowOpen}>GO</a>
 					</section>
 				</section>
 			</header>
