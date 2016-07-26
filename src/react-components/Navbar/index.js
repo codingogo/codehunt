@@ -149,7 +149,7 @@ class Navbar extends React.Component {
     var pointer = "pointer";
     return(
       <span>
-        <a className={pointer} onClick={this.showPopup} className="plus">+</a>
+        <a className={pointer} onClick={this.showPopup} className="plus"><i className="fa fa-pencil-square-o"></i></a>
       </span>      
     );
   }

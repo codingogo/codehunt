@@ -133,12 +133,14 @@ class Actions {
 		}
 	}
 
-	addFollow(followedId, followerId, follower) {
+	addFollow(followedId, followerId, follower, followedObj) {
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
 			var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 			var updatedFollowData = {};
 			updatedFollowData["users/"+followedId+"/followers/"+followerId] = follower;
+			updatedFollowData["users/"+followerId+"/following/"+followedId] = followedObj;
+
 			followRef.on('value', (snapshot) => {
 				if(snapshot.val() == null){
 					followRef.set(follower);
@@ -159,6 +161,7 @@ class Actions {
 			var updatedFollowData = {};
 
 			updatedFollowData["users/"+followedId+"/followers/"+followerId] = null;
+			updatedFollowData["users/"+followerId+"/following/"+followedId] = null;
 			followRef.on('value', (snapshot) => {
 				if(snapshot.val() != null){
 					followRef.set(null);
@@ -254,6 +257,21 @@ class Actions {
 		}
 	}
 
+	getFollowing(userId) {
+		return (dispatch) => {
+			var firebaseRef = new Firebase('https://delb.firebaseio.com');
+			firebaseRef.child('users').child(userId).child('following').on('value', (snapshot) => {
+				var followingVal = snapshot.val();
+				var following = _(followingVal).keys().map((followingKey) => {
+					var item = _.clone(followingVal[followingKey]);
+					item.key = followingKey;
+					return item;
+				})
+				.value();
+				dispatch(following);
+			})
+		}
+	}
 	// getUsers is equivalent to the depricated getProfiles
 	getUsers(userId) {
 		return (dispatch) => {

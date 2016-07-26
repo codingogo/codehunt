@@ -11,6 +11,7 @@ import Profile from './Profile/Profile';
 import PostList from './Profile/Posts/PostList';
 import LikeList from './Profile/Likes/LikeList';
 import FollowerList from './Profile/Followers/FollowerList';
+import FollowingList from './Profile/Following/FollowingList';
 
 
 @connectToStores
@@ -54,6 +55,7 @@ ReactDOM.render((
         <Route path="/profile/posts/:id" component={PostList}/>
         <Route path="/profile/likes/:id" component={LikeList}/>
         <Route path="/profile/followers/:id" component={FollowerList}/>
+        <Route path="/profile/following/:id" component={FollowingList}/>
       </Route>
     </Route>
   </Router>

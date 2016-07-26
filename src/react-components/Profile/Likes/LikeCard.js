@@ -56,7 +56,7 @@ class LikeCard extends React.Component{
       backgroundPosition: 'center'
     };    
     return(
-      <div className={img} style={imgMain} onClick={this.showPostPopup}></div>
+      <div className={img} style={imgMain} onClick={this.showLikePopup}></div>
     );
   }
 
@@ -67,7 +67,7 @@ class LikeCard extends React.Component{
         {this.renderMaker()}       
         {this.renderMainImg()}
         {this.renderTitle()}
-        <ProductPopup {...this.props} status={this.state.likePopupStatus} hidePopup={this.hidePostPopup}/>
+        <ProductPopup {...this.props} status={this.state.likePopupStatus} hidePopup={this.hideLikePopup}/>
       </li>
     )
   }

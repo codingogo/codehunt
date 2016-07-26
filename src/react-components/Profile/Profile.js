@@ -4,6 +4,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import ProductStore from '../../stores/ProductStore';
 
 import FollowerCard from './Followers/FollowerCard';
+import FollowingCard from './Following/FollowingCard';
 import NavLink from '../Navbar/NavLink';
 
 @connectToStores
@@ -28,6 +29,7 @@ class Profile extends React.Component{
       Actions.getPosts(this.props.params.id);
       Actions.getLikes(this.props.params.id);
       Actions.getFollowers(this.props.params.id);
+      Actions.getFollowing(this.props.params.id);
     }
   }
 
@@ -35,6 +37,7 @@ class Profile extends React.Component{
     this.isActive;
     this.handleFollow;
     this.handleUnFollow;
+    this.toggleProfileDesc;
   }
 
 	toggleProfileDesc = () => {
@@ -51,10 +54,10 @@ class Profile extends React.Component{
     var follower = {
       name: this.props.user.name,
       media: this.props.user.avatar,
-
       timestamp: Firebase.ServerValue.TIMESTAMP
     };
-    Actions.addFollow(followedId, followerId, follower);
+    var followedObj = this.props.profiles?this.props.profiles:null;
+    Actions.addFollow(followedId, followerId, follower, followedObj);
   }
 
   handleUnFollow = () => {
@@ -125,7 +128,7 @@ class Profile extends React.Component{
   	var caretDown="fa fa-lg fa-caret-down";
     var profileId = this.props.profiles.id;
     var userId = (this.props.user? this.props.user.id: null);
-    
+  
   	return (
   		<section className={profileImgContainer}>
   			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/>
@@ -160,9 +163,11 @@ class Profile extends React.Component{
     var activeFollow = '';
     var statArea = 'stat-area col-xs-12 col-sm-8';
     var btnContainer = 'main-btn-container';
+    var mobileText = "icon-xs";
     var postsUrl ='/profile/posts/' + this.props.profiles.id;
     var likesUrl ='/profile/likes/' + this.props.profiles.id;
     var followersUrl =('/profile/followers/' + this.props.profiles.id);
+    var followingUrl =('/profile/following/' + this.props.profiles.id);
     var profileId = this.props.profiles.id;
     var userId = (this.props.user? this.props.user.id: null);
   	return (
@@ -170,43 +175,47 @@ class Profile extends React.Component{
 		  	<ul className={statArea}>
 		  		<li className={inputClass}>		  	
 		  			<div className='stat-center'>{this.props.posts? this.props.posts.length: 0}</div>
-		  			<NavLink to={postsUrl} className={activePost}>POSTS</NavLink>
-		  		</li>
-		  		<li className={inputClass}>			  		
-		  			<div className='stat-center'>{this.props.likes? this.props.likes.length: 0}</div>
-		  			<NavLink to={likesUrl} className={activePost}>LIKES</NavLink>
+		  			<NavLink to={postsUrl} className={activePost}>
+              <span className={mobileText}>POSTS</span>
+            </NavLink>
 		  		</li>
 		  		<li className={inputClass}>		  			
 		  			<div className='stat-center'>{this.props.followers? this.props.followers.length: 0}</div>
-		  			<NavLink to={followersUrl} className={activePost}>FOLLOWERS</NavLink>	
+		  			<NavLink to={followersUrl} className={activePost}>
+              <span className={mobileText}>FOLLOWERS</span>
+            </NavLink>	
 		  		</li>
+          <li className={inputClass}>           
+            <div className='stat-center'>{this.props.following? this.props.following.length: 0}</div>
+            <NavLink to={followingUrl} className={activePost}>
+              <span className={mobileText}>FOLLOWING</span>
+            </NavLink> 
+          </li>
+          <li className={inputClass}>           
+            <div className='stat-center'>{this.props.likes? this.props.likes.length: 0}</div>
+            <NavLink to={likesUrl} className={activePost}>
+              <span className={mobileText}>LIKES</span>
+            </NavLink>
+          </li>          
           {(profileId!==userId)?this.renderFollowBtnDesktop():null}
 		  	</ul>
 	  	</section>	
   	)
   }
 
-  renderProfilePage () {
-  	return (
-      <div className="container">
+  render() {
+    return (
+      <section className="container">
         {this.renderProfile()}
         {this.renderStats()}
         {
-					this.props.showProfileDescription
+          this.props.showProfileDescription
           ? 
           this.renderProfileDescription() 
           : 
           null
-				}
+        }
         {this.props.children}
-      </div>
-  	)
-  }
-
-  render() {
-    return (
-      <section>
-      	{this.renderProfilePage()}
       </section>
     )
   }

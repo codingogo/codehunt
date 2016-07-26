@@ -23,6 +23,7 @@ class PostList extends React.Component{
     Actions.getPosts(this.props.params.id);
     Actions.getLikes(this.props.params.id); 
     Actions.getFollowers(this.props.params.id); 
+    Actions.getFollowing(this.props.params.id);
   }  
 
   renderPostList() {

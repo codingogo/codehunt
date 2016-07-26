@@ -1,22 +1,22 @@
 import React from 'react';
 import NavLink from '../../Navbar/NavLink';
 
-class FollowerCard extends React.Component{
+class FollowingCard extends React.Component{
 	render() {
 		var productClass="col-xs-6 col-sm-3 col-md-2 profile-product";
 		var imgClass="profile-product-img";
-		var imgUrl = this.props.media? this.props.media : "./img/delb.png";
+		var imgUrl = this.props.avatar? this.props.avatar : "./img/delb.png";
 		var titleClass="profile-product-title";
-    var imgMain = {
+		var imgMain = {
       backgroundImage: 'url(' + imgUrl + ')',
       backgroundSize: 'cover',
       cursor: 'pointer'
     };	
-    var followerUrl =('/profile/posts/'+this.props.pid);	
+    var followingUrl =('/profile/posts/'+this.props.pid);	
 
 		return (
 			<section className={productClass}>
-	  		<NavLink to={followerUrl}>
+	  		<NavLink to={followingUrl}>
 	  			<div className="thumbnail">
 	  				<div className="col-xs-12">
 	  					<div className={imgClass} style={imgMain}></div>
@@ -31,4 +31,4 @@ class FollowerCard extends React.Component{
 	}
 }
 
-export default FollowerCard;
+export default FollowingCard;

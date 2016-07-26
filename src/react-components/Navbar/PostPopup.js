@@ -17,7 +17,7 @@ class PostPopup extends React.Component{
         avatar: this.props.user.avatar,
         id: this.props.user.id
       },
-      category: this.refs.category.mainCategory,
+      category: this.refs.category.value,
       timestamp: Firebase.ServerValue.TIMESTAMP
     }
     if(newProduct.name.length > 0 && newProduct.link.length > 0 && newProduct.description.length > 0 && newProduct.media.length > 0) {
@@ -26,7 +26,6 @@ class PostPopup extends React.Component{
     } else {
       errorMsg = "Please check missing fields."
     }
-    console.log('newProduct', this.refs.category.mainCategory);
   };
 
   renderPostForm(){
@@ -67,10 +66,10 @@ class PostPopup extends React.Component{
           <div className={group}>
             <label htmlFor="listingCategory" className={label}>Category:</label>
             <select className="col-xs-8 col-sm-9 select-category" ref="category">
-              <option value="{'mainCategory': 'design'}" className="option-category">design</option>
-              <option value="{'mainCategory': 'entertainment'}">entertainment</option>
-              <option value="{'mainCategory': 'lifestyle'}">lifestyle</option>
-              <option value="{'mainCategory': 'beauty'}">beauty</option>
+              <option value="design" className="option-category">design</option>
+              <option value="entertainment">entertainment</option>
+              <option value="lifestyle">lifestyle</option>
+              <option value="beauty">beauty</option>
             </select> 
           </div>   
 

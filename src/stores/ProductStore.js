@@ -13,6 +13,7 @@ class ProductStore {
 			posts: [],
 			likes: [],
 			followers: [],
+			following: [],
 			productCategory: '',
 			showProfileDescription: false, 
 			showProfileNav: false,
@@ -58,6 +59,11 @@ class ProductStore {
 	getFollowers(followers) {
 		this.setState({followers: followers});
 	}
+
+	@bind(Actions.getFollowing)
+	getFollowing(following) {
+		this.setState({following: following});
+	}	
 
 	@bind(Actions.updateCategory)
 	updateCategory(productCategory){
