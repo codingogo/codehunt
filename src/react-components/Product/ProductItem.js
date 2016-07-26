@@ -33,6 +33,7 @@ class ProductItem extends React.Component {
       Actions.getPosts(userId);
       Actions.getLikes(userId);
       Actions.getFollowers(userId);
+      Actions.getFollowing(userId);
       Actions.getUsers(userId);
     }
   }

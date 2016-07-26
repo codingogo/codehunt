@@ -13,6 +13,7 @@ class Profile extends React.Component{
 		super(props);
     this.toggleProfileDesc = this.toggleProfileDesc.bind(this);
     this.handleFollow = this.handleFollow.bind(this);
+    this.handleUnFollow = this.handleUnFollow.bind(this);
 	}
 
   static getStores() {

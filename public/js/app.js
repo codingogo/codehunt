@@ -46290,6 +46290,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
       _actions2.default.getPosts(statId);
       _actions2.default.getLikes(statId);
       _actions2.default.getFollowers(statId);
+      _actions2.default.getFollowing(statId);
       _actions2.default.getUsers(statId);
     };
 
@@ -46681,6 +46682,7 @@ var ProductItem = function (_React$Component) {
         _actions2.default.getPosts(userId);
         _actions2.default.getLikes(userId);
         _actions2.default.getFollowers(userId);
+        _actions2.default.getFollowing(userId);
         _actions2.default.getUsers(userId);
       }
     };
@@ -48101,6 +48103,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
 
     _this.toggleProfileDesc = _this.toggleProfileDesc.bind(_this);
     _this.handleFollow = _this.handleFollow.bind(_this);
+    _this.handleUnFollow = _this.handleUnFollow.bind(_this);
     return _this;
   }
 
