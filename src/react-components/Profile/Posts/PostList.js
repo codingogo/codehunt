@@ -19,7 +19,7 @@ class PostList extends React.Component{
   };
 
   componentWillMount() {
-    Actions.getProfiles(this.props.params.id);
+    Actions.getUsers(this.props.params.id);
     Actions.getPosts(this.props.params.id);
     Actions.getLikes(this.props.params.id); 
     Actions.getFollowers(this.props.params.id); 

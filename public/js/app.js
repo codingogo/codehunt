@@ -45305,17 +45305,6 @@ var Actions = function () {
 					};
 					firebaseRef.child("users").child(authData.facebook.id).set(user);
 					dispatch(user);
-
-					var profile = {
-						id: authData.facebook.id,
-						name: authData.facebook.displayName,
-						avatar: authData.facebook.profileImageURL,
-						locale: authData.facebook.cachedUserProfile.locale,
-						link: authData.facebook.cachedUserProfile.link,
-						picture: authData.facebook.cachedUserProfile.picture
-					};
-					firebaseRef.child("profiles").child(authData.facebook.id).set(profile);
-					dispatch(profile);
 				});
 			};
 		}
@@ -45376,22 +45365,37 @@ var Actions = function () {
 		}
 	}, {
 		key: 'addComment',
-		value: function addComment(productId, comment, userId) {
+		value: function addComment(productId, comment, userId, productOwnerId) {
 			return function (dispatch) {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
 				firebaseRef.child('comments').child(productId).push(comment);
 
+				var postRef = firebaseRef.child('posts').child(productOwnerId).child(productId).child('commentCount');
+				var likeRef = firebaseRef.child('likes').child(productOwnerId).child(productId).child('commentCount');
 				// add commentCount to product & user comment only count once
 				var commentRef = firebaseRef.child('products').child(productId).child('comments').child(userId);
 				commentRef.on('value', function (snapshot) {
 					if (snapshot.val() == null) {
 						commentRef.set(true);
 						firebaseRef = firebaseRef.child('products').child(productId).child('commentCount');
+
 						var count = 0;
 						firebaseRef.on('value', function (snapshot) {
 							count = snapshot.val();
 						});
 						firebaseRef.set(count + 1);
+
+						var countComm = 0;
+						postRef.on('value', function (snapshot) {
+							countComm = snapshot.val();
+						});
+						postRef.set(countComm + 1);
+
+						var countCommLike = 0;
+						likeRef.on('value', function (snapshot) {
+							countCommLike = snapshot.val();
+						});
+						likeRef.set(countCommLike + 1);
 					}
 				});
 			};
@@ -45403,7 +45407,6 @@ var Actions = function () {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
 				var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 				var updatedFollowData = {};
-				updatedFollowData["profiles/" + followedId + "/followers/" + followerId] = follower;
 				updatedFollowData["users/" + followedId + "/followers/" + followerId] = follower;
 				followRef.on('value', function (snapshot) {
 					if (snapshot.val() == null) {
@@ -45424,7 +45427,7 @@ var Actions = function () {
 				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com');
 				var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 				var updatedFollowData = {};
-				updatedFollowData["profiles/" + followedId + "/followers/" + followerId] = null;
+
 				updatedFollowData["users/" + followedId + "/followers/" + followerId] = null;
 				followRef.on('value', function (snapshot) {
 					if (snapshot.val() != null) {
@@ -45520,11 +45523,14 @@ var Actions = function () {
 				});
 			};
 		}
+
+		// getUsers is equivalent to the depricated getProfiles
+
 	}, {
-		key: 'getProfiles',
-		value: function getProfiles(userId) {
+		key: 'getUsers',
+		value: function getUsers(userId) {
 			return function (dispatch) {
-				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com/profiles');
+				var firebaseRef = new _firebase2.default('https://delb.firebaseio.com/users');
 				firebaseRef.child(userId).on('value', function (snapshot) {
 					var profilesVal = snapshot.val();
 					dispatch(profilesVal);
@@ -46023,7 +46029,8 @@ var PostPopup = function (_React$Component) {
           avatar: _this.props.user.avatar,
           id: _this.props.user.id
         },
-        category: _this.refs.category.value
+        category: _this.refs.category.mainCategory,
+        timestamp: Firebase.ServerValue.TIMESTAMP
       };
       if (newProduct.name.length > 0 && newProduct.link.length > 0 && newProduct.description.length > 0 && newProduct.media.length > 0) {
         _actions2.default.addProduct(newProduct);
@@ -46033,6 +46040,7 @@ var PostPopup = function (_React$Component) {
       } else {
         errorMsg = "Please check missing fields.";
       }
+      console.log('newProduct', _this.refs.category.mainCategory);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -46062,12 +46070,12 @@ var PostPopup = function (_React$Component) {
             _react2.default.createElement(
               'label',
               { htmlFor: 'listingTitle', className: label },
-              'Name:'
+              'Title:'
             ),
             _react2.default.createElement(
               'div',
               { className: inputArea },
-              _react2.default.createElement('input', { type: 'text', className: inputClass, style: fullWidth, id: 'listingTitle', placeholder: 'name', ref: 'name', required: isRequired })
+              _react2.default.createElement('input', { type: 'text', className: inputClass, style: fullWidth, id: 'listingTitle', placeholder: 'title', ref: 'name', required: isRequired })
             )
           ),
           _react2.default.createElement(
@@ -46125,22 +46133,22 @@ var PostPopup = function (_React$Component) {
               { className: 'col-xs-8 col-sm-9 select-category', ref: 'category' },
               _react2.default.createElement(
                 'option',
-                { value: 'design', className: 'option-category' },
+                { value: '{\'mainCategory\': \'design\'}', className: 'option-category' },
                 'design'
               ),
               _react2.default.createElement(
                 'option',
-                { value: 'entertainment' },
+                { value: '{\'mainCategory\': \'entertainment\'}' },
                 'entertainment'
               ),
               _react2.default.createElement(
                 'option',
-                { value: 'lifestyle' },
+                { value: '{\'mainCategory\': \'lifestyle\'}' },
                 'lifestyle'
               ),
               _react2.default.createElement(
                 'option',
-                { value: 'beauty' },
+                { value: '{\'mainCategory\': \'beauty\'}' },
                 'beauty'
               )
             )
@@ -46265,7 +46273,7 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
       _actions2.default.getPosts(statId);
       _actions2.default.getLikes(statId);
       _actions2.default.getFollowers(statId);
-      _actions2.default.getProfiles(statId);
+      _actions2.default.getUsers(statId);
     };
 
     _this.state = {
@@ -46647,7 +46655,7 @@ var ProductItem = function (_React$Component) {
     };
 
     _this.windowOpen = function () {
-      window.open(_this.props.link ? (_this.props.link, 'newwindow', 'width=300, height=450') : null);
+      window.open(_this.props.link, 'newwindow', 'width=300, height=450');
     };
 
     _this.refreshStats = function () {
@@ -46656,7 +46664,7 @@ var ProductItem = function (_React$Component) {
         _actions2.default.getPosts(userId);
         _actions2.default.getLikes(userId);
         _actions2.default.getFollowers(userId);
-        _actions2.default.getProfiles(userId);
+        _actions2.default.getUsers(userId);
       }
     };
 
@@ -46734,7 +46742,7 @@ var ProductItem = function (_React$Component) {
         ),
         _react2.default.createElement(
           'a',
-          { onClick: this.windowOpen, target: '_blank', className: 'product-item-link' },
+          { onClick: this.windowOpen, className: 'product-item-link' },
           _react2.default.createElement('i', { className: 'fa fa-external-link', 'aria-hidden': 'true' })
         ),
         _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
@@ -46887,7 +46895,7 @@ var ProductPopup = (0, _connectToStores2.default)(_class = function (_React$Comp
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ProductPopup).call(this));
 
 		_this.windowOpen = function () {
-			window.open(_this.props.link ? (_this.props.link, 'newwindow', 'width=300, height=450') : null);
+			window.open(_this.props.link, 'newwindow', 'width=300, height=450');
 		};
 
 		_this.handleComment = function (e) {
@@ -46897,8 +46905,8 @@ var ProductPopup = (0, _connectToStores2.default)(_class = function (_React$Comp
 					name: _this.props.user.name,
 					avatar: _this.props.user.avatar
 				};
-
-				_actions2.default.addComment(_this.props.pid, comment, _this.props.user.id);
+				var productOwnerId = _this.props.maker ? _this.props.maker.id : null;
+				_actions2.default.addComment(_this.props.pid, comment, _this.props.user.id, productOwnerId);
 				e.target.value = null;
 			}
 		};
@@ -46939,7 +46947,7 @@ var ProductPopup = (0, _connectToStores2.default)(_class = function (_React$Comp
 						_react2.default.createElement(_Upvote2.default, this.props),
 						_react2.default.createElement(
 							'a',
-							{ className: 'getit-btn', target: '_blank', onClick: this.windowOpen },
+							{ className: 'getit-btn', onClick: this.windowOpen },
 							'GO'
 						)
 					)
@@ -47357,6 +47365,8 @@ var _ProductPopup = require('../../Product/ProductPopup');
 
 var _ProductPopup2 = _interopRequireDefault(_ProductPopup);
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -47388,57 +47398,62 @@ var LikeCard = function (_React$Component) {
   }
 
   _createClass(LikeCard, [{
-    key: 'render',
-    value: function render() {
-      var likecard = "col-xs-6 col-sm-4 col-md-3 postcard";
+    key: 'renderMaker',
+    value: function renderMaker() {
+      var imgcss = "likes-maker-avatar";
+      var imgMakerUrl = this.props.maker ? this.props.maker.avatar : "./img/delb.png";
+      var imgMaker = {
+        backgroundImage: 'url(' + imgMakerUrl + ')',
+        backgroundSize: 'cover',
+        cursor: 'pointer',
+        backgroundPosition: 'center'
+      };
+      var makerUrl = '/profile/posts/' + (this.props.maker ? this.props.maker.id : null);
+      return _react2.default.createElement(
+        'section',
+        null,
+        _react2.default.createElement(
+          _reactRouter.Link,
+          { to: makerUrl },
+          _react2.default.createElement('img', { src: imgMakerUrl, alt: 'image', className: imgcss })
+        )
+      );
+    }
+  }, {
+    key: 'renderTitle',
+    value: function renderTitle() {
+      var likecardTitle = "width-full likecard-title";
+      return _react2.default.createElement(
+        'section',
+        { className: likecardTitle },
+        this.props.name.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }).substring(0, 27)
+      );
+    }
+  }, {
+    key: 'renderMainImg',
+    value: function renderMainImg() {
       var img = "postcard-img width-full";
       var imgUrl = this.props.media ? this.props.media : "./img/delb.png";
-      var btn = "btn-sm btn btn-default width-half postcard-btn";
-      var likecardTitle = "width-full postcard-title";
-      var caretUp = "fa fa-lg fa-caret-up";
-      var comment = "fa fa-comment";
       var imgMain = {
         backgroundImage: 'url(' + imgUrl + ')',
         backgroundSize: 'cover',
         cursor: 'pointer',
         backgroundPosition: 'center'
       };
-
+      return _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showPostPopup });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var likecard = "col-xs-6 col-sm-4 col-md-3 postcard";
       return _react2.default.createElement(
         'li',
         { className: likecard },
-        _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showPostPopup }),
-        _react2.default.createElement(
-          'div',
-          { className: likecardTitle },
-          this.props.name.substring(0, 27)
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'width-full' },
-          _react2.default.createElement(
-            'span',
-            { className: btn },
-            _react2.default.createElement('i', { className: caretUp, ariaHidden: 'true' }),
-            _react2.default.createElement(
-              'span',
-              null,
-              ' ',
-              this.props.upvote
-            )
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: btn },
-            _react2.default.createElement('i', { className: comment, ariaHidden: 'true' }),
-            _react2.default.createElement(
-              'span',
-              null,
-              ' ',
-              this.props.commentNums
-            )
-          )
-        ),
+        this.renderMaker(),
+        this.renderMainImg(),
+        this.renderTitle(),
         _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.likePopupStatus, hidePopup: this.hidePostPopup }))
       );
     }
@@ -47449,7 +47464,7 @@ var LikeCard = function (_React$Component) {
 
 exports.default = LikeCard;
 
-},{"../../Product/ProductPopup":277,"react":262}],282:[function(require,module,exports){
+},{"../../Product/ProductPopup":277,"react":262,"react-router":99}],282:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47622,7 +47637,7 @@ var PostCard = function (_React$Component) {
       var imgUrl = this.props.media ? this.props.media : "./img/delb.png";
       var btn = "btn-sm btn btn-default width-half postcard-btn";
       var postcardTitle = "width-full postcard-title";
-      var caretUp = "fa fa-lg fa-caret-up";
+      var heart = "fa fa-lg fa-heart-o";
       var comment = "fa fa-comment";
       var imgMain = {
         backgroundImage: 'url(' + imgUrl + ')',
@@ -47646,7 +47661,7 @@ var PostCard = function (_React$Component) {
           _react2.default.createElement(
             'span',
             { className: btn },
-            _react2.default.createElement('i', { className: caretUp, ariaHidden: 'true' }),
+            _react2.default.createElement('i', { className: heart, ariaHidden: 'true' }),
             _react2.default.createElement(
               'span',
               null,
@@ -47662,7 +47677,7 @@ var PostCard = function (_React$Component) {
               'span',
               null,
               ' ',
-              this.props.commentNums
+              this.props.commentCount ? this.props.commentCount : 0
             )
           )
         ),
@@ -47729,7 +47744,7 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
   _createClass(PostList, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      _actions2.default.getProfiles(this.props.params.id);
+      _actions2.default.getUsers(this.props.params.id);
       _actions2.default.getPosts(this.props.params.id);
       _actions2.default.getLikes(this.props.params.id);
       _actions2.default.getFollowers(this.props.params.id);
@@ -47879,7 +47894,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
     key: 'componentWillMount',
     value: function componentWillMount() {
       if (this.props.params.id) {
-        _actions2.default.getProfiles(this.props.params.id);
+        _actions2.default.getUsers(this.props.params.id);
         _actions2.default.getPosts(this.props.params.id);
         _actions2.default.getLikes(this.props.params.id);
         _actions2.default.getFollowers(this.props.params.id);
@@ -48449,7 +48464,7 @@ var App = (0, _connectToStores2.default)(_class = function (_React$Component) {
       _actions2.default.initSession();
       _reactRouter.hashHistory.listen(function (ev) {
         if (ev.pathname.length > 2) {
-          _actions2.default.getProfiles(ev.pathname.split('/').pop());
+          _actions2.default.getUsers(ev.pathname.split('/').pop());
         }
       });
     }
@@ -48549,7 +48564,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 	return desc;
 }
 
-var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getProfiles), _dec6 = (0, _decorators.bind)(_actions2.default.getPosts), _dec7 = (0, _decorators.bind)(_actions2.default.getLikes), _dec8 = (0, _decorators.bind)(_actions2.default.getFollowers), _dec9 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec10 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec11 = (0, _decorators.bind)(_actions2.default.initializeProfileStats), _dec12 = (0, _decorators.bind)(_actions2.default.removeFollow), _dec13 = (0, _decorators.bind)(_actions2.default.showPopup), _dec14 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
+var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0, _decorators.bind)(_actions2.default.login, _actions2.default.initSession, _actions2.default.logout), _dec3 = (0, _decorators.bind)(_actions2.default.getProducts), _dec4 = (0, _decorators.bind)(_actions2.default.getComments), _dec5 = (0, _decorators.bind)(_actions2.default.getUsers), _dec6 = (0, _decorators.bind)(_actions2.default.getPosts), _dec7 = (0, _decorators.bind)(_actions2.default.getLikes), _dec8 = (0, _decorators.bind)(_actions2.default.getFollowers), _dec9 = (0, _decorators.bind)(_actions2.default.updateCategory), _dec10 = (0, _decorators.bind)(_actions2.default.toggleProfileInfo), _dec11 = (0, _decorators.bind)(_actions2.default.initializeProfileStats), _dec12 = (0, _decorators.bind)(_actions2.default.removeFollow), _dec13 = (0, _decorators.bind)(_actions2.default.showPopup), _dec14 = (0, _decorators.bind)(_actions2.default.hidePopup), _dec(_class = (_class2 = function () {
 	function ProductStore() {
 		_classCallCheck(this, ProductStore);
 
@@ -48588,8 +48603,8 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			this.setState({ comments: comments });
 		}
 	}, {
-		key: 'getProfiles',
-		value: function getProfiles(profiles) {
+		key: 'getUsers',
+		value: function getUsers(profiles) {
 			this.setState({ profiles: profiles });
 		}
 	}, {
@@ -48640,7 +48655,7 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 	}]);
 
 	return ProductStore;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfiles', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProfiles'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPosts', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'getPosts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getLikes', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'getLikes'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getFollowers', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'getFollowers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'initializeProfileStats', [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, 'initializeProfileStats'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeFollow', [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, 'removeFollow'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'setUser', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'setUser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProducts', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'getProducts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getComments', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'getComments'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getUsers', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'getUsers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPosts', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'getPosts'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getLikes', [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, 'getLikes'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getFollowers', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'getFollowers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCategory', [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, 'updateCategory'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleProfileInfo', [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleProfileInfo'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'initializeProfileStats', [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, 'initializeProfileStats'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeFollow', [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, 'removeFollow'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showPopup', [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, 'showPopup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hidePopup', [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, 'hidePopup'), _class2.prototype)), _class2)) || _class);
 exports.default = _alt2.default.createStore(ProductStore);
 
 },{"../actions":266,"../alt":267,"alt-utils/lib/decorators":2}],291:[function(require,module,exports){

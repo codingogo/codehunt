@@ -24,7 +24,7 @@ class ProductItem extends React.Component {
   };  
 
   windowOpen = () => {
-    window.open(this.props.link? (this.props.link,  'newwindow', 'width=300, height=450'):null);
+    window.open(this.props.link,  'newwindow', 'width=300, height=450');
   }
 
   refreshStats = () => {
@@ -33,7 +33,7 @@ class ProductItem extends React.Component {
       Actions.getPosts(userId);
       Actions.getLikes(userId);
       Actions.getFollowers(userId);
-      Actions.getProfiles(userId);
+      Actions.getUsers(userId);
     }
   }
 
@@ -80,7 +80,7 @@ class ProductItem extends React.Component {
           {this.renderProductImg()}      
           {this.renderInfo()}
         </div> 
-        <a onClick={this.windowOpen} target="_blank" className="product-item-link"><i className="fa fa-external-link" aria-hidden="true"></i></a> 
+        <a onClick={this.windowOpen} className="product-item-link"><i className="fa fa-external-link" aria-hidden="true"></i></a> 
         <ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
       </li>
     );

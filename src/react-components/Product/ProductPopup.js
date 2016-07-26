@@ -27,7 +27,7 @@ class ProductPopup extends React.Component{
   };
 
   windowOpen = () => {
-    window.open(this.props.link? (this.props.link,  'newwindow', 'width=300, height=450'):null);
+    window.open(this.props.link,  'newwindow', 'width=300, height=450');
   }
 
 	renderHeader() {
@@ -38,7 +38,7 @@ class ProductPopup extends React.Component{
 					<p>{this.props.description? this.props.description:null}</p>
 					<section>
 						<Upvote {...this.props} />
-						<a className="getit-btn" target="_blank" onClick={this.windowOpen}>GO</a>
+						<a className="getit-btn" onClick={this.windowOpen}>GO</a>
 					</section>
 				</section>
 			</header>
@@ -52,8 +52,8 @@ class ProductPopup extends React.Component{
 				name: this.props.user.name,
 				avatar: this.props.user.avatar
 			}
-
-			Actions.addComment(this.props.pid, comment, this.props.user.id);
+			var productOwnerId = (this.props.maker? this.props.maker.id: null);
+			Actions.addComment(this.props.pid, comment, this.props.user.id, productOwnerId);
 			e.target.value = null;
 		}
 	};

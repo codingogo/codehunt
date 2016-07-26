@@ -67,7 +67,7 @@ class Navbar extends React.Component {
     Actions.getPosts(statId);
     Actions.getLikes(statId);
     Actions.getFollowers(statId);
-    Actions.getProfiles(statId);
+    Actions.getUsers(statId);
   }
 
   renderProductSearch(){

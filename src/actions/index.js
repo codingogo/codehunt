@@ -43,17 +43,6 @@ class Actions {
 	      }
 	      firebaseRef.child("users").child(authData.facebook.id).set(user);
 	      dispatch(user); 
-
-	      var profile = {
-	      	id: authData.facebook.id,
-	      	name: authData.facebook.displayName,
-	      	avatar: authData.facebook.profileImageURL,
-	      	locale: authData.facebook.cachedUserProfile.locale,
-	      	link: authData.facebook.cachedUserProfile.link,
-	      	picture: authData.facebook.cachedUserProfile.picture
-	      }
-	      firebaseRef.child("profiles").child(authData.facebook.id).set(profile);
-	      dispatch(profile);
 	    });		
 		}
 	}
@@ -108,22 +97,37 @@ class Actions {
 		}
 	}
 
-	addComment(productId, comment, userId){
+	addComment(productId, comment, userId, productOwnerId){
 		return (dispatch) => {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
 			firebaseRef.child('comments').child(productId).push(comment);
 
+			var postRef = firebaseRef.child('posts').child(productOwnerId).child(productId).child('commentCount');
+			var likeRef = firebaseRef.child('likes').child(productOwnerId).child(productId).child('commentCount');
 			// add commentCount to product & user comment only count once
 			var commentRef = firebaseRef.child('products').child(productId).child('comments').child(userId);
 			commentRef.on('value', (snapshot) => {
 				if(snapshot.val() == null){
 					commentRef.set(true)
 					firebaseRef = firebaseRef.child('products').child(productId).child('commentCount');
+					
 					var count = 0;
 					firebaseRef.on('value', (snapshot) => {
 						count = snapshot.val();
 					});
 					firebaseRef.set(count+1);
+
+					var countComm = 0;
+					postRef.on('value', (snapshot) => {
+						countComm = snapshot.val();
+					});
+					postRef.set(countComm+1);
+
+					var countCommLike = 0;
+					likeRef.on('value', (snapshot) => {
+						countCommLike = snapshot.val();
+					});
+					likeRef.set(countCommLike+1);
 				}
 			});
 		}
@@ -134,7 +138,6 @@ class Actions {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
 			var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 			var updatedFollowData = {};
-			updatedFollowData["profiles/"+followedId+"/followers/"+followerId] = follower;
 			updatedFollowData["users/"+followedId+"/followers/"+followerId] = follower;
 			followRef.on('value', (snapshot) => {
 				if(snapshot.val() == null){
@@ -154,7 +157,7 @@ class Actions {
 			var firebaseRef = new Firebase('https://delb.firebaseio.com');
 			var followRef = firebaseRef.child('followers').child(followedId).child(followerId);
 			var updatedFollowData = {};
-			updatedFollowData["profiles/"+followedId+"/followers/"+followerId] = null;
+
 			updatedFollowData["users/"+followedId+"/followers/"+followerId] = null;
 			followRef.on('value', (snapshot) => {
 				if(snapshot.val() != null){
@@ -251,9 +254,10 @@ class Actions {
 		}
 	}
 
-	getProfiles(userId) {
+	// getUsers is equivalent to the depricated getProfiles
+	getUsers(userId) {
 		return (dispatch) => {
-			var firebaseRef = new Firebase('https://delb.firebaseio.com/profiles');
+			var firebaseRef = new Firebase('https://delb.firebaseio.com/users');
 			firebaseRef.child(userId).on('value', (snapshot) => {
 				var profilesVal = snapshot.val();
 				dispatch(profilesVal);

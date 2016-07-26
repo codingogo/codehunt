@@ -24,7 +24,7 @@ class Profile extends React.Component{
 
 	componentWillMount() {
     if(this.props.params.id){
-      Actions.getProfiles(this.props.params.id);
+      Actions.getUsers(this.props.params.id);
       Actions.getPosts(this.props.params.id);
       Actions.getLikes(this.props.params.id);
       Actions.getFollowers(this.props.params.id);

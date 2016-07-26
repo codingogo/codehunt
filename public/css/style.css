@@ -80,7 +80,6 @@ table {
 .active {
   border-bottom: 3px solid #ff6633;
   padding-bottom: 5px;
-  /*color: #ff6633;*/
 }
 .active > a {
   /*color: #ff6633;*/
@@ -378,14 +377,13 @@ table {
   color: #5e9aee;
 }
 .upvote-button > * {
-  /*display: block;*/
   padding: 3px;
 }
 .up-heart {
   vertical-align: text-top;
 }
 
-/* Category*/
+/********** Category **********/
 .category-select {
   padding: 3px 5px;
   cursor: pointer;
@@ -863,16 +861,38 @@ select.select-category {
   height: 202px;
 }
 .postcard-title {
-    position: absolute;
-    bottom: 40px;
-    z-index: 99;
-    margin-left: 5px;
-    color: #fff;
-    text-shadow: 1px 1px 1px #777;
+  position: absolute;
+  bottom: 40px;
+  z-index: 99;
+  margin-left: 5px;
+  color: #fff;
+  text-shadow: 1px 1px 1px #777;
 }
 .postcard-btn {
   border-radius: 0;
   color: #888;
+}
+.likecard-title {
+  position: absolute;
+  bottom: 10px;
+  z-index: 99;
+  margin-left: 5px;
+  color: #fff;
+  text-shadow: 1px 1px 1px #777; 
+}
+.likes-maker-avatar {
+  display: none;
+  border-radius: 50%;
+  width: 42px;
+  position: absolute;
+  left: 15px;
+  bottom: 30px;
+}
+.likes-maker-avatar:hover{
+  box-shadow: 1px 1px 6px #333;
+}
+.postcard:hover .likes-maker-avatar{
+  display: block;
 }
 
 /************** EMPTY POST *************/

@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductPopup from '../../Product/ProductPopup';
+import {Link} from 'react-router';
 
 class LikeCard extends React.Component{
   constructor(){
@@ -17,37 +18,55 @@ class LikeCard extends React.Component{
     this.setState({likePopupStatus: false});
   };  
 
-  render() {
-    var likecard="col-xs-6 col-sm-4 col-md-3 postcard";
-    var img = "postcard-img width-full"
-    var imgUrl = this.props.media? this.props.media : "./img/delb.png";
-    var btn = "btn-sm btn btn-default width-half postcard-btn";
-    var likecardTitle="width-full postcard-title";
-    var caretUp = "fa fa-lg fa-caret-up";
-    var comment = "fa fa-comment";
+  renderMaker() {
+    var imgcss="likes-maker-avatar";
+    var imgMakerUrl = this.props.maker? this.props.maker.avatar : "./img/delb.png";
+    var imgMaker = {
+      backgroundImage: 'url(' + imgMakerUrl + ')',
+      backgroundSize: 'cover',
+      cursor: 'pointer',
+      backgroundPosition: 'center'
+    };   
+    var makerUrl = ('/profile/posts/'+(this.props.maker? this.props.maker.id : null)); 
+    return(
+      <section>
+        <Link to={makerUrl}>
+          <img src={imgMakerUrl} alt="image" className={imgcss}/>
+        </Link>
+      </section>  
+    );
+  }
+
+  renderTitle() {
+    var likecardTitle="width-full likecard-title";
+    return (
+      <section className={likecardTitle}>
+        {this.props.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).substring(0,27)}
+      </section>
+    );
+  }
+
+  renderMainImg() {
+    var img = "postcard-img width-full"    
+    var imgUrl = this.props.media? this.props.media : "./img/delb.png";    
     var imgMain = {
       backgroundImage: 'url(' + imgUrl + ')',
       backgroundSize: 'cover',
       cursor: 'pointer',
       backgroundPosition: 'center'
-    };
-    
+    };    
+    return(
+      <div className={img} style={imgMain} onClick={this.showPostPopup}></div>
+    );
+  }
+
+  render() {
+    var likecard="col-xs-6 col-sm-4 col-md-3 postcard"; 
     return (
       <li className={likecard}>
-        <div className={img} style={imgMain} onClick={this.showPostPopup}></div>
-        <div className={likecardTitle}>
-          {this.props.name.substring(0,27)}
-        </div>          
-        <div className="width-full">
-          <span className={btn}>
-            <i className={caretUp} ariaHidden="true"></i>
-            <span>&nbsp;{this.props.upvote}</span>
-          </span>     
-          <span className={btn}>
-            <i className={comment} ariaHidden="true"></i>
-            <span>&nbsp;{this.props.commentNums}</span>
-          </span>
-        </div>
+        {this.renderMaker()}       
+        {this.renderMainImg()}
+        {this.renderTitle()}
         <ProductPopup {...this.props} status={this.state.likePopupStatus} hidePopup={this.hidePostPopup}/>
       </li>
     )

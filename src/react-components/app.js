@@ -31,7 +31,7 @@ class App extends React.Component {
     Actions.initSession();
     hashHistory.listen(function(ev) {
       if(ev.pathname.length > 2){
-        Actions.getProfiles(ev.pathname.split('/').pop());
+        Actions.getUsers(ev.pathname.split('/').pop());
       }
     });
   }

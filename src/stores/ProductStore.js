@@ -39,8 +39,8 @@ class ProductStore {
 		this.setState({comments: comments});
 	}
 
-	@bind(Actions.getProfiles)
-	getProfiles(profiles) {
+	@bind(Actions.getUsers)
+	getUsers(profiles) {
 		this.setState({profiles: profiles});
 	}
 

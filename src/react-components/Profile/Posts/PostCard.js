@@ -23,7 +23,7 @@ class PostCard extends React.Component{
     var imgUrl = this.props.media? this.props.media : "./img/delb.png";
     var btn = "btn-sm btn btn-default width-half postcard-btn";
     var postcardTitle="width-full postcard-title";
-    var caretUp = "fa fa-lg fa-caret-up";
+    var heart = "fa fa-lg fa-heart-o";
     var comment = "fa fa-comment";
     var imgMain = {
       backgroundImage: 'url(' + imgUrl + ')',
@@ -40,12 +40,12 @@ class PostCard extends React.Component{
         </div>          
         <div className="width-full">
           <span className={btn}>
-            <i className={caretUp} ariaHidden="true"></i>
+            <i className={heart} ariaHidden="true"></i>
             <span>&nbsp;{this.props.upvote}</span>
           </span>     
           <span className={btn}>
             <i className={comment} ariaHidden="true"></i>
-            <span>&nbsp;{this.props.commentNums}</span>
+            <span>&nbsp;{this.props.commentCount? this.props.commentCount: 0 }</span>
           </span>
         </div>
         <ProductPopup {...this.props} status={this.state.postPopupStatus} hidePopup={this.hidePostPopup}/>
