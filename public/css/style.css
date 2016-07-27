@@ -43,6 +43,9 @@ table {
 .orange {
   color: #ff6633;
 }
+.hidden {
+  display: none;
+}
 .pointer {
   cursor: pointer;
 }

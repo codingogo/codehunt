@@ -5,7 +5,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import HomePage from './HomePage';
 import Navbar from './Navbar';
 import ProductStore from '../stores/ProductStore';
-import { Router, Route, hashHistory, IndexRoute } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 import Profile from './Profile/Profile';
 import PostList from './Profile/Posts/PostList';
@@ -30,12 +30,12 @@ class App extends React.Component {
 
   componentWillMount() {
     Actions.initSession();
-    hashHistory.listen(function(ev) {
+    browserHistory.listen(function(ev) {
       if(ev.pathname.length > 2){
         Actions.getUsers(ev.pathname.split('/').pop());
       }
     });
-  }
+  } 
 
   render() {
     return (
@@ -48,10 +48,10 @@ class App extends React.Component {
 }
 
 ReactDOM.render((
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePage}/>
-      <Route path="/profile" component={Profile}>
+      <Route path="/profile" component={Profile} >
         <Route path="/profile/posts/:id" component={PostList}/>
         <Route path="/profile/likes/:id" component={LikeList}/>
         <Route path="/profile/followers/:id" component={FollowerList}/>

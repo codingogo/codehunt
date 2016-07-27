@@ -47178,9 +47178,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _NavLink = require('../../Navbar/NavLink');
-
-var _NavLink2 = _interopRequireDefault(_NavLink);
+var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47217,7 +47215,7 @@ var FollowerCard = function (_React$Component) {
 				'section',
 				{ className: productClass },
 				_react2.default.createElement(
-					_NavLink2.default,
+					_reactRouter.Link,
 					{ to: followerUrl },
 					_react2.default.createElement(
 						'div',
@@ -47237,7 +47235,8 @@ var FollowerCard = function (_React$Component) {
 							)
 						)
 					)
-				)
+				),
+				this.props.children
 			);
 		}
 	}]);
@@ -47247,7 +47246,7 @@ var FollowerCard = function (_React$Component) {
 
 exports.default = FollowerCard;
 
-},{"../../Navbar/NavLink":270,"react":262}],280:[function(require,module,exports){
+},{"react":262,"react-router":99}],280:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47298,8 +47297,8 @@ var FollowerList = (0, _connectToStores2.default)(_class = function (_React$Comp
   }
 
   _createClass(FollowerList, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       _actions2.default.getFollowers(this.props.params.id);
     }
   }, {
@@ -47433,7 +47432,8 @@ var FollowingCard = function (_React$Component) {
 							)
 						)
 					)
-				)
+				),
+				this.props.children
 			);
 		}
 	}]);
@@ -47494,8 +47494,8 @@ var FollowingList = (0, _connectToStores2.default)(_class = function (_React$Com
   }
 
   _createClass(FollowingList, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       _actions2.default.getFollowing(this.props.params.id);
     }
   }, {
@@ -47594,21 +47594,27 @@ var LikeCard = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LikeCard).call(this));
 
-    _this.showLikePopup = function () {
-      _this.setState({ likePopupStatus: true });
+    _this.showPopup = function () {
+      _this.setState({ popupStatus: true });
     };
 
-    _this.hideLikePopup = function () {
-      _this.setState({ likePopupStatus: false });
+    _this.hidePopup = function () {
+      _this.setState({ popupStatus: false });
     };
 
     _this.state = {
-      likePopupStatus: false
+      popupStatus: false
     };
     return _this;
   }
 
   _createClass(LikeCard, [{
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      this.showPopup;
+      this.hidePopup;
+    }
+  }, {
     key: 'renderMaker',
     value: function renderMaker() {
       var imgcss = "likes-maker-avatar";
@@ -47653,7 +47659,7 @@ var LikeCard = function (_React$Component) {
         cursor: 'pointer',
         backgroundPosition: 'center'
       };
-      return _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showLikePopup });
+      return _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showPopup });
     }
   }, {
     key: 'render',
@@ -47665,7 +47671,7 @@ var LikeCard = function (_React$Component) {
         this.renderMaker(),
         this.renderMainImg(),
         this.renderTitle(),
-        _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.likePopupStatus, hidePopup: this.hideLikePopup }))
+        _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.popupStatus, hidePopup: this.hidePopup }))
       );
     }
   }]);
@@ -47826,21 +47832,27 @@ var PostCard = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PostCard).call(this));
 
-    _this.showPostPopup = function () {
-      _this.setState({ postPopupStatus: true });
+    _this.showPopup = function () {
+      _this.setState({ popupStatus: true });
     };
 
-    _this.hidePostPopup = function () {
-      _this.setState({ postPopupStatus: false });
+    _this.hidePopup = function () {
+      _this.setState({ popupStatus: false });
     };
 
     _this.state = {
-      postPopupStatus: false
+      popupStatus: false
     };
     return _this;
   }
 
   _createClass(PostCard, [{
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      this.showPopup;
+      this.hidePopup;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var postcard = "col-xs-6 col-sm-4 col-md-3 postcard";
@@ -47860,7 +47872,7 @@ var PostCard = function (_React$Component) {
       return _react2.default.createElement(
         'li',
         { className: postcard },
-        _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showPostPopup }),
+        _react2.default.createElement('div', { className: img, style: imgMain, onClick: this.showPopup }),
         _react2.default.createElement(
           'div',
           { className: postcardTitle },
@@ -47892,7 +47904,8 @@ var PostCard = function (_React$Component) {
             )
           )
         ),
-        _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.postPopupStatus, hidePopup: this.hidePostPopup }))
+        _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.popupStatus, hidePopup: this.hidePopup })),
+        this.props.children
       );
     }
   }]);
@@ -47953,13 +47966,15 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
   }
 
   _createClass(PostList, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      _actions2.default.getUsers(this.props.params.id);
-      _actions2.default.getPosts(this.props.params.id);
-      _actions2.default.getLikes(this.props.params.id);
-      _actions2.default.getFollowers(this.props.params.id);
-      _actions2.default.getFollowing(this.props.params.id);
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.params) {
+        _actions2.default.getUsers(this.props.params.id);
+        _actions2.default.getPosts(this.props.params.id);
+        _actions2.default.getLikes(this.props.params.id);
+        _actions2.default.getFollowers(this.props.params.id);
+        _actions2.default.getFollowing(this.props.params.id);
+      }
     }
   }, {
     key: 'renderPostList',
@@ -48070,10 +48085,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Profile = (0, _connectToStores2.default)(_class = function (_React$Component) {
   _inherits(Profile, _React$Component);
 
-  function Profile(props) {
+  function Profile() {
     _classCallCheck(this, Profile);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Profile).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Profile).call(this));
 
     _this.toggleProfileDesc = function () {
       _this.props.showProfileDescription ? _actions2.default.toggleProfileInfo({ showProfileDescription: false }) : _actions2.default.toggleProfileInfo({ showProfileDescription: true });
@@ -48344,7 +48359,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
         this.renderProfile(),
         this.renderStats(),
         this.props.showProfileDescription ? this.renderProfileDescription() : null,
-        this.props.children
+        this.props.children && _react2.default.cloneElement(this.props.children)
       );
     }
   }], [{
@@ -48399,21 +48414,27 @@ var ToptenItem = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ToptenItem).call(this));
 
-    _this.showProductPopup = function () {
-      _this.setState({ productPopupStatus: true });
+    _this.showPopup = function () {
+      _this.setState({ popupStatus: true });
     };
 
-    _this.hideProductPopup = function () {
-      _this.setState({ productPopupStatus: false });
+    _this.hidePopup = function () {
+      _this.setState({ popupStatus: false });
     };
 
     _this.state = {
-      productPopupStatus: false
+      popupStatus: false
     };
     return _this;
   }
 
   _createClass(ToptenItem, [{
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      this.showPopup;
+      this.hidePopup;
+    }
+  }, {
     key: 'renderProductImg',
     value: function renderProductImg() {
       var imgClass = "topten-img";
@@ -48434,7 +48455,7 @@ var ToptenItem = function (_React$Component) {
       var description = "topten-description whitespace";
       return _react2.default.createElement(
         'section',
-        { onClick: this.showProductPopup },
+        { onClick: this.showPopup },
         _react2.default.createElement(
           'div',
           { className: rank },
@@ -48464,7 +48485,7 @@ var ToptenItem = function (_React$Component) {
           'li',
           { className: 'topten' },
           this.renderToptenInfo(),
-          _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.productPopupStatus, hidePopup: this.hideProductPopup }))
+          _react2.default.createElement(_ProductPopup2.default, _extends({}, this.props, { status: this.state.popupStatus, hidePopup: this.hidePopup }))
         )
       );
     }
@@ -48708,7 +48729,7 @@ var App = (0, _connectToStores2.default)(_class = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       _actions2.default.initSession();
-      _reactRouter.hashHistory.listen(function (ev) {
+      _reactRouter.browserHistory.listen(function (ev) {
         if (ev.pathname.length > 2) {
           _actions2.default.getUsers(ev.pathname.split('/').pop());
         }
@@ -48741,7 +48762,7 @@ var App = (0, _connectToStores2.default)(_class = function (_React$Component) {
 
 _reactDom2.default.render(_react2.default.createElement(
   _reactRouter.Router,
-  { history: _reactRouter.hashHistory },
+  { history: _reactRouter.browserHistory },
   _react2.default.createElement(
     _reactRouter.Route,
     { path: '/', component: App },
@@ -48827,6 +48848,7 @@ var ProductStore = (_dec = (0, _decorators.decorate)(_alt2.default), _dec2 = (0,
 			productCategory: '',
 			showProfileDescription: false,
 			showProfileNav: false,
+			popupStatus: false,
 
 			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			commentNums: 57,

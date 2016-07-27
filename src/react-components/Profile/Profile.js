@@ -9,8 +9,8 @@ import NavLink from '../Navbar/NavLink';
 
 @connectToStores
 class Profile extends React.Component{
-	constructor(props){
-		super(props);
+	constructor(){
+		super();
     this.toggleProfileDesc = this.toggleProfileDesc.bind(this);
     this.handleFollow = this.handleFollow.bind(this);
     this.handleUnFollow = this.handleUnFollow.bind(this);
@@ -131,20 +131,20 @@ class Profile extends React.Component{
     var userId = (this.props.user? this.props.user.id: null);
   
   	return (
-  		<section className={profileImgContainer}>
-  			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/>
-        {(profileId!==userId)?this.renderFollowBtnMobile():null}
-  			<a onClick={this.toggleProfileDesc} className={profileImgName}>
-  				<span>{this.props.profiles ? this.props.profiles.name : null} </span>
-  				{
-  					this.props.showProfileDescription
-  					? 
-  					<span><i className={caretUp} ariaHidden="true"></i></span>
-  					: 
-  					<span><i className={caretDown} ariaHidden="true"></i></span>
-  				}  				
-  			</a>
-  		</section>
+    		<section className={profileImgContainer}>
+    			<img src={this.props.profiles ? this.props.profiles.avatar : null} alt="" className={profileImg}/>
+          {(profileId!==userId)?this.renderFollowBtnMobile():null}
+    			<a onClick={this.toggleProfileDesc} className={profileImgName}>
+    				<span>{this.props.profiles ? this.props.profiles.name : null} </span>
+    				{
+    					this.props.showProfileDescription
+    					? 
+    					<span><i className={caretUp} ariaHidden="true"></i></span>
+    					: 
+    					<span><i className={caretDown} ariaHidden="true"></i></span>
+    				}  				
+    			</a>
+    		</section>
   	)
   }
 
@@ -216,7 +216,7 @@ class Profile extends React.Component{
           : 
           null
         }
-        {this.props.children}
+        {this.props.children && React.cloneElement(this.props.children)}
       </section>
     )
   }

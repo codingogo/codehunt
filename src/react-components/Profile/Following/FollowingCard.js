@@ -16,7 +16,7 @@ class FollowingCard extends React.Component{
 
 		return (
 			<section className={productClass}>
-	  		<NavLink to={followingUrl}>
+	  		<NavLink to={followingUrl} >
 	  			<div className="thumbnail">
 	  				<div className="col-xs-12">
 	  					<div className={imgClass} style={imgMain}></div>
@@ -26,6 +26,7 @@ class FollowingCard extends React.Component{
 	  				</div>
 	  			</div>
 	  		</NavLink>
+	  		{this.props.children}
   		</section>
 		)
 	}

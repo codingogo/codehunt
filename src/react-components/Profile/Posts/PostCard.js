@@ -5,17 +5,22 @@ class PostCard extends React.Component{
   constructor(){
     super();
     this.state = {
-      postPopupStatus: false
-    }
+      popupStatus: false
+    };
   }
 
-  showPostPopup = () => {
-    this.setState({postPopupStatus: true});
+  showPopup = () => {
+    this.setState({popupStatus: true})
   };
 
-  hidePostPopup = () => {
-    this.setState({postPopupStatus: false});
+  hidePopup = () => {
+    this.setState({popupStatus: false})
   };  
+
+  componentWillUnMount() {
+    this.showPopup;
+    this.hidePopup;
+  }  
 
   render() {
     var postcard="col-xs-6 col-sm-4 col-md-3 postcard";
@@ -34,7 +39,7 @@ class PostCard extends React.Component{
     
     return (
       <li className={postcard}>
-        <div className={img} style={imgMain} onClick={this.showPostPopup}></div>
+        <div className={img} style={imgMain} onClick={this.showPopup}></div>
         <div className={postcardTitle}>
           {this.props.name?this.props.name.substring(0,27):null}
         </div>          
@@ -48,7 +53,8 @@ class PostCard extends React.Component{
             <span>&nbsp;{this.props.commentCount? this.props.commentCount: 0 }</span>
           </span>
         </div>
-        <ProductPopup {...this.props} status={this.state.postPopupStatus} hidePopup={this.hidePostPopup}/>
+        <ProductPopup {...this.props} status={this.state.popupStatus} hidePopup={this.hidePopup}/>
+        {this.props.children}
       </li>
     )
   }

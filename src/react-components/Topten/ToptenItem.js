@@ -5,17 +5,22 @@ class ToptenItem extends React.Component {
   constructor(){
     super();
     this.state = {
-      productPopupStatus: false
-    }
+      popupStatus: false
+    };
   }
 
-  showProductPopup = () => {
-    this.setState({productPopupStatus: true});
+  showPopup = () => {
+    this.setState({popupStatus: true})
   };
 
-  hideProductPopup = () => {
-    this.setState({productPopupStatus: false});
-  }; 	
+  hidePopup = () => {
+    this.setState({popupStatus: false})
+  };  
+
+  componentWillUnMount() {
+    this.showPopup;
+    this.hidePopup;
+  }	
 
   renderProductImg() {
     var imgClass = "topten-img";
@@ -36,7 +41,7 @@ class ToptenItem extends React.Component {
     var name = "topten-name whitespace";
     var description = "topten-description whitespace";
   	return (
-  		<section onClick={this.showProductPopup}>
+  		<section onClick={this.showPopup}>
   			<div className={rank}>{this.props.rank}</div>
 	  		{this.renderProductImg()}
 	  		<div className={name}>{this.props.name}</div>
@@ -50,7 +55,7 @@ class ToptenItem extends React.Component {
 			<section>
 				<li className="topten">						
 					{this.renderToptenInfo()}
-					<ProductPopup {...this.props} status={this.state.productPopupStatus} hidePopup={this.hideProductPopup} />
+					<ProductPopup {...this.props} status={this.state.popupStatus} hidePopup={this.hidePopup} />
 				</li>
 			</section>
 		);

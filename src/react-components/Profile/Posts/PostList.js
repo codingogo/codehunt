@@ -18,13 +18,15 @@ class PostList extends React.Component{
     return ProductStore.getState();
   };
 
-  componentWillMount() {
-    Actions.getUsers(this.props.params.id);
-    Actions.getPosts(this.props.params.id);
-    Actions.getLikes(this.props.params.id); 
-    Actions.getFollowers(this.props.params.id); 
-    Actions.getFollowing(this.props.params.id);
-  }  
+  componentDidMount() {
+    if(this.props.params){
+      Actions.getUsers(this.props.params.id);
+      Actions.getPosts(this.props.params.id);
+      Actions.getLikes(this.props.params.id); 
+      Actions.getFollowers(this.props.params.id); 
+      Actions.getFollowing(this.props.params.id); 
+    }
+  }    
 
   renderPostList() {
     var postArr = this.props.posts.slice(0).reverse();

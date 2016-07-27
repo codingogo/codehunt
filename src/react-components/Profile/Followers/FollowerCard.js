@@ -1,5 +1,5 @@
 import React from 'react';
-import NavLink from '../../Navbar/NavLink';
+import {Link} from 'react-router';
 
 class FollowerCard extends React.Component{
 	render() {
@@ -12,11 +12,11 @@ class FollowerCard extends React.Component{
       backgroundSize: 'cover',
       cursor: 'pointer'
     };	
-    var followerUrl =('/profile/posts/'+this.props.pid);	
+    var followerUrl =('/profile/posts/'+this.props.pid);
 
 		return (
 			<section className={productClass}>
-	  		<NavLink to={followerUrl}>
+	  		<Link to={followerUrl} >
 	  			<div className="thumbnail">
 	  				<div className="col-xs-12">
 	  					<div className={imgClass} style={imgMain}></div>
@@ -25,7 +25,8 @@ class FollowerCard extends React.Component{
 	  					<div className={titleClass}>{this.props.name}</div>
 	  				</div>
 	  			</div>
-	  		</NavLink>
+	  		</Link>
+	  		{this.props.children}
   		</section>
 		)
 	}

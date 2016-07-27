@@ -18,7 +18,7 @@ class FollowingList extends React.Component{
     return ProductStore.getState();
   };
 
-  componentWillMount() {
+  componentDidMount() {
     Actions.getFollowing(this.props.params.id); 
   }  
 

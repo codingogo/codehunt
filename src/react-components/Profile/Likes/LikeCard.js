@@ -6,17 +6,22 @@ class LikeCard extends React.Component{
   constructor(){
     super();
     this.state = {
-      likePopupStatus: false
-    }
+      popupStatus: false
+    };
   }
 
-  showLikePopup = () => {
-    this.setState({likePopupStatus: true});
+  showPopup = () => {
+    this.setState({popupStatus: true})
   };
 
-  hideLikePopup = () => {
-    this.setState({likePopupStatus: false});
+  hidePopup = () => {
+    this.setState({popupStatus: false})
   };  
+
+  componentWillUnMount() {
+    this.showPopup;
+    this.hidePopup;
+  }
 
   renderMaker() {
     var imgcss="likes-maker-avatar";
@@ -56,7 +61,7 @@ class LikeCard extends React.Component{
       backgroundPosition: 'center'
     };    
     return(
-      <div className={img} style={imgMain} onClick={this.showLikePopup}></div>
+      <div className={img} style={imgMain} onClick={this.showPopup}></div>
     );
   }
 
@@ -67,7 +72,7 @@ class LikeCard extends React.Component{
         {this.renderMaker()}       
         {this.renderMainImg()}
         {this.renderTitle()}
-        <ProductPopup {...this.props} status={this.state.likePopupStatus} hidePopup={this.hideLikePopup}/>
+        <ProductPopup {...this.props} status={this.state.popupStatus} hidePopup={this.hidePopup}/>
       </li>
     )
   }

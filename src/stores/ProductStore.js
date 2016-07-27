@@ -17,6 +17,7 @@ class ProductStore {
 			productCategory: '',
 			showProfileDescription: false, 
 			showProfileNav: false,
+			popupStatus: false,
 
 			title: 'ajksf jaksdlf asjd asfjdsfjkjskafd',
 			commentNums: 57,

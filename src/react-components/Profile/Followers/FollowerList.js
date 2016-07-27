@@ -18,7 +18,7 @@ class FollowerList extends React.Component{
     return ProductStore.getState();
   };
 
-  componentWillMount() {
+  componentDidMount() {
     Actions.getFollowers(this.props.params.id); 
   }  
 
