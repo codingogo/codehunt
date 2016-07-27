@@ -28,6 +28,10 @@ class PostList extends React.Component{
     }
   }    
 
+  componentWillUnMount() {
+    console.log('post', this.props)
+  } 
+
   renderPostList() {
     var postArr = this.props.posts.slice(0).reverse();
     return (

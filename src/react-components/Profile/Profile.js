@@ -24,7 +24,7 @@ class Profile extends React.Component{
     return ProductStore.getState();
   };
 
-	componentWillMount() {
+	componentDidMount() {
     if(this.props.params.id){
       Actions.getUsers(this.props.params.id);
       Actions.getPosts(this.props.params.id);
@@ -39,6 +39,7 @@ class Profile extends React.Component{
     this.handleFollow;
     this.handleUnFollow;
     this.toggleProfileDesc;
+    console.log('profile', this);
   }
 
 	toggleProfileDesc = () => {
@@ -216,7 +217,7 @@ class Profile extends React.Component{
           : 
           null
         }
-        {this.props.children && React.cloneElement(this.props.children)}
+        {this.props.children}
       </section>
     )
   }

@@ -25,18 +25,12 @@ class LikeCard extends React.Component{
 
   renderMaker() {
     var imgcss="likes-maker-avatar";
-    var imgMakerUrl = this.props.maker? this.props.maker.avatar : "./img/delb.png";
-    var imgMaker = {
-      backgroundImage: 'url(' + imgMakerUrl + ')',
-      backgroundSize: 'cover',
-      cursor: 'pointer',
-      backgroundPosition: 'center'
-    };   
+    var imgMakerAvatar = this.props.maker? this.props.maker.avatar : "./img/delb.png";  
     var makerUrl = ('/profile/posts/'+(this.props.maker? this.props.maker.id : null)); 
     return(
       <section>
         <Link to={makerUrl}>
-          <img src={imgMakerUrl} alt="image" className={imgcss}/>
+          <img src={imgMakerAvatar} alt="image" className={imgcss}/>
         </Link>
       </section>  
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import NavLink from '../../Navbar/NavLink';
+import {Link} from 'react-router';
 
 class FollowingCard extends React.Component{
 	render() {
@@ -16,7 +16,7 @@ class FollowingCard extends React.Component{
 
 		return (
 			<section className={productClass}>
-	  		<NavLink to={followingUrl} >
+	  		<Link to={followingUrl} >
 	  			<div className="thumbnail">
 	  				<div className="col-xs-12">
 	  					<div className={imgClass} style={imgMain}></div>
@@ -25,8 +25,7 @@ class FollowingCard extends React.Component{
 	  					<div className={titleClass}>{this.props.name}</div>
 	  				</div>
 	  			</div>
-	  		</NavLink>
-	  		{this.props.children}
+	  		</Link>
   		</section>
 		)
 	}

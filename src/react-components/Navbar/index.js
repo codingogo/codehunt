@@ -20,6 +20,8 @@ class Navbar extends React.Component {
     };
     this.initializeStats = this.initializeStats.bind(this);
     this.refreshStats = this.refreshStats.bind(this);
+    this.handleOnOpen = this.handleOnOpen.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
   }
 
   static getStores() {
@@ -112,8 +114,8 @@ class Navbar extends React.Component {
         <Menu
           name="menu1"
           direction="vertical"
-          onOpen={this.handleOnOpen.bind(this)}
-          onClose={this.handleOnClose.bind(this)}
+          onOpen={this.handleOnOpen}
+          onClose={this.handleOnClose}
           distance={50}
           width={44}
           height={44}

@@ -46300,6 +46300,8 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
     };
     _this.initializeStats = _this.initializeStats.bind(_this);
     _this.refreshStats = _this.refreshStats.bind(_this);
+    _this.handleOnOpen = _this.handleOnOpen.bind(_this);
+    _this.handleOnClose = _this.handleOnClose.bind(_this);
     return _this;
   }
 
@@ -46374,8 +46376,8 @@ var Navbar = (0, _connectToStores2.default)(_class = function (_React$Component)
           {
             name: 'menu1',
             direction: 'vertical',
-            onOpen: this.handleOnOpen.bind(this),
-            onClose: this.handleOnClose.bind(this),
+            onOpen: this.handleOnOpen,
+            onClose: this.handleOnClose,
             distance: 50,
             width: 44,
             height: 44,
@@ -46695,6 +46697,14 @@ var ProductItem = function (_React$Component) {
   }
 
   _createClass(ProductItem, [{
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      this.refreshStats;
+      this.windowOpen;
+      this.showProductPopup;
+      this.hideProductPopup;
+    }
+  }, {
     key: 'renderInfo',
     value: function renderInfo() {
       var itemInfo = "product-item-info";
@@ -47101,17 +47111,11 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
   _inherits(Upvote, _React$Component);
 
   function Upvote() {
-    var _Object$getPrototypeO;
-
-    var _temp, _this, _ret;
-
     _classCallCheck(this, Upvote);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Upvote).call(this));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Upvote)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.handleVote = function () {
+    _this.handleVote = function () {
       var productObj = {
         name: _this.props.name,
         media: _this.props.media,
@@ -47127,7 +47131,10 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
       };
       var productOwnerId = _this.props.maker ? _this.props.maker.id : null;
       _actions2.default.addVote(_this.props.pid, _this.props.user.id, productObj, productOwnerId);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    };
+
+    _this.handleVote = _this.handleVote.bind(_this);
+    return _this;
   }
 
   _createClass(Upvote, [{
@@ -47135,7 +47142,7 @@ var Upvote = (0, _connectToStores2.default)(_class = function (_React$Component)
     value: function render() {
       return _react2.default.createElement(
         'a',
-        { className: 'upvote-button', onClick: this.handleVote.bind(this) },
+        { className: 'upvote-button', onClick: this.handleVote },
         _react2.default.createElement(
           'span',
           { className: 'up-heart' },
@@ -47235,8 +47242,7 @@ var FollowerCard = function (_React$Component) {
 							)
 						)
 					)
-				),
-				this.props.children
+				)
 			);
 		}
 	}]);
@@ -47300,6 +47306,11 @@ var FollowerList = (0, _connectToStores2.default)(_class = function (_React$Comp
     key: 'componentDidMount',
     value: function componentDidMount() {
       _actions2.default.getFollowers(this.props.params.id);
+    }
+  }, {
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      console.log('followerlist', this);
     }
   }, {
     key: 'renderFollowers',
@@ -47373,9 +47384,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _NavLink = require('../../Navbar/NavLink');
-
-var _NavLink2 = _interopRequireDefault(_NavLink);
+var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47412,7 +47421,7 @@ var FollowingCard = function (_React$Component) {
 				'section',
 				{ className: productClass },
 				_react2.default.createElement(
-					_NavLink2.default,
+					_reactRouter.Link,
 					{ to: followingUrl },
 					_react2.default.createElement(
 						'div',
@@ -47432,8 +47441,7 @@ var FollowingCard = function (_React$Component) {
 							)
 						)
 					)
-				),
-				this.props.children
+				)
 			);
 		}
 	}]);
@@ -47443,7 +47451,7 @@ var FollowingCard = function (_React$Component) {
 
 exports.default = FollowingCard;
 
-},{"../../Navbar/NavLink":270,"react":262}],282:[function(require,module,exports){
+},{"react":262,"react-router":99}],282:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47497,6 +47505,11 @@ var FollowingList = (0, _connectToStores2.default)(_class = function (_React$Com
     key: 'componentDidMount',
     value: function componentDidMount() {
       _actions2.default.getFollowing(this.props.params.id);
+    }
+  }, {
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      console.log('followinglist', this);
     }
   }, {
     key: 'renderFollowing',
@@ -47618,13 +47631,7 @@ var LikeCard = function (_React$Component) {
     key: 'renderMaker',
     value: function renderMaker() {
       var imgcss = "likes-maker-avatar";
-      var imgMakerUrl = this.props.maker ? this.props.maker.avatar : "./img/delb.png";
-      var imgMaker = {
-        backgroundImage: 'url(' + imgMakerUrl + ')',
-        backgroundSize: 'cover',
-        cursor: 'pointer',
-        backgroundPosition: 'center'
-      };
+      var imgMakerAvatar = this.props.maker ? this.props.maker.avatar : "./img/delb.png";
       var makerUrl = '/profile/posts/' + (this.props.maker ? this.props.maker.id : null);
       return _react2.default.createElement(
         'section',
@@ -47632,7 +47639,7 @@ var LikeCard = function (_React$Component) {
         _react2.default.createElement(
           _reactRouter.Link,
           { to: makerUrl },
-          _react2.default.createElement('img', { src: imgMakerUrl, alt: 'image', className: imgcss })
+          _react2.default.createElement('img', { src: imgMakerAvatar, alt: 'image', className: imgcss })
         )
       );
     }
@@ -47894,7 +47901,7 @@ var PostCard = function (_React$Component) {
           ),
           _react2.default.createElement(
             'span',
-            { className: btn },
+            { className: btn, onClick: this.showPopup },
             _react2.default.createElement('i', { className: comment, ariaHidden: 'true' }),
             _react2.default.createElement(
               'span',
@@ -47975,6 +47982,11 @@ var PostList = (0, _connectToStores2.default)(_class = function (_React$Componen
         _actions2.default.getFollowers(this.props.params.id);
         _actions2.default.getFollowing(this.props.params.id);
       }
+    }
+  }, {
+    key: 'componentWillUnMount',
+    value: function componentWillUnMount() {
+      console.log('post', this.props);
     }
   }, {
     key: 'renderPostList',
@@ -48123,8 +48135,8 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
   }
 
   _createClass(Profile, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       if (this.props.params.id) {
         _actions2.default.getUsers(this.props.params.id);
         _actions2.default.getPosts(this.props.params.id);
@@ -48140,6 +48152,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
       this.handleFollow;
       this.handleUnFollow;
       this.toggleProfileDesc;
+      console.log('profile', this);
     }
   }, {
     key: 'renderFollowBtnMobile',
@@ -48359,7 +48372,7 @@ var Profile = (0, _connectToStores2.default)(_class = function (_React$Component
         this.renderProfile(),
         this.renderStats(),
         this.props.showProfileDescription ? this.renderProfileDescription() : null,
-        this.props.children && _react2.default.cloneElement(this.props.children)
+        this.props.children
       );
     }
   }], [{

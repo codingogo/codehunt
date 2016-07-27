@@ -48,7 +48,7 @@ class PostCard extends React.Component{
             <i className={heart} ariaHidden="true"></i>
             <span>&nbsp;{this.props.upvote}</span>
           </span>     
-          <span className={btn}>
+          <span className={btn} onClick={this.showPopup}>
             <i className={comment} ariaHidden="true"></i>
             <span>&nbsp;{this.props.commentCount? this.props.commentCount: 0 }</span>
           </span>

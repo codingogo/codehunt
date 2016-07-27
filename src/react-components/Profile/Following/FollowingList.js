@@ -22,6 +22,10 @@ class FollowingList extends React.Component{
     Actions.getFollowing(this.props.params.id); 
   }  
 
+  componentWillUnMount() {
+    console.log('followinglist', this);
+  } 
+
   renderFollowing() {
     var followingArr = this.props.following.slice(0).reverse();
     return(

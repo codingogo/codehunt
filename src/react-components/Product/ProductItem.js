@@ -27,6 +27,13 @@ class ProductItem extends React.Component {
     window.open(this.props.link,  'newwindow', 'width=300, height=450');
   }
 
+  componentWillUnMount () {
+    this.refreshStats;
+    this.windowOpen;
+    this.showProductPopup;
+    this.hideProductPopup;
+  }
+
   refreshStats = () => {
     var userId = (this.props.maker? this.props.maker.id:null);
     if(userId && Actions){

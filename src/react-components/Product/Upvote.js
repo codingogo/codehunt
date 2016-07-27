@@ -5,6 +5,10 @@ import ProductStore from '../../stores/ProductStore';
 
 @connectToStores
 class Upvote extends React.Component {
+  constructor() {
+    super();
+    this.handleVote = this.handleVote.bind(this);
+  }
   
   static getStores() {
     return [ProductStore];
@@ -34,7 +38,7 @@ class Upvote extends React.Component {
 
 	render() {
     return (
-      <a className="upvote-button" onClick={this.handleVote.bind(this)}>
+      <a className="upvote-button" onClick={this.handleVote}>
         <span className="up-heart"><i className="fa fa-heart-o"></i></span>
         <span className="upcount">{this.props.upvote}</span>
       </a>

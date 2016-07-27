@@ -20,7 +20,11 @@ class FollowerList extends React.Component{
 
   componentDidMount() {
     Actions.getFollowers(this.props.params.id); 
-  }  
+  }
+
+  componentWillUnMount() {
+    console.log('followerlist', this)
+  }    
 
   renderFollowers() {
     var followerArr = this.props.followers.slice(0).reverse();

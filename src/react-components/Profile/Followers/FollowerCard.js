@@ -26,7 +26,6 @@ class FollowerCard extends React.Component{
 	  				</div>
 	  			</div>
 	  		</Link>
-	  		{this.props.children}
   		</section>
 		)
 	}
